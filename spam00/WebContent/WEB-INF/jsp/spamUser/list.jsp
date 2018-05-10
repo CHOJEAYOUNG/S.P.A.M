@@ -14,13 +14,14 @@
 			<thead>
 				<tr bgcolor="#4C4639" >
 					<th style="width: 35px;"><font color="#FFFFFF">번호</font></th>
-					<th style="width: 100px;"><font color="#FFFFFF">아이디</font></th>
-					<th style="width: 100px;"><font color="#FFFFFF">신분</font></th>
+					<th style="width: 100px;"><font color="#FFFFFF">학번</font></th>
 					<th style="width: 100px;"><font color="#FFFFFF">이름</font></th>
-					<th style="width: 100px;"><font color="#FFFFFF">생년월일</font></th>
-					<th style="width: 100px;"><font color="#FFFFFF">상세보기</font></th>
+					<th style="width: 100px;"><font color="#FFFFFF">학년</font></th>
+					<th style="width: 100px;"><font color="#FFFFFF">학과</font></th>
+					<th style="width: 100px;"><font color="#FFFFFF">신분</font></th>
+					<th style="width: 100px;"><font color="#FFFFFF">상태</font></th>
+					<th style="width: 100px;"><font color="#FFFFFF">보기</font></th>
 					<th style="width: 100px;"><font color="#FFFFFF">수정</font></th>
-					<th style="width: 100px;"><font color="#FFFFFF">삭제</font></th>
 				</tr>
 				<c:if test="${ !empty listSpam}">
 					<c:forEach items="${ listSpam }" var="spamUser" varStatus="status">
@@ -32,25 +33,50 @@
 							<c:out value="${ spamUser.id }"/>
 						</td>
 						<td style="text-align: left; width: 100px;">
-							<c:out value="${ spamUser.power }"/>
-						</td>
-						<td style="text-align: left; width: 100px;">
 							<c:out value="${ spamUser.name }"/>
 						</td>
+						<c:if test="${ spamUser.power eq 'S'}">
+							<td style="text-align: left; width: 100px;">
+								<c:out value="${ spamUser.grade }"/>
+							</td>
+						</c:if>
+						<c:if test="${ !(spamUser.power eq 'S')}">
+							<td style="text-align: left; width: 100px;">
+								-
+							</td>
+						</c:if>
 						<td style="text-align: left; width: 100px;">
-							<c:out value="${ spamUser.birthDate }"/>
+							<c:out value="${ spamUser.major }"/>
 						</td>
+						<c:if test="${ spamUser.power eq 'A' }">
+							<td style="text-align: left; width: 100px;">
+								조교
+							</td>
+						</c:if>
+						<c:if test="${ spamUser.power eq 'P' }">
+							<td style="text-align: left; width: 100px;">
+								교수
+							</td>
+						</c:if>
+						<c:if test="${ spamUser.power eq 'S' }">
+							<td style="text-align: left; width: 100px;">
+								학생
+							</td>
+						</c:if>
+						<c:forEach items="${ enrollment }" var="enrollment" varStatus="status">
+							<c:if test="${enrollment.enrollmentNo eq spamUser.enrollment}">
+								<td style="text-align: left; width: 100px;">
+										<c:out value="${ enrollment.enrollmentContent }"/>
+								</td>
+							</c:if>
+						</c:forEach>
 						<td style="text-align: center;"><a
-							href="<c:url value="/spamUser/view/${spamUser.id}" /> "> <input
+							href="<c:url value="/spamUser/viewPA/${spamUser.id}" /> "> <input
 								type="button" value="상세보기" />
 						</a></td>
 						<td style="text-align: center;"><a
 							href="<c:url value="/spamUser/edit/${spamUser.id}" /> "> <input
 								type="button" value="수정" />
-						</a></td>
-						<td style="text-align: center;"><a
-							href="<c:url value="/spamUser/remove/${spamUser.id}" /> "> <input
-								type="button" value="삭제" />
 						</a></td>
 					</tr>
 					</c:forEach>
@@ -58,16 +84,5 @@
 			</thead>
 		</table>
 	</div>
-	<c:if test="${ sessionScope.power eq 'A' }">
-		<font size="30">조교</font>
-	</c:if>
-	
-	<c:if test="${ sessionScope.power eq 'P' }">
-		<font size="30">교수</font>
-	</c:if>
-	
-	<c:if test="${ sessionScope.power eq 'S' }">
-		<font size="30">학생</font>
-	</c:if>
 </body>
 </html>

@@ -34,23 +34,24 @@ public class LoginController {
 		ModelAndView modelAndView = new ModelAndView("/main");
 		HttpSession session = request.getSession(false);
 		
-		if(spamuser.getSpamId() == 0 
-				|| spamuser.getSpamId() == ' '
+		if(spamuser.getId() == 0 
+				|| spamuser.getId() == ' '
 					|| "".equals(spamuser.getPassWord())
 						|| spamuser.getPassWord() == null) {
-			return new ModelAndView("login");
+			return new ModelAndView("/login");
 		}
 		boolean chack = false;
 		chack = loginService.login(spamuser, request);
-		if(chack != true) {
-			return new ModelAndView("/login");
+		if(!chack) {
+			return new ModelAndView("/logout");
 		} else {
-			List<SpamUser> listSpam = this.loginService.list(request, spamuser);
+			String str = session.getAttribute("power") != null ? (String)session.getAttribute("power") : null;
 			
-			modelAndView.addObject("listSpam", listSpam);
-			modelAndView.addObject("rank",session.getAttribute("rank"));
-			
-			return modelAndView;
+			if("S".equals(str)) {
+				return new ModelAndView(new RedirectView("/spamUser/viewS?id="+session.getAttribute("id")));
+			}else {
+				return new ModelAndView(new RedirectView("/spamUser/list"));
+			}
 		}
 	}
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
