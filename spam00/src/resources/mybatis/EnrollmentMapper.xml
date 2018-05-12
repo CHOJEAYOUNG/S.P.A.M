@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.spam.persistence.EnrollmentMapper">
+	<resultMap id="enrollmentResultMap" type="enrollment">
+		<id column="ENROLLMENT_NO" property="enrollmentNo" />
+		<result column="ENROLLMENT_CONTENT" property="enrollmentContent" />
+	</resultMap>
+
+	<select id="select" parameterType="enrollment" resultMap="enrollmentResultMap">
+		SELECT   ENROLLMENT_NO
+			   , ENROLLMENT_CONTENT
+		FROM ENROLLMENT
+	</select>
+</mapper>

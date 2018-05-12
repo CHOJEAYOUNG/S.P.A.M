@@ -6,44 +6,83 @@
 
 <mapper namespace="com.spam.persistence.LoginMapper">
 	<resultMap id="loginResultMap" type="spamuser">
-		<id column="SPAMID" property="spamId" />
+		<id column="ID" property="id" />
 		<result column="PASSWORD" property="passWord" />
-		<result column="RANK" property="rank" />
+		<result column="POWER" property="power" />
 		<result column="NAME" property="name" />
-		<result column="BIRTHDAY" property="birthDay" />
+		<result column="GRADE" property="grade" />
+		<result column="MAJOR" property="major" />
+		<result column="PHONE_NO" property="phoneNo" />
+		<result column="BIRTH_DATE" property="birthDate" />
+		<result column="OFFICE" property="office" />
+		<result column="EMP_FORM" property="empForm" />
+		<result column="GR_FORM" property="grForm" />
+		<result column="CARD_NO" property="cardNo" />
+		<result column="ENROLLMENT" property="enrollment" />
 	</resultMap>
 
 	<select id="select" parameterType="spamuser" resultMap="loginResultMap">
-		SELECT   SPAMID
+		SELECT   ID
 			   , PASSWORD
-			   , RANK
+			   , POWER
 			   , NAME 
-			   , BIRTHDAY
-		FROM SPAMUSER
+			   , GRADE
+			   , MAJOR
+			   , PHONE_NO
+			   , BIRTH_DATE
+			   , OFFICE
+			   , EMP_FORM
+			   , GR_FORM
+			   , CARD_NO
+			   , ENROLLMENT
+		FROM SPAM_USER
 		<where>
-			<if test="spamId != null and spamId !=''">
-				AND SPAMID = #{spamId}
+			<if test="id != null and id !=''">
+				AND ID = #{id}
 			</if>
 			<if test="passWord != null and passWord != ''" >
 				AND PASSWORD = #{passWord}
 			</if>
-			<if test="rank != null and rank != ''">
-				AND RANK = #{rank}
+			<if test="power != null and power != ''">
+				AND POWER = #{power}
 			</if>
 			<if test="name != null and name != ''" >
 				AND NAME = #{name}
 			</if>
-			<if test="birthDay != null and birthDay != ''">
-				AND BIRTHDAY = #{birthDay}
+			<if test="birthDate != null and birthDate != ''">
+				AND BIRTH_DATE = #{birthDate}
+			</if>
+			<if test="office != null and office != ''">
+				AND OFFICE = #{office}
+			</if>
+			<if test="empForm != null and empForm != ''">
+				AND EMP_FORM = #{empForm}
+			</if>
+			<if test="grForm != null and grForm != ''">
+				AND GR_FORM = #{grForm}
+			</if>
+			<if test="cardNo != null and cardNo != ''">
+				AND CARD_NO = #{cardNo}
+			</if>
+			<if test="enrollment != null and enrollment != ''">
+				AND ENROLLMENT = #{enrollment}
 			</if>
 		</where>
 	</select>
 	<select id="list" parameterType="spamuser" resultMap="loginResultMap">
-		SELECT   SPAMID
+		SELECT   ID
 			   , PASSWORD
-			   , RANK
+			   , POWER
 			   , NAME 
-			   , BIRTHDAY
-		FROM SPAMUSER
+			   , GRADE
+			   , MAJOR
+			   , PHONE_NO
+			   , BIRTH_DATE
+			   , OFFICE
+			   , EMP_FORM
+			   , GR_FORM
+			   , CARD_NO
+			   , ENROLLMENT
+		FROM SPAM_USER
 	</select>
 </mapper>

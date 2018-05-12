@@ -18,6 +18,9 @@
 					<th style="width: 100px;"><font color="#FFFFFF">신분</font></th>
 					<th style="width: 100px;"><font color="#FFFFFF">이름</font></th>
 					<th style="width: 100px;"><font color="#FFFFFF">생년월일</font></th>
+					<th style="width: 100px;"><font color="#FFFFFF">상세보기</font></th>
+					<th style="width: 100px;"><font color="#FFFFFF">수정</font></th>
+					<th style="width: 100px;"><font color="#FFFFFF">삭제</font></th>
 				</tr>
 				<c:if test="${ !empty listSpam}">
 					<c:forEach items="${ listSpam }" var="spamUser" varStatus="status">
@@ -26,32 +29,44 @@
 							<c:out value="${ status.count }"/>
 						</td>
 						<td style="text-align: left; width: 100px;">
-							<c:out value="${ spamUser.spamId }"/>
+							<c:out value="${ spamUser.id }"/>
 						</td>
 						<td style="text-align: left; width: 100px;">
-							<c:out value="${ spamUser.rank }"/>
+							<c:out value="${ spamUser.power }"/>
 						</td>
 						<td style="text-align: left; width: 100px;">
 							<c:out value="${ spamUser.name }"/>
 						</td>
 						<td style="text-align: left; width: 100px;">
-							<c:out value="${ spamUser.birthDay }"/>
+							<c:out value="${ spamUser.birthDate }"/>
 						</td>
+						<td style="text-align: center;"><a
+							href="<c:url value="/spamUser/view/${spamUser.id}" /> "> <input
+								type="button" value="상세보기" />
+						</a></td>
+						<td style="text-align: center;"><a
+							href="<c:url value="/spamUser/edit/${spamUser.id}" /> "> <input
+								type="button" value="수정" />
+						</a></td>
+						<td style="text-align: center;"><a
+							href="<c:url value="/spamUser/remove/${spamUser.id}" /> "> <input
+								type="button" value="삭제" />
+						</a></td>
 					</tr>
 					</c:forEach>
 				</c:if>
 			</thead>
 		</table>
 	</div>
-	<c:if test="${ sessionScope.rank eq 'A' }">
+	<c:if test="${ sessionScope.power eq 'A' }">
 		<font size="30">조교</font>
 	</c:if>
 	
-	<c:if test="${ sessionScope.rank eq 'P' }">
+	<c:if test="${ sessionScope.power eq 'P' }">
 		<font size="30">교수</font>
 	</c:if>
 	
-	<c:if test="${ sessionScope.rank eq 'S' }">
+	<c:if test="${ sessionScope.power eq 'S' }">
 		<font size="30">학생</font>
 	</c:if>
 </body>
