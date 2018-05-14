@@ -11,6 +11,9 @@ public class SpamUser implements Serializable {
 	private String major;
 	private String gender;
 	private String phoneNo;
+	private String phoneNo1;
+	private String phoneNo2;
+	private String phoneNo3;
 	private String birthDate;
 	private String office;
 	private String empForm;
@@ -53,6 +56,25 @@ public class SpamUser implements Serializable {
 	}
 	public String getPower() {
 		return power;
+	}
+	
+	public String getPhoneNo1() {
+		return phoneNo1;
+	}
+	public void setPhoneNo1(String phoneNo1) {
+		this.phoneNo1 = phoneNo1;
+	}
+	public String getPhoneNo2() {
+		return phoneNo2;
+	}
+	public void setPhoneNo2(String phoneNo2) {
+		this.phoneNo2 = phoneNo2;
+	}
+	public String getPhoneNo3() {
+		return phoneNo3;
+	}
+	public void setPhoneNo3(String phoneNo3) {
+		this.phoneNo3 = phoneNo3;
 	}
 	public void setPower(String power) {
 		this.power = power;
@@ -126,13 +148,9 @@ public class SpamUser implements Serializable {
 	@Override
 	public String toString() {
 		return "SpamUser [id=" + id + ", passWord=" + passWord + ", power=" + power + ", name=" + name + ", grade="
-				+ grade + ", major=" + major + ", gender=" + gender + ", phoneNo=" + phoneNo + ", birthDate="
-				+ birthDate + ", office=" + office + ", empForm=" + empForm + ", grForm=" + grForm + ", cardNo="
-				+ cardNo + ", enrollment=" + enrollment + "]";
+				+ grade + ", major=" + major + ", gender=" + gender + ", phoneNo=" + phoneNo + ", phoneNo1=" + phoneNo1
+				+ ", phoneNo2=" + phoneNo2 + ", phoneNo3=" + phoneNo3 + ", birthDate=" + birthDate + ", office="
+				+ office + ", empForm=" + empForm + ", grForm=" + grForm + ", cardNo=" + cardNo + ", enrollment="
+				+ enrollment + "]";
 	}
-	
-	
-	
-	
-	
 }

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.spam.domain.Enrollment;
 import com.spam.domain.SpamUser;
@@ -25,6 +26,10 @@ public class SpamUserServiceImpl implements SpamUserService {
 	public SpamUser view(SpamUser spamuser) {
 		spamuser = spamUserMapper.select(spamuser);
 		
+		spamuser.setPhoneNo1(spamuser.getPhoneNo().split("[-]")[0]);
+		spamuser.setPhoneNo2(spamuser.getPhoneNo().split("[-]")[1]);
+		spamuser.setPhoneNo3(spamuser.getPhoneNo().split("[-]")[2]);
+		
 		return spamuser;
 	}
 
@@ -34,7 +39,7 @@ public class SpamUserServiceImpl implements SpamUserService {
 		
 		List<SpamUser> listSpamUser = spamUserMapper.list();
 		
-		if(session.getAttribute("power") == "A") {
+		if("A".equals(session.getAttribute("power"))) {
 			return listSpamUser;
 		}else {
 			int id = (int)session.getAttribute("id");
@@ -55,5 +60,30 @@ public class SpamUserServiceImpl implements SpamUserService {
 	@Override
 	public List<Enrollment> enrollments() {
 		return enrollmentMapper.select();
+	}
+
+	@Override
+	@Transactional
+	public void edit(SpamUser spamuser) {
+		spamuser.setPhoneNo(spamuser.getPhoneNo1()+"-"+spamuser.getPhoneNo2()+"-"+spamuser.getPhoneNo3());
+		spamUserMapper.update(spamuser);
+		
+	}
+
+	@Override
+	public void add(SpamUser spamuser) {
+		spamuser.setPhoneNo(spamuser.getPhoneNo1()+"-"+spamuser.getPhoneNo2()+"-"+spamuser.getPhoneNo3());
+		spamuser.setPassWord(spamuser.getBirthDate());
+		
+		if(spamuser.getOffice() != null) {
+			spamuser.setPower("P");
+		} else {
+			spamuser.setPower("S");
+			spamuser.setOffice("");
+		}
+		
+		System.out.println(spamuser.toString());
+		spamUserMapper.insert(spamuser);
+		
 	}
 }

@@ -85,4 +85,63 @@
 			   , ENROLLMENT
 		FROM SPAM_USER
 	</select>
+	<update id="update" parameterType="spamuser" >
+		UPDATE SPAM_USER 
+		<set>
+			<if test="passWord != null and passWord != ''" >
+				PASSWORD = #{passWord},
+			</if>
+			<if test="power != null and power != ''">
+				POWER = #{power},
+			</if>
+			<if test="grade != null and grade != ''">
+				GRADE = #{grade},
+			</if>
+			<if test="phoneNo != null and phoneNo != ''" >
+				PHONE_NO = #{phoneNo},
+			</if>
+			<if test="name != null and name != ''" >
+				NAME = #{name},
+			</if>
+			<if test="birthDate != null and birthDate != ''">
+				BIRTH_DATE = #{birthDate},
+			</if>
+			<if test="office != null and office != ''">
+				OFFICE = #{office},
+			</if>
+			<if test="empForm != null and empForm != ''">
+				EMP_FORM = #{empForm},
+			</if>
+			<if test="grForm != null and grForm != ''">
+				GR_FORM = #{grForm},
+			</if>
+			<if test="cardNo != null and cardNo != ''">
+				CARD_NO = #{cardNo},
+			</if>
+			<if test="enrollment != null and enrollment != ''">
+				ENROLLMENT = #{enrollment},
+			</if>
+		</set>
+		WHERE 
+		    ID = #{id}
+	</update>
+	<update id="insert" parameterType="spamuser">
+		INSERT INTO SPAM_USER 
+		(ID, PASSWORD, POWER, NAME, GRADE, MAJOR, PHONE_NO, BIRTH_DATE, OFFICE, EMP_FORM, GR_FORM, CARD_NO, ENROLLMENT)
+		VALUES (#{id}
+			   ,#{passWord}
+			   ,#{power}
+			   ,#{name}
+			   ,#{grade}
+			   ,#{major}
+			   ,#{phoneNo}
+			   ,#{birthDate}
+			   ,#{office}
+			   ,#{empForm}
+			   ,#{grForm}
+			   ,#{cardNo}
+			   ,#{enrollment}
+		)
+	</update>
+	
 </mapper>

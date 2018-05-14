@@ -7,5 +7,7 @@ import com.spam.domain.SpamUser;
 
 public interface SpamUserMapper {
 	public SpamUser select(SpamUser spamuser);
+	public void update(SpamUser spamuser);
 	public List<SpamUser> list();
+	public void insert(SpamUser spamuser);
 }
