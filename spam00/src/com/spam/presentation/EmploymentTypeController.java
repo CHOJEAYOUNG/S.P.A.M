@@ -7,12 +7,14 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.spam.domain.EmploymentType;
+import com.spam.service.EmploymentCategoryService;
 import com.spam.service.EmploymentTypeService;
 
 @Controller
@@ -20,31 +22,24 @@ import com.spam.service.EmploymentTypeService;
 public class EmploymentTypeController {
 	@Resource
 	private EmploymentTypeService employmentTypeService;
+	@Resource
+	private EmploymentCategoryService employmentCategoryService;
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list(HttpServletRequest request, EmploymentType type) throws Exception {
 		ModelAndView modelAndView = new ModelAndView("/employmentType/list");
 		List<EmploymentType> listType = null;
-		String search = request.getParameter("search");
 		String select = request.getParameter("select");
+		String search = request.getParameter("search");
 		if("".equals(search) || search == null) {
 			search = "0";	
 		}
 		
-		if("year".equals(select)) {	//연도 검색
-			listType = this.employmentTypeService.viewYear(Integer.parseInt(search));
-		} else if("type".equals(select)) { //유형 검색
-			type = employmentTypeService.view(search);
-
-			if(type == null) {
-				modelAndView.addObject("listType", type);
-				return modelAndView;
-			}
-			listType = new ArrayList<>();
-			listType.add(0, type);
-		} else {
-			listType = this.employmentTypeService.find(type);
-		}
+		List<String> purpose = new ArrayList<String>();
+		purpose.add(select);
+		purpose.add(search);
+		
+		listType = this.employmentTypeService.find(type, purpose);
 		
 		modelAndView.addObject("select", select);
 		modelAndView.addObject("listType", listType);
@@ -60,8 +55,11 @@ public class EmploymentTypeController {
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ModelAndView add(HttpServletRequest request, EmploymentType type) throws Exception {
 		ModelAndView modelAndView = null;
-		String name = request.getParameter("name");
-		int required = Integer.parseInt(request.getParameter("required"));
+		List<String> purpose = new ArrayList<String>();
+		purpose.add("type");
+		purpose.add(type.getName());
+		
+		List<EmploymentType> check = this.employmentTypeService.find(type, purpose);
 		
 		if("".equals(type.getName().trim())) {
 			String checkName = "유형을 입력해주세요.";
@@ -72,9 +70,10 @@ public class EmploymentTypeController {
 			return modelAndView;
 		}
 		
-		if(this.employmentTypeService.view(type.getName()) != null) {
-			String checkName = "이미 등록되어 있습니다.";
-			
+		
+		if(!check.isEmpty()) {
+			String checkName = "이미 등록된 유형 입니다.";
+					
 			modelAndView = new ModelAndView("/employmentType/add");
 			modelAndView.addObject("checkName", checkName);
 			
@@ -85,25 +84,11 @@ public class EmploymentTypeController {
 		return new ModelAndView(new RedirectView("/employmentType/list"));
 	}
 	
-	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public ModelAndView editForm(HttpServletRequest request, EmploymentType type) throws Exception {
-		ModelAndView modelAndView = null;
-		int no = Integer.parseInt(request.getParameter("no"));
-		type = employmentTypeService.viewNumber(no);
-		
-		String name = type.getName();
-		String year = String.valueOf(type.getYear());
-		String required = String.valueOf(type.getRequired());
-		String choice = String.valueOf(type.getChoice());
-		String state = String.valueOf(type.getState());
-		
-		modelAndView = new ModelAndView("/employmentType/edit");
-		modelAndView.addObject("no", no);
-		modelAndView.addObject("name",name);
-		modelAndView.addObject("year",year);
-		modelAndView.addObject("required",required);
-		modelAndView.addObject("choice",choice);
-		modelAndView.addObject("state", state);
+	@RequestMapping(value = "/edit/{no}", method = RequestMethod.GET)
+	public ModelAndView editForm(@PathVariable int no, HttpServletRequest request, EmploymentType type) throws Exception {
+		ModelAndView modelAndView = new ModelAndView("/employmentType/edit");
+		type = employmentTypeService.view(no);
+		modelAndView.addObject("type", type);
 		
 		return modelAndView;
 	}
@@ -111,53 +96,41 @@ public class EmploymentTypeController {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
 	public ModelAndView edit(HttpServletRequest request, EmploymentType type) throws Exception {
 		ModelAndView modelAndView = null;
-		String no = request.getParameter("no");
-		String name = request.getParameter("name");
-		String year = request.getParameter("year");
-		String required = request.getParameter("required");
-		String choice = request.getParameter("choice");
-		String state = request.getParameter("state");
+
+		List<String> purpose = new ArrayList<String>();
+		purpose.add("type");
+		purpose.add(type.getName());
 		
-		EmploymentType check = employmentTypeService.view(name);
+ 		List<EmploymentType> check = this.employmentTypeService.find(type, purpose);
 		
 		if("".equals(type.getName().trim())) {
 			String checkName = "유형을 입력해주세요.";
 			
 			modelAndView = new ModelAndView("/employmentType/edit");
 			modelAndView.addObject("checkName", checkName);
-			modelAndView.addObject("no", no);
-			modelAndView.addObject("year", year);
-			modelAndView.addObject("required", required);
-			modelAndView.addObject("choice", choice);
-			modelAndView.addObject("state", state);
+			modelAndView.addObject("type", type);
 			
 			return modelAndView;
 		}
 		
-		if(!no.equals(name) || !"".equals(check.getName().trim())) {
+		if(!check.isEmpty() && !((type.getNo()) == check.get(0).getNo())) {
 			String checkName = "이미 등록된 유형 입니다.";
-			
+					
 			modelAndView = new ModelAndView("/employmentType/edit");
 			modelAndView.addObject("checkName", checkName);
-			modelAndView.addObject("no", no);
-			modelAndView.addObject("year", year);
-			modelAndView.addObject("required", required);
-			modelAndView.addObject("choice", choice);
-			modelAndView.addObject("state", state);
-
-		}
-		
+			modelAndView.addObject("type", type);
+					
+			return modelAndView;
+		}	
 		employmentTypeService.edit(type);
 		
 		return new ModelAndView(new RedirectView("/employmentType/list"));
 	}
 	
-	@RequestMapping(value = "/remove", method = RequestMethod.GET)
-	public ModelAndView remove(HttpServletRequest request) throws Exception {
-		int no = Integer.parseInt(request.getParameter("no"));
-		System.out.println("옴");
+	@RequestMapping(value = "/remove/{no}", method = RequestMethod.GET)
+	public ModelAndView remove(@PathVariable int no) throws Exception {
 		employmentTypeService.remove(no);
-		
+		employmentCategoryService.remove(no);
 		return new ModelAndView(new RedirectView("/employmentType/list"));
 	}
 }

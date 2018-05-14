@@ -27,43 +27,41 @@
 					<th>필수점수</th>
 					<th>선택점수</th>
 					<th>연도</th>
-					<th>상태</th>
 					<th>수정</th>
 					<th>삭제</th>
 				</tr>
 				
 				<c:if test="${ !empty listType}">
 					<c:forEach items="${ listType }" var="employmentType" varStatus="status">
-						<tr>
-							<td style="text-align: center;">
-								<c:out value="${ employmentType.no }"/>
-							</td>
-							<td style="text-align: center;">
-								<c:out value="${ employmentType.name }"/>
-							</td>
-							<td style="text-align: center;">
-								<c:out value="${ employmentType.required }"/>
-							</td>
-							<td style="text-align: center;">
-								<c:out value="${ employmentType.choice }"/>
-							</td>
-							<td style="text-align: center;">
-								<c:out value="${ employmentType.year }"/>
-							</td>
-							<td style="text-align: center;">
-								<c:out value="${ employmentType.state }"/>
-							</td>
-							<td style="text-align: center;">
-								<a href="<c:url value="/employmentType/edit?no=${employmentType.no}" />">
-									<input type="button" name="edit" value="수정"> 
-								</a>
-							</td>
-							<td style="text-align: center;">
-								<a href="<c:url value="/employmentType/remove?no=${employmentType.no}" />">
-									<input type="button" name="remove" value="삭제"> 
-								</a>
-							</td>
-						</tr>
+						<c:if test="${ employmentType.state eq 'Y'}">	
+							<tr>
+								<td style="text-align: center;">
+									<c:out value="${ status.count }"/>
+								</td>
+								<td style="text-align: center;">
+									<c:out value="${ employmentType.name }"/>
+								</td>
+								<td style="text-align: center;">
+									<c:out value="${ employmentType.required }"/>
+								</td>
+								<td style="text-align: center;">
+									<c:out value="${ employmentType.choice }"/>
+								</td>
+								<td style="text-align: center;">
+									<c:out value="${ employmentType.year }"/>
+								</td>
+								<td style="text-align: center;">
+									<a href="<c:url value="/employmentType/edit/${employmentType.no}" />">
+										<input type="button" value="수정"> 
+									</a>
+								</td>
+								<td style="text-align: center;">
+									<a href="<c:url value="/employmentType/remove/${employmentType.no}" />">
+										<input type="button" value="삭제"> 
+									</a>
+								</td>
+							</tr>
+						</c:if>
 					</c:forEach>
 				</c:if>
 				<c:if test="${empty listType}">

@@ -9,12 +9,8 @@ public interface EmploymentTypeMapper {
 
 	public void insert(EmploymentType type);
 
-	public EmploymentType select(String name);
+	public EmploymentType select(int no);
 	
-	public EmploymentType selectNumber(int no);
-	
-	public List<EmploymentType> selectYear(int year);
-
 	public void update(EmploymentType type);
 
 	public void delete(int no);

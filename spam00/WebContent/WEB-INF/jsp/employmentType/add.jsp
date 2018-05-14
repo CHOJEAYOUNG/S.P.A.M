@@ -28,7 +28,7 @@
 		유  형 <input type="text" name="name" /><span style="color:red">${checkName}</span> <br>
 		점  수 <br>
 		필  수 <input type="text" name="required" /><span style="color:red">${checkRequired}</span> <br>
-		선  택 <input type="text" name="choise" /><span style="color:red">${checkChoise}</span> <br>
+		선  택 <input type="text" name="choice" /><span style="color:red">${checkChoice}</span> <br>
 		
 		연  도 <select name="year">
 		<%-- // 연도선택을 위한 연도출력을 동적으로 변경 --%>
@@ -42,8 +42,6 @@
 
 		</select> <br>
 		
-		상  태 <input type="radio" name="state" value="Y" checked="checked"/> Y
-			<input type="radio" name="state" value="N" /> N <br>
 		<input type="submit" value="등록" />
 	</form>
 	<a href="/employmentType/list"><input type="button" value="목록" /></a>

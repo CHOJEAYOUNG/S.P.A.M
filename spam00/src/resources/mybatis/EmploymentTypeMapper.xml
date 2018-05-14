@@ -22,22 +22,10 @@
 			   , CHOICE
 			   , STATE 
 		FROM EMPLOYMENT
+		ORDER BY EMP_FORM
 	</select>
 	
 	<select id="select" parameterType="employmentType" resultMap="typeResultMap">
-		SELECT   EMP_NO
-			   , EMP_FORM
-			   , YEAR
-			   , REQUIRED
-			   , CHOICE
-			   , STATE 
-		FROM EMPLOYMENT
-		<where>
-			EMP_FORM = #{name}
-		</where>
-	</select>
-	
-	<select id="selectNumber" parameterType="employmentType" resultMap="typeResultMap">
 		SELECT   EMP_NO
 			   , EMP_FORM
 			   , YEAR
@@ -50,19 +38,6 @@
 		</where>
 	</select>
 	
-	<select id="selectYear" parameterType="employmentType" resultMap="typeResultMap">
-		SELECT   EMP_NO
-			   , EMP_FORM
-			   , YEAR
-			   , REQUIRED
-			   , CHOICE
-			   , STATE 
-		FROM EMPLOYMENT
-		<where>
-			YEAR = #{year}
-		</where>
-	</select>
-	
 	<insert id="insert" parameterType="employmentType">
 		<selectKey keyColumn="EMP_NO" keyProperty="no" resultType="int" order="BEFORE" >
             SELECT EMP_SEQ.NEXTVAL
@@ -71,7 +46,7 @@
         INSERT INTO EMPLOYMENT
             (EMP_NO, EMP_FORM, YEAR, REQUIRED, CHOICE, STATE)
         VALUES
-            (#{no}, #{name}, #{year}, #{required}, #{choice}, #{state})
+            (#{no}, #{name}, #{year}, #{required}, #{choice}, 'Y')
     </insert>
     
     <update id="update" parameterType="employmentType">
@@ -81,7 +56,6 @@
     		YEAR = #{year},
     		REQUIRED = #{required},
     		CHOICE = #{choice},
-    		STATE = #{state}
     	</set>
     	WHERE EMP_NO = #{no}
     </update>
