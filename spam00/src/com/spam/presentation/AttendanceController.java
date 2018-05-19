@@ -10,13 +10,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spam.domain.Attendance;
 import com.spam.service.AttendanceService;
 
 @Controller
 @RequestMapping("/attendance")
 public class AttendanceController {
-	
-	
 	@Autowired
 	private AttendanceService attendanceService;
 	
@@ -28,9 +27,12 @@ public class AttendanceController {
 	
 	
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
-	public ModelAndView upload(HttpServletRequest request) throws Exception{
+	public ModelAndView upload(Attendance attendance,HttpServletRequest request) throws Exception{
+		
+		System.out.println(attendance.toString()); //테스트
+		
 		MultipartRequest multipartRequest = (MultipartRequest) request;
-		MultipartFile excelFile = multipartRequest.getFile("uploadFileName");
+		MultipartFile excelFile = multipartRequest.getFile("uploadfile");
 		
 		if(excelFile.getOriginalFilename().toUpperCase().endsWith(".XLSX")) {
 			attendanceService.excelxlsxRead(excelFile);
@@ -39,6 +41,27 @@ public class AttendanceController {
 			attendanceService.excelxlsRead(excelFile);
 		}
 		
-		return new ModelAndView("/attendace/upload"); //using error control
+		attendanceService.attendanceInfo(attendance, excelFile.getOriginalFilename());
+		
+		return new ModelAndView("/attendance/view"); //using error control
+	};
+	
+	/*@RequestMapping(value = "/view", method = RequestMethod.GET) //페이지 이동
+	public ModelAndView getView(HttpServletRequest HttpServletRequest) {
+		
+		return new ModelAndView("/attendance/view"); //using error control
+	};
+	
+	@RequestMapping(value = "/view", method = RequestMethod.POST) //페이지 이동
+	public ModelAndView postView(HttpServletRequest HttpServletRequest) {
+		
+		return new ModelAndView("/attendance/view"); //using error control
+	};
+	*/
+	
+	@RequestMapping(value = "/files", method = RequestMethod.POST) //페이지 이동
+	public ModelAndView files(HttpServletRequest HttpServletRequest) {
+		
+		return new ModelAndView("/attendance/view"); //using error control
 	};
 }

@@ -28,7 +28,6 @@ public class LoginController {
 	}
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ModelAndView loginPost(SpamUser spamuser, HttpServletRequest request) {
-		ModelAndView modelAndView = new ModelAndView("/main");
 		HttpSession session = request.getSession(false);
 		
 		if(spamuser.getId() == 0 

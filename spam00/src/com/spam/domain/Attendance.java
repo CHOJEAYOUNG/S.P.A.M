@@ -3,6 +3,7 @@ package com.spam.domain;
 import java.io.Serializable;
 
 public class Attendance implements Serializable{
+	private int attendanceNo;
 	private String title;
 	private String registrationDate;
 	private String lectureDate;
@@ -17,9 +18,10 @@ public class Attendance implements Serializable{
 		
 	};
 	
-	public Attendance(String title, String registrationDate, String lectureDate, String lectureTime, String location,
-			int score, String uploadFileName, String makedFileName, String filesLocation) {
+	public Attendance(int attendanceNo, String title, String registrationDate, String lectureDate, String lectureTime,
+			String location, int score, String uploadFileName, String makedFileName, String filesLocation) {
 		super();
+		this.attendanceNo = attendanceNo;
 		this.title = title;
 		this.registrationDate = registrationDate;
 		this.lectureDate = lectureDate;
@@ -30,13 +32,17 @@ public class Attendance implements Serializable{
 		this.makedFileName = makedFileName;
 		this.filesLocation = filesLocation;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Attendance [title=" + title + ", registrationDate=" + registrationDate + ", lectureDate=" + lectureDate
-				+ ", lectureTime=" + lectureTime + ", location=" + location + ", score=" + score + ", uploadFileName="
-				+ uploadFileName + ", makedFileName=" + makedFileName + ", filesLocation=" + filesLocation + "]";
+		return "Attendance [attendanceNo=" + attendanceNo + ", title=" + title + ", registrationDate="
+				+ registrationDate + ", lectureDate=" + lectureDate + ", lectureTime=" + lectureTime + ", location="
+				+ location + ", score=" + score + ", uploadFileName=" + uploadFileName + ", makedFileName="
+				+ makedFileName + ", filesLocation=" + filesLocation + "]";
 	}
+
+
+
 	public String getTitle() {
 		return title;
 	}
@@ -90,6 +96,14 @@ public class Attendance implements Serializable{
 	}
 	public void setFilesLocation(String filesLocation) {
 		this.filesLocation = filesLocation;
+	}
+
+	public int getAttendanceNo() {
+		return attendanceNo;
+	}
+
+	public void setAttendanceNo(int attendanceNo) {
+		this.attendanceNo = attendanceNo;
 	}
 	
 }

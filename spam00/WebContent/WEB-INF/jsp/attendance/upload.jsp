@@ -7,10 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-
-	<div style="text-align: center; padding-top: 15%;">
 		<form action="/attendance/upload" method="post" enctype="multipart/form-data">
-			
+			<div style="text-align: center; padding-top: 15%;">
 			<font>제목</font> 
 			<input type="text" name="title"/><br> 
 			
@@ -20,14 +18,14 @@
 			<font>강의 날짜</font>
 			<input type="date" name="lectureDate"/> <br> 
 			
-			<font>강의 시간</font>
+			 <font>강의 시간</font>
 			<input type="time" name="lectureTime"/> <br> 
-			
+			 
 			<font>강의 장소</font>
 			<input type="text" name="location"/> <br> 
 			
 			<font>파일 업로드</font>
-			<input type="file" name="uploadFileName" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/> <br> 
+			<input type="file" name="uploadfile" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/> <br> 
 			<!-- 업로드시 다른 파일 선택 안되서 자바 스크립트 작업 필요! -->
 			
 			<!-- 경로 변경 필요  -->
@@ -36,8 +34,9 @@
 			</a>
 			
 			<input type="submit" value="등록" />
+		</div>
 		</form>
-	</div>
+	
 	
 </body>
 
