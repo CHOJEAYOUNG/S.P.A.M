@@ -82,6 +82,7 @@ public class AttendanceController {
 		attendance.setMakedFileNameWithS(fileNum);
 		attendanceService.download(attendance, response);
 		
+		
 		return new ModelAndView("/attendance/view"); //using error control
 	};
 }
