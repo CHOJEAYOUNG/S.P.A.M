@@ -3,6 +3,7 @@ package com.spam.service;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,7 +12,10 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -36,10 +40,11 @@ public class AttendanceServiceImpl implements AttendanceService{
 	@Resource
 	private SpamUserMapper spamUserMapper;
 	
+	Attendance attendance;
+	
 	XSSFWorkbook xexcelOpen;
 	
 	String filePath = "C:/Users/CHOJAEYOUNG/Desktop/종설/file";
-	File file;
 	
 	List<SpamUser> dataListInfoExist;
 	List<String> dataListInfoUnExist;
@@ -84,19 +89,29 @@ public class AttendanceServiceImpl implements AttendanceService{
 	}
 
 	@Override
-	public void copyExcel(String insertedFileName, String extension) throws IOException { // 파일 복사
+	public void copyExcel(String insertedFileName) throws IOException { // 파일 복사
 		
-		System.out.println(dateFormat.format(currentTime));
-		file = new File(filePath+"/"+dateFormat.format(currentTime));
+		//System.out.println(dateFormat.format(currentTime));
+		File file = new File(filePath+"/"+dateFormat.format(currentTime));
 		
 		if(!file.exists()) {
 			file.mkdirs();
 		}
-		// 파일 이름 탐색 필요(중복 배재 위해)
-		FileOutputStream fileOutputStream = new FileOutputStream(file+File.separator + insertedFileName+"_원본카드파일"+extension); // 파일 
+		
+		int randomNumberU = randomNumber();
+		attendance.setUploadFileNameWithS(randomNumberU);
+		System.out.println(randomNumberU);
+		FileOutputStream fileOutputStream = new FileOutputStream(file+File.separator + randomNumberU); // 파일 
 		xexcelOpen.write(fileOutputStream);
 		
-		fileOutputStream = new FileOutputStream(file+File.separator + insertedFileName+"_학생정보추가파일"+extension); //정보 추가 파일
+		int randomNumberM = randomNumber();
+		if(randomNumberU == randomNumberM) {
+			randomNumberM = randomNumber();
+		}
+		
+		attendance.setMakedFileNameWithS(randomNumberM);
+		System.out.println(randomNumberM);
+		fileOutputStream = new FileOutputStream(file+File.separator + randomNumberM); //정보 추가 파일
 		makeExcel(insertedFileName).write(fileOutputStream);;
 		
 		fileOutputStream.close();
@@ -159,16 +174,16 @@ public class AttendanceServiceImpl implements AttendanceService{
 
 	@Override
 	public void attendanceInfo(Attendance attendance, String originalFileName) throws IOException { // 입력 정보 처리
-		
+		this.attendance = attendance;
 		String extension = originalFileName.substring(originalFileName.lastIndexOf("."), originalFileName.length());
 		//System.out.println(originalFileName);
 		//System.out.println(extension);
-		copyExcel(attendance.getTitle(), extension);
+		copyExcel(attendance.getTitle());
 		
 		attendance.setRegistrationDate(dateFormatWithTime.format(currentTime));
 		attendance.setUploadFileName(attendance.getTitle()+"_원본카드파일"+extension);
 		attendance.setMakedFileName(attendance.getTitle()+"_학생정보추가파일"+extension);
-		attendance.setFilesLocation(filePath+"/"+dateFormat.format(currentTime));
+		attendance.setFilesLocation(dateFormat.format(currentTime));
 		
 		attendanceMapper.insertAttendance(attendance);
 		
@@ -216,6 +231,65 @@ public class AttendanceServiceImpl implements AttendanceService{
 		
 		System.out.println(dataListInfoUnExist.size());
 		*/
+	}
+
+	@Override
+	public void download(Attendance attendance,HttpServletResponse response) throws IOException {
+		
+		String compare=null;
+		if(attendance.getMakedFileNameWithS() != 0) {
+			compare = "M";
+		}
+		else if(attendance.getUploadFileNameWithS() != 0){
+			compare = "U";
+		}
+
+		for(Attendance attendanceInfo : attendanceMapper.select(attendance)) {
+			if(compare.equals("M")) {
+				byte fileByte[] = FileUtils.readFileToByteArray(new File(filePath+"\\"
+						+ attendanceInfo.getFilesLocation() + "\\" + attendanceInfo.getMakedFileNameWithS()));
+				response.setContentType("application/octet-stream");
+				response.setContentLength(fileByte.length);
+				response.setHeader("Content-Disposition",
+						"attachment; filename=\"" + URLEncoder.encode(attendanceInfo.getMakedFileName(), "UTF-8") + "\";");
+				response.setHeader("Content-Ttransfere-Encoding", "binary");
+				response.getOutputStream().write(fileByte);
+
+				response.getOutputStream().flush();
+				
+			}else if(compare.equals("U")) {
+				byte fileByte[] = FileUtils.readFileToByteArray(new File(filePath+"\\"
+						+ attendanceInfo.getFilesLocation() + "\\" + attendanceInfo.getUploadFileNameWithS()));
+				response.setContentType("application/octet-stream");
+				response.setContentLength(fileByte.length);
+				response.setHeader("Content-Disposition",
+						"attachment; filename=\"" + URLEncoder.encode(attendanceInfo.getUploadFileName(), "UTF-8") + "\";");
+				response.setHeader("Content-Ttransfere-Encoding", "binary");
+				response.getOutputStream().write(fileByte);
+
+				response.getOutputStream().flush();
+				
+			}
+		}
+		response.getOutputStream().close();
+	}
+
+	@Override
+	public int randomNumber() {
+		
+		int number = (int)(Math.random()*1000000)+1;
+		//System.out.println("random "+number);
+		
+		//System.out.println(attendanceCheck.getFilesLocation());
+		for(Attendance attendance: attendanceMapper.checkRandomNumber()) {
+			//System.out.println(attendance.getMakedFileNameWithS());
+			//System.out.println(attendance.getUploadFileNameWithS());
+			if(attendance.getMakedFileNameWithS() == number
+					|| attendance.getUploadFileNameWithS() == number) {
+				randomNumber();
+			}
+		};
+		return number;
 	}
 
 }

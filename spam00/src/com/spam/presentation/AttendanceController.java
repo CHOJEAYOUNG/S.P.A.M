@@ -1,9 +1,13 @@
 package com.spam.presentation;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
@@ -59,8 +63,24 @@ public class AttendanceController {
 	};
 	*/
 	
-	@RequestMapping(value = "/files", method = RequestMethod.POST) //페이지 이동
-	public ModelAndView files(HttpServletRequest HttpServletRequest) {
+	@RequestMapping(value = "/fileU/{fileNum}", method = RequestMethod.GET) //페이지 이동
+	public ModelAndView filesUpload(@PathVariable int fileNum,  HttpServletResponse response) throws IOException {
+		//System.out.println("안녕안녕");
+		//System.out.println(fileNameWithS);
+		Attendance attendance = new Attendance();
+		attendance.setUploadFileNameWithS(fileNum);
+		attendanceService.download(attendance, response);
+		
+		return new ModelAndView("/attendance/view"); //using error control
+	};
+	
+	@RequestMapping(value = "/fileM/{fileNum}", method = RequestMethod.GET) //페이지 이동
+	public ModelAndView filesMaked(@PathVariable int fileNum,  HttpServletResponse response) throws IOException {
+		//System.out.println("안녕안녕");
+		//System.out.println(fileNameWithS);
+		Attendance attendance = new Attendance();
+		attendance.setMakedFileNameWithS(fileNum);
+		attendanceService.download(attendance, response);
 		
 		return new ModelAndView("/attendance/view"); //using error control
 	};

@@ -13,60 +13,75 @@
 		<result column="LOCATION" property="location" />
 		<result column="SCORE" property="score" />
 		<result column="UPLOAD_FILE_NAME" property="uploadFileName" />
+		<result column="UPLOAD_FILE_NAME_WITH_S" property="uploadFileNameWithS" />
 		<result column="MAKED_FILE_NAME" property="makedFileName" />
+		<result column="MAKED_FILE_NAME_WITH_S" property="makedFileNameWithS" />
 		<result column="FILES_LOCATION" property="filesLocation" />
 	</resultMap>
-	
-<!-- 
-	<select id="select" parameterType="spamuser" resultMap="spamuserResultMap">
-		SELECT   ID
-			   , PASSWORD
-			   , POWER
-			   , NAME 
-			   , GRADE
-			   , MAJOR
-			   , PHONE_NO
-			   , BIRTH_DATE
-			   , OFFICE
-			   , EMP_NO
-			   , GR_NO
-			   , CARD_NO
-			   , ENROLLMENT_NO
-		FROM SPAM_USER
-		<where>
-			<if test="id != null and id !=''">
-				AND ID = #{id}
-			</if>
-			<if test="passWord != null and passWord != ''" >
-				AND PASSWORD = #{passWord}
-			</if>
-			<if test="power != null and power != ''">
-				AND POWER = #{power}
-			</if>
-			<if test="name != null and name != ''" >
-				AND NAME = #{name}
-			</if>
-			<if test="birthDate != null and birthDate != ''">
-				AND BIRTH_DATE = #{birthDate}
-			</if>
-			<if test="office != null and office != ''">
-				AND OFFICE = #{office}
-			</if>
-			<if test="empForm != null and empForm != ''">
-				AND EMP_FORM = #{empForm}
-			</if>
-			<if test="grForm != null and grForm != ''">
-				AND GR_FORM = #{grForm}
-			</if>
-			<if test="cardNo != null and cardNo != ''">
-				AND CARD_NO = #{cardNo}
-			</if>
-			
-		</where>
+
+	<select id = "checkRandomNumber" resultMap = "attendanceResultMap">
+		SELECT
+			UPLOAD_FILE_NAME_WITH_S,
+			MAKED_FILE_NAME_WITH_S
+		FROM ATTENDANCE
+	</select>
+
+	<select id="select" parameterType="attendance"  resultMap="attendanceResultMap">
+		SELECT 
+			ATTENDANCE_NO,
+			TITLE,
+			REGISTRATION_DATE,
+			LECTURE_DATE,
+			LECTURE_TIME,
+			LOCATION,
+			SCORE,
+			UPLOAD_FILE_NAME,
+			UPLOAD_FILE_NAME_WITH_S,
+			MAKED_FILE_NAME,
+			MAKED_FILE_NAME_WITH_S,
+			FILES_LOCATION
+		FROM ATTENDANCE
+	<where>
+		<if test="attendanceNo != null and attendanceNo !=''">
+			AND ATTENDANCE_NO = #{attendanceNo}
+		</if>
+		<if test="title != null and title != ''" >
+			AND TITLE = #{title}
+		</if>
+		<if test="registrationDate != null and registrationDate != ''">
+			AND REGISTRATION_DATE = #{registrationDate}
+		</if>
+		<if test="lectureDate != null and lectureDate != ''" >
+			AND LECTURE_DATE = #{lectureDate}
+		</if>
+		<if test="lectureTime != null and lectureTime != ''">
+			AND LECTURE_TIME = #{lectureTime}
+		</if>
+		<if test="location != null and location != ''">
+			AND LOCATION = #{location}
+		</if>
+		<if test="score != null and score != ''">
+			AND SCORE = #{score}
+		</if>
+		<if test="uploadFileName != null and uploadFileName != ''">
+			AND UPLOAD_FILE_NAME = #{uploadFileName}
+		</if>
+		<if test="uploadFileNameWithS != null and uploadFileNameWithS != ''">
+			AND UPLOAD_FILE_NAME_WITH_S = #{uploadFileNameWithS}
+		</if>
+		<if test="makedFileName != null and makedFileName != ''">
+			AND MAKED_FILE_NAME = #{makedFileName}
+		</if>
+		<if test="makedFileNameWithS != null and makedFileNameWithS != ''">
+			AND MAKED_FILE_NAME_WITH_S = #{makedFileNameWithS}
+		</if>
+		<if test="filesLocation != null and filesLocation != ''">
+			AND FILES_LOCATION = #{filesLocation}
+		</if>
+	</where>
 	</select>
 	
-	!-->
-	
+	 
 	<insert id="insertAttendance" parameterType="attendance"
 		useGeneratedKeys="true" keyProperty="attendanceNo" keyColumn="attendanceNo">
 		<selectKey keyColumn="ATTENDANCE_NO" keyProperty="attendanceNo"
@@ -84,7 +99,9 @@
 		LOCATION, 
 		SCORE, 
 		UPLOAD_FILE_NAME, 
-		MAKED_FILE_NAME, 
+		UPLOAD_FILE_NAME_WITH_S,
+		MAKED_FILE_NAME,
+		MAKED_FILE_NAME_WITH_S, 
 		FILES_LOCATION)
 		
 		VALUES
@@ -96,7 +113,9 @@
 		#{location},
 		#{score},
 		#{uploadFileName},
+		#{uploadFileNameWithS},
 		#{makedFileName},
+		#{makedFileNameWithS},
 		#{filesLocation})
 	</insert>
 	

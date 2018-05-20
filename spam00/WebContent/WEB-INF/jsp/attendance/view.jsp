@@ -1,3 +1,4 @@
+<%@page import="com.spam.domain.Attendance"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -29,17 +30,16 @@
 			 
 		<font>강의 장소</font>
 		<c:out value = "${attendance.location}"/><br>
-			
+	
 		<font>업로드한 파일</font>
-		<a href="<c:out value = "/attendance/files/${attendance.uploadFileName}"/>">
+		<a href="<c:out value = "/attendance/fileU/${attendance.uploadFileNameWithS}"/>">
 			 ${attendance.uploadFileName}
 		</a><br>
 		
 		<font>정보 추가된 파일</font>
-		<a href="<c:out value = "/attendance/files/${attendance.makedFileName}"/>">
+		<a href="<c:out value = "/attendance/fileM/${attendance.makedFileNameWithS}"/>">
 			 ${attendance.makedFileName}
 		</a><br>
-		
 		
 		<a href="/attendance/upload">
 			<input type="button" value="목록"/> 
