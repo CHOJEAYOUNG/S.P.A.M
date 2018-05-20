@@ -1,1 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.spam.persistence.GraduationTypeMapper">
+	<resultMap id="typeResultMap" type="graduationType">
+		<id column="GR_NO" property="no" />
+		<result column="GR_FORM" property="name" />
+		<result column="YEAR" property="year" />
+		<result column="STATE" property="state" />
+	</resultMap>
+
+	<select id="list" parameterType="graduationType" resultMap="typeResultMap">
+		SELECT   GR_NO
+			   , GR_FORM
+			   , YEAR
+			   , STATE 
+		FROM GRADUATION
+		ORDER BY GR_FORM
+	</select>
+	
+	<select id="select" parameterType="graduationType" resultMap="typeResultMap">
+		SELECT   GR_NO
+			   , GR_FORM
+			   , YEAR
+			   , STATE 
+		FROM GRADUATION
+		<where>
+			GR_NO = #{no}
+		</where>
+	</select>
+	
+	<insert id="insert" parameterType="graduationType">
+		<selectKey keyColumn="GR_NO" keyProperty="no" resultType="int" order="BEFORE" >
+            SELECT GR_SEQ.NEXTVAL
+            FROM DUAL
+        </selectKey>
+        INSERT INTO GRADUATION
+            (GR_NO, GR_FORM, YEAR, STATE)
+        VALUES
+            (#{no}, #{name}, #{year}, 'Y')
+    </insert>
+    
+    <update id="update" parameterType="graduationType">
+    	UPDATE GRADUATION
+    	<set>
+    		GR_FORM = #{name},
+    		YEAR = #{year},
+    	</set>
+    	WHERE GR_NO = #{no}
+    </update>
+    
+    <update id="delete" parameterType="graduationType">
+    	UPDATE GRADUATION
+    	<set>
+    		STATE = 'N'
+    	</set>
+    	WHERE GR_NO = #{no}
+    </update>
+</mapper>
