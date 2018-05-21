@@ -102,6 +102,11 @@ public class SpamUserController {
 	@RequestMapping(value = "/oneAdd", method = RequestMethod.POST)
 	public ModelAndView oneAdd(SpamUser spamuser, HttpServletRequest request) {
 		spamUserService.add(spamuser);
-		return new ModelAndView("/spamUser/addS");
+		return new ModelAndView(new RedirectView("/spamUser/list"));
+	}
+	
+	@RequestMapping(value = "/oneAddP", method = RequestMethod.GET)
+	public ModelAndView oneAddP(SpamUser spamuser, HttpServletRequest request) {
+		return new ModelAndView("/spamUser/addP");
 	}
 }

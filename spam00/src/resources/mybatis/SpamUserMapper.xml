@@ -15,8 +15,8 @@
 		<result column="PHONE_NO" property="phoneNo" />
 		<result column="BIRTH_DATE" property="birthDate" />
 		<result column="OFFICE" property="office" />
-		<result column="EMP_FORM" property="empForm" />
-		<result column="GR_FORM" property="grForm" />
+		<result column="EMP_NO" property="empNo" />
+		<result column="GR_NO" property="grNo" />
 		<result column="CARD_NO" property="cardNo" />
 		<result column="ENROLLMENT" property="enrollment" />
 	</resultMap>
@@ -31,8 +31,8 @@
 			   , PHONE_NO
 			   , BIRTH_DATE
 			   , OFFICE
-			   , EMP_FORM
-			   , GR_FORM
+			   , EMP_NO
+			   , GR_NO
 			   , CARD_NO
 			   , ENROLLMENT
 		FROM SPAM_USER
@@ -55,11 +55,11 @@
 			<if test="office != null and office != ''">
 				AND OFFICE = #{office}
 			</if>
-			<if test="empForm != null and empForm != ''">
-				AND EMP_FORM = #{empForm}
+			<if test="empNo != null and empNo != ''">
+				AND EMP_NO = #{empNo}
 			</if>
-			<if test="grForm != null and grForm != ''">
-				AND GR_FORM = #{grForm}
+			<if test="grNo != null and grNo != ''">
+				AND GR_NO = #{grNo}
 			</if>
 			<if test="cardNo != null and cardNo != ''">
 				AND CARD_NO = #{cardNo}
@@ -79,8 +79,8 @@
 			   , PHONE_NO
 			   , BIRTH_DATE
 			   , OFFICE
-			   , EMP_FORM
-			   , GR_FORM
+			   , EMP_NO
+			   , GR_NO
 			   , CARD_NO
 			   , ENROLLMENT
 		FROM SPAM_USER
@@ -109,11 +109,11 @@
 			<if test="office != null and office != ''">
 				OFFICE = #{office},
 			</if>
-			<if test="empForm != null and empForm != ''">
-				EMP_FORM = #{empForm},
+			<if test="empNo != null and empNo != ''">
+				EMP_NO = #{empNo},
 			</if>
-			<if test="grForm != null and grForm != ''">
-				GR_FORM = #{grForm},
+			<if test="grNo != null and grNo != ''">
+				GR_NO = #{grNo},
 			</if>
 			<if test="cardNo != null and cardNo != ''">
 				CARD_NO = #{cardNo},
@@ -125,9 +125,9 @@
 		WHERE 
 		    ID = #{id}
 	</update>
-	<update id="insert" parameterType="spamuser">
+	<update id="insertS" parameterType="spamuser">
 		INSERT INTO SPAM_USER 
-		(ID, PASSWORD, POWER, NAME, GRADE, MAJOR, PHONE_NO, BIRTH_DATE, OFFICE, EMP_FORM, GR_FORM, CARD_NO, ENROLLMENT)
+		(ID, PASSWORD, POWER, NAME, GRADE, MAJOR, PHONE_NO, BIRTH_DATE, OFFICE, EMP_NO, GR_NO, CARD_NO, ENROLLMENT)
 		VALUES (#{id}
 			   ,#{passWord}
 			   ,#{power}
@@ -137,11 +137,25 @@
 			   ,#{phoneNo}
 			   ,#{birthDate}
 			   ,#{office}
-			   ,#{empForm}
-			   ,#{grForm}
+			   ,#{empNo}
+			   ,#{grNo}
 			   ,#{cardNo}
 			   ,#{enrollment}
 		)
 	</update>
-	
+	<update id="insertP" parameterType="spamuser">
+		INSERT INTO SPAM_USER 
+		(ID, PASSWORD, GRADE, POWER, NAME, MAJOR, PHONE_NO, BIRTH_DATE, OFFICE, ENROLLMENT)
+		VALUES (#{id}
+			   ,#{passWord}
+			   ,#{grade}
+			   ,#{power}
+			   ,#{name}
+			   ,#{major}
+			   ,#{phoneNo}
+			   ,#{birthDate}
+			   ,#{office}
+			   ,#{enrollment}
+		)
+	</update>
 </mapper>

@@ -32,7 +32,7 @@ function editOnClick() {
 <form id="edit" action="/spamUser/oneAdd" method="post" style="padding-top: 3%; padding-bottom: 3%;">
 		<table border="1" width="300" align="center" height="250" >
 			<tr>
-				<td>아이디</td>
+				<td>학번</td>
 				<td>
 					<input type="text" name="id" />
 				</td>
@@ -82,13 +82,13 @@ function editOnClick() {
 			<tr>
 				<td>취업유형</td>
 				<td>
-					<input type="text" name="empForm" value="1"/>
+					<input type="text" name="empNo" value="1"/>
 				</td>
 			</tr>
 			<tr>
 				<td>졸업유형</td>
 				<td>
-					<input type="text" name="grForm"  value="1"/>
+					<input type="text" name="grNo"  value="1"/>
 				</td>
 			</tr>
 			<tr>

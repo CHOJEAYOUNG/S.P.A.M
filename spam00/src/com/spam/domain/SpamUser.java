@@ -7,38 +7,36 @@ public class SpamUser implements Serializable {
 	private String passWord;
 	private String power;
 	private String name;
-	private String grade;
+	private int grade;
 	private String major;
-	private String gender;
 	private String phoneNo;
 	private String phoneNo1;
 	private String phoneNo2;
 	private String phoneNo3;
 	private String birthDate;
 	private String office;
-	private String empForm;
-	private String grForm;
-	private String cardNo;
-	private String enrollment;
+	private int empNo;
+	private int grNo;
+	private int cardNo;
+	private int enrollment;
 	
 	public SpamUser() {
 		
 	}
-	public SpamUser(int id, String passWord, String power, String name, String grade, String major, String gender,
-			String phoneNo, String birthDate, String office, String empForm, String grForm, String cardNo,
-			String enrollment) {
+	public SpamUser(int id, String passWord, String power, String name, String major, int grade,
+			String phoneNo, String birthDate, String office, int empNo, int grNo, int cardNo,
+			int enrollment) {
 		this.id = id;
 		this.passWord = passWord;
 		this.power = power;
 		this.name = name;
 		this.grade = grade;
 		this.major = major;
-		this.gender = gender;
 		this.phoneNo = phoneNo;
 		this.birthDate = birthDate;
 		this.office = office;
-		this.empForm = empForm;
-		this.grForm = grForm;
+		this.empNo = empNo;
+		this.grNo = grNo;
 		this.cardNo = cardNo;
 		this.enrollment = enrollment;
 	}
@@ -85,10 +83,10 @@ public class SpamUser implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getGrade() {
+	public int getGrade() {
 		return grade;
 	}
-	public void setGrade(String grade) {
+	public void setGrade(int grade) {
 		this.grade = grade;
 	}
 	public String getMajor() {
@@ -96,12 +94,6 @@ public class SpamUser implements Serializable {
 	}
 	public void setMajor(String major) {
 		this.major = major;
-	}
-	public String getGender() {
-		return gender;
-	}
-	public void setGender(String gender) {
-		this.gender = gender;
 	}
 	public String getPhoneNo() {
 		return phoneNo;
@@ -121,36 +113,36 @@ public class SpamUser implements Serializable {
 	public void setOffice(String office) {
 		this.office = office;
 	}
-	public String getEmpForm() {
-		return empForm;
+	public int getEmpNo() {
+		return empNo;
 	}
-	public void setEmpForm(String empForm) {
-		this.empForm = empForm;
+	public void setEmpNo(int empNo) {
+		this.empNo = empNo;
 	}
-	public String getGrForm() {
-		return grForm;
+	public int getGrNo() {
+		return grNo;
 	}
-	public void setGrForm(String grForm) {
-		this.grForm = grForm;
+	public void setGrNo(int grNo) {
+		this.grNo = grNo;
 	}
-	public String getCardNo() {
+	public int getCardNo() {
 		return cardNo;
 	}
-	public void setCardNo(String cardNo) {
+	public void setCardNo(int cardNo) {
 		this.cardNo = cardNo;
 	}
-	public String getEnrollment() {
+	public int getEnrollment() {
 		return enrollment;
 	}
-	public void setEnrollment(String enrollment) {
+	public void setEnrollment(int enrollment) {
 		this.enrollment = enrollment;
 	}
 	@Override
 	public String toString() {
 		return "SpamUser [id=" + id + ", passWord=" + passWord + ", power=" + power + ", name=" + name + ", grade="
-				+ grade + ", major=" + major + ", gender=" + gender + ", phoneNo=" + phoneNo + ", phoneNo1=" + phoneNo1
+				+ grade + ", major=" + major + "phoneNo=" + phoneNo + ", phoneNo1=" + phoneNo1
 				+ ", phoneNo2=" + phoneNo2 + ", phoneNo3=" + phoneNo3 + ", birthDate=" + birthDate + ", office="
-				+ office + ", empForm=" + empForm + ", grForm=" + grForm + ", cardNo=" + cardNo + ", enrollment="
+				+ office + ", empNo=" + empNo + ", grNo=" + grNo + ", cardNo=" + cardNo + ", enrollment="
 				+ enrollment + "]";
 	}
 }

@@ -9,5 +9,6 @@ public interface SpamUserMapper {
 	public SpamUser select(SpamUser spamuser);
 	public void update(SpamUser spamuser);
 	public List<SpamUser> list();
-	public void insert(SpamUser spamuser);
+	public void insertS(SpamUser spamuser);
+	public void insertP(SpamUser spamuser);
 }

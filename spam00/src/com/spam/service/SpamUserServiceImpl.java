@@ -74,16 +74,15 @@ public class SpamUserServiceImpl implements SpamUserService {
 	public void add(SpamUser spamuser) {
 		spamuser.setPhoneNo(spamuser.getPhoneNo1()+"-"+spamuser.getPhoneNo2()+"-"+spamuser.getPhoneNo3());
 		spamuser.setPassWord(spamuser.getBirthDate());
+		System.out.println(spamuser.toString());
 		
 		if(spamuser.getOffice() != null) {
 			spamuser.setPower("P");
+			spamUserMapper.insertP(spamuser);
 		} else {
 			spamuser.setPower("S");
 			spamuser.setOffice("");
+			spamUserMapper.insertS(spamuser);
 		}
-		
-		System.out.println(spamuser.toString());
-		spamUserMapper.insert(spamuser);
-		
 	}
 }

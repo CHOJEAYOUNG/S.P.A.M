@@ -29,18 +29,18 @@ function editOnClick() {
 }
 </script>
 <body>
-<form id="edit" action="/spamUser/edit" method="post" style="padding-top: 3%; padding-bottom: 3%;">
+<form id="edit" action="/spamUser/oneAdd" method="post" style="padding-top: 3%; padding-bottom: 3%;">
 		<table border="1" width="300" align="center" height="250" >
 			<tr>
-				<td>아이디</td>
+				<td>교번</td>
 				<td>
 					<input type="text" name="id" />
+					<input type="hidden" name="grade"  value="0"/>
 				</td>
-				
 			</tr>
 			<tr>
-				<td>비밀번호</td>
-				<td><input type="password" size="30" name="passWord"
+				<td>생년월일</td>
+				<td><input type="text" size="30" name="birthDate"
 					maxlength="16" ></td>
 			</tr>
 			<tr>
@@ -50,9 +50,9 @@ function editOnClick() {
 				</td>
 			</tr>
 			<tr>
-				<td>학년</td>
+				<td>학과</td>
 				<td>
-					<input type="number" name="grade"  max="5" min="0"/>
+					<input type="text" name="major"/>
 				</td>
 			</tr>
 			<tr>
@@ -73,44 +73,32 @@ function editOnClick() {
 					<input type="text" id="phoneNo3" size="6" name="phoneNo3" maxlength="4" onkeydown='return onlyNumber(event)' style='ime-mode:disabled;' />
 				</td>
 			</tr>
-			<c:if test="${!(sessionScope.power eq 'S')}" >
-				<c:if test="${!(spamuser.power eq 'S')}" >
-					<tr>
-						<td>사무실 위치</td>
-						<td>
-							<input type="text" name="office" maxlength="60" value = "${spamuser.office}" />
-						</td>
-					</tr>
-				</c:if>
-			</c:if>
 			<tr>
-				<c:if test="${sessionScope.power eq 'A'}" >
-					<td>상태</td>
-					<td>
-						<c:if test="${(spamuser.power eq 'S')}" >
-							<select name="enrollment">
-									<option value="5" selected="selected">연구년</option>
-									<option value="6">재직</option>
-									<option value="7">이직</option>
-							</select>
-						</c:if>
-					</td>
-				</c:if>
+				<td>사무실 위치</td>
+				<td>
+					<input type="text" name="office"/>
+				</td>
 			</tr>
-			<c:if test="${(sessionScope.power eq 'A')}" >
-				<c:if test="${(spamuser.power eq 'S')}" >
-					<tr>
-						<td>카드 번호</td>
-						<td>
-							<input type="text" name="cardNo" maxlength="60" value = "${spamuser.cardNo}" />
-						</td>
-					</tr>
-				</c:if>
-			</c:if>
+			<tr>
+				<td>상태</td>
+				<td>
+					<select name="enrollment">
+							<option value="6" selected="selected">재직</option>
+							<option value="5">연구년</option>
+							<option value="7">이직</option>
+					</select>
+				</td>
+			</tr>
 		</table>
 		<div style="text-align: center; padding-top: 10px; padding-left: 255px; ">
-			<input type="submit" value="수정" />
+			<input type="submit" value="등록" />
 		</div>
+			<div style="text-align: center; padding-top: 10px; padding-left: 10px; ">
+				<c:out  value="교수님의 최초 비밀번호는 생년월일입니다. ex) 941004"/>
+			</div>
 	</form>
+	<a href="/spamUser/list"> 
+			<input	type="button" value="취소" />
+	</a>
 </body>
 </html>

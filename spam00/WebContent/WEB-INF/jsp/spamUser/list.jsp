@@ -71,13 +71,13 @@
 							</c:if>
 						</c:forEach>
 						<td style="text-align: center;"><a
-							href="<c:url value="/spamuser/viewPA/${spamuser.id}" /> "> <input
+							href="<c:url value="/spamUser/viewPA/${spamuser.id}" /> "> <input
 								type="button" value="상세보기" />
 						</a></td>
 						<c:if test="${ !(spamuser.power eq 'P') }">
 							<c:if test="${ sessionScope.power eq 'A' }">
 								<td style="text-align: center;"><a
-									href="<c:url value="/spamuser/edit/${spamuser.id}" /> "> <input
+									href="<c:url value="/spamUser/edit/${spamuser.id}" /> "> <input
 										type="button" value="수정" />
 								</a></td>
 							</c:if>
@@ -87,7 +87,7 @@
 						</c:if>
 						<c:if test="${ spamuser.power eq 'P' }">
 							<td style="text-align: center;"><a
-									href="<c:url value="/spamuser/edit/${spamuser.id}" /> "> <input
+									href="<c:url value="/spamUser/edit/${spamuser.id}" /> "> <input
 										type="button" value="수정" />
 								</a></td>
 						</c:if>
@@ -99,7 +99,7 @@
 		<c:if test="${ sessionScope.power eq 'A' }">
 			<div style="overflow:auto; width:100%; height:500px; padding-top:1%;text-align: right; ">
 				<a
-					href="<c:url value="/spamuser/listAdd/${spamuser.id}" /> "> <input
+					href="<c:url value="/spamUser/listAdd/${spamuser.id}" /> "> <input
 						type="button" value="일괄등록" />
 				</a>
 				

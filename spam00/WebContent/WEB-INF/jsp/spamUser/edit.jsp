@@ -57,12 +57,22 @@ function editOnClick() {
 				</td>
 			</tr>
 			<c:if test="${sessionScope.power eq 'A'}" >
-				<tr>
-					<td>학년</td>
-					<td>
-						<input type="text" name="grade" maxlength="60" value = "${spamuser.grade}" />
-					</td>
-				</tr>
+				<c:if test="${sessionScope.power eq 'S'}" >
+					<tr>
+						<td>학년</td>
+						<td>
+							<input type="text" name="grade" maxlength="60" value = "${spamuser.grade}" />
+						</td>
+					</tr>
+				</c:if>
+				<c:if test="${sessionScope.power eq 'P'}" >
+					<tr>
+						<td>학년</td>
+						<td>
+							<input type="hidden" name="grade" value = "0" />
+						</td>
+					</tr>
+				</c:if>
 			</c:if>
 			<tr>
 				<td>전화번호</td>
