@@ -19,6 +19,11 @@
 		<result column="FILES_LOCATION" property="filesLocation" />
 	</resultMap>
 
+	<select id="attendanceSEQ" resultType="int">
+		SELECT ATTENDANCE_NO_SEQ.NEXTVAL
+			FROM DUAL
+	</select>
+
 	<select id = "checkRandomNumber" resultMap = "attendanceResultMap">
 		SELECT
 			UPLOAD_FILE_NAME_WITH_S,

@@ -9,6 +9,7 @@ public interface AttendanceMapper {
 	public void insertAttendance(Attendance attendance);
 	public List<Attendance> checkRandomNumber();
 	public List<Attendance> select(Attendance attendance);
+	public int attendanceSEQ();
 	//public void insertAttendanceStudentInfo(SpamUser spamUser);
 //select
 //insert

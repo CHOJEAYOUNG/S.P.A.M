@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
@@ -26,8 +25,10 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.spam.domain.Attend;
 import com.spam.domain.Attendance;
 import com.spam.domain.SpamUser;
+import com.spam.persistence.AttendMapper;
 import com.spam.persistence.AttendanceMapper;
 import com.spam.persistence.SpamUserMapper;
 
@@ -38,9 +39,13 @@ public class AttendanceServiceImpl implements AttendanceService{
 	private AttendanceMapper attendanceMapper;
 
 	@Resource
+	private AttendMapper attendMapper;
+	
+	@Resource
 	private SpamUserMapper spamUserMapper;
 	
 	Attendance attendance;
+	List<Attend> attendList = new ArrayList<Attend>();
 	
 	XSSFWorkbook xexcelOpen;
 	
@@ -48,6 +53,8 @@ public class AttendanceServiceImpl implements AttendanceService{
 	
 	List<SpamUser> dataListInfoExist;
 	List<String> dataListInfoUnExist;
+	
+	int makedRandomNumber;
 	
 	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd",Locale.KOREA);
 	SimpleDateFormat dateFormatWithTime = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.KOREA);
@@ -149,6 +156,12 @@ public class AttendanceServiceImpl implements AttendanceService{
 			cell = row.createCell(1);
 			cell.setCellValue(dataListInfoExist.get(i).getId());
 			
+			Attend attend = new Attend();
+			attend.setId(dataListInfoExist.get(i).getId()); // 학생 추가
+			attendList.add(attend);
+			//System.out.println("cell : "+dataListInfoExist.get(i).getId());
+			//System.out.println("attend : " + attend.getId());
+			
 			cell = row.createCell(2);
 			cell.setCellValue(dataListInfoExist.get(i).getGrade());
 			
@@ -157,7 +170,10 @@ public class AttendanceServiceImpl implements AttendanceService{
 			
 			cell = row.createCell(4);
 			cell.setCellValue(dataListInfoExist.get(i).getPhoneNo());
+			
 		}
+		
+		System.out.println(attendList.size());
 		
 		row = nodataSheet.createRow(0);
 		cell = row.createCell(0);
@@ -185,13 +201,18 @@ public class AttendanceServiceImpl implements AttendanceService{
 		attendance.setMakedFileName(attendance.getTitle()+"_학생정보추가파일"+extension);
 		attendance.setFilesLocation(dateFormat.format(currentTime));
 		
+		
 		attendanceMapper.insertAttendance(attendance);
 		
-		/* 다중 설랙트 어떻게 하는지 모르겠음
-		 for(SpamUser user : dataListInfoExist) {
-			attendanceMapper.insertAttendanceStudentInfo(user);
+		int seq = attendanceMapper.attendanceSEQ() -1;
+		System.out.println();
+		
+		for(Attend attendInfo :attendList) {
+			attendInfo.setAttendanceNo(seq);
+			attendMapper.insertAttend(attendInfo);
+			System.out.println(attendInfo.toString());
 		}
-		*/
+		
 		
 		//System.out.println("최종");
 		//System.out.println(attendance);
@@ -277,19 +298,21 @@ public class AttendanceServiceImpl implements AttendanceService{
 	@Override
 	public int randomNumber() {
 		
-		int number = (int)(Math.random()*1000000)+1;
+		makedRandomNumber = (int)(Math.random()*1000000)+1;
+		//int number = 444773;
+		
 		//System.out.println("random "+number);
 		
 		//System.out.println(attendanceCheck.getFilesLocation());
 		for(Attendance attendance: attendanceMapper.checkRandomNumber()) {
 			//System.out.println(attendance.getMakedFileNameWithS());
 			//System.out.println(attendance.getUploadFileNameWithS());
-			if(attendance.getMakedFileNameWithS() == number
-					|| attendance.getUploadFileNameWithS() == number) {
+			if(attendance.getMakedFileNameWithS() == makedRandomNumber
+					|| attendance.getUploadFileNameWithS() == makedRandomNumber) {
 				randomNumber();
 			}
 		};
-		return number;
+		return makedRandomNumber;
 	}
 
 }
