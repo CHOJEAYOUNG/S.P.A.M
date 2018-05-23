@@ -23,7 +23,7 @@ public class AttendanceController {
 	@Autowired
 	private AttendanceService attendanceService;
 	
-	@RequestMapping(value = "/upload", method = RequestMethod.GET) //ÆäÀÌÁö ÀÌµ¿
+	@RequestMapping(value = "/upload", method = RequestMethod.GET) 
 	public ModelAndView getupload(HttpServletRequest HttpServletRequest) {
 		
 		return new ModelAndView("/attendance/upload"); //using error control
@@ -33,7 +33,7 @@ public class AttendanceController {
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public ModelAndView upload(Attendance attendance,HttpServletRequest request) throws Exception{
 		
-		System.out.println(attendance.toString()); //Å×½ºÆ®
+		//System.out.println(attendance.toString()); //ï¿½×½ï¿½Æ®
 		
 		MultipartRequest multipartRequest = (MultipartRequest) request;
 		MultipartFile excelFile = multipartRequest.getFile("uploadfile");
@@ -50,23 +50,21 @@ public class AttendanceController {
 		return new ModelAndView("/attendance/view"); //using error control
 	};
 	
-	/*@RequestMapping(value = "/view", method = RequestMethod.GET) //ÆäÀÌÁö ÀÌµ¿
+	/*@RequestMapping(value = "/view", method = RequestMethod.GET) //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
 	public ModelAndView getView(HttpServletRequest HttpServletRequest) {
 		
 		return new ModelAndView("/attendance/view"); //using error control
 	};
 	
-	@RequestMapping(value = "/view", method = RequestMethod.POST) //ÆäÀÌÁö ÀÌµ¿
+	@RequestMapping(value = "/view", method = RequestMethod.POST) //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
 	public ModelAndView postView(HttpServletRequest HttpServletRequest) {
 		
 		return new ModelAndView("/attendance/view"); //using error control
 	};
 	*/
 	
-	@RequestMapping(value = "/fileU/{fileNum}", method = RequestMethod.GET) //ÆäÀÌÁö ÀÌµ¿
+	@RequestMapping(value = "/fileU/{fileNum}", method = RequestMethod.GET)
 	public ModelAndView filesUpload(@PathVariable int fileNum,  HttpServletResponse response) throws IOException {
-		//System.out.println("¾È³ç¾È³ç");
-		//System.out.println(fileNameWithS);
 		Attendance attendance = new Attendance();
 		attendance.setUploadFileNameWithS(fileNum);
 		attendanceService.download(attendance, response);
@@ -74,10 +72,9 @@ public class AttendanceController {
 		return new ModelAndView("/attendance/view"); //using error control
 	};
 	
-	@RequestMapping(value = "/fileM/{fileNum}", method = RequestMethod.GET) //ÆäÀÌÁö ÀÌµ¿
+	@RequestMapping(value = "/fileM/{fileNum}", method = RequestMethod.GET) 
 	public ModelAndView filesMaked(@PathVariable int fileNum,  HttpServletResponse response) throws IOException {
-		//System.out.println("¾È³ç¾È³ç");
-		//System.out.println(fileNameWithS);
+		
 		Attendance attendance = new Attendance();
 		attendance.setMakedFileNameWithS(fileNum);
 		attendanceService.download(attendance, response);

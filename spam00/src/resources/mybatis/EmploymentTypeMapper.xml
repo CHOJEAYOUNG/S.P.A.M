@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.spam.persistence.EmploymentTypeMapper">
+	<resultMap id="typeResultMap" type="employmentType">
+		<id column="EMP_NO" property="no" />
+		<result column="EMP_FORM" property="name" />
+		<result column="YEAR" property="year" />
+		<result column="REQUIRED" property="required" />
+		<result column="CHOICE" property="choice" />
+		<result column="STATE" property="state" />
+	</resultMap>
+
+	<select id="list" parameterType="employmentType" resultMap="typeResultMap">
+		SELECT   EMP_NO
+			   , EMP_FORM
+			   , YEAR
+			   , REQUIRED
+			   , CHOICE
+			   , STATE 
+		FROM EMPLOYMENT
+		ORDER BY EMP_FORM
+	</select>
+	
+	<select id="select" parameterType="employmentType" resultMap="typeResultMap">
+		SELECT   EMP_NO
+			   , EMP_FORM
+			   , YEAR
+			   , REQUIRED
+			   , CHOICE
+			   , STATE 
+		FROM EMPLOYMENT
+		<where>
+			EMP_NO = #{no}
+		</where>
+	</select>
+	
+	<insert id="insert" parameterType="employmentType">
+		<selectKey keyColumn="EMP_NO" keyProperty="no" resultType="int" order="BEFORE" >
+            SELECT EMP_SEQ.NEXTVAL
+            FROM DUAL
+        </selectKey>
+        INSERT INTO EMPLOYMENT
+            (EMP_NO, EMP_FORM, YEAR, REQUIRED, CHOICE, STATE)
+        VALUES
+            (#{no}, #{name}, #{year}, #{required}, #{choice}, 'Y')
+    </insert>
+    
+    <update id="update" parameterType="employmentType">
+    	UPDATE EMPLOYMENT
+    	<set>
+    		EMP_FORM = #{name},
+    		YEAR = #{year},
+    		REQUIRED = #{required},
+    		CHOICE = #{choice},
+    	</set>
+    	WHERE EMP_NO = #{no}
+    </update>
+    
+    <update id="delete" parameterType="employmentType">
+    	UPDATE EMPLOYMENT
+    	<set>
+    		STATE = 'N'
+    	</set>
+    	WHERE EMP_NO = #{no}
+    </update>
+</mapper>
