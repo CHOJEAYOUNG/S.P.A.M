@@ -36,8 +36,5 @@
 			<input type="submit" value="등록" />
 		</div>
 		</form>
-	
-	
 </body>
-
 </html>
