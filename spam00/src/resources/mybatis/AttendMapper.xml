@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.spam.persistence.AttendMapper">
+	<resultMap id="attendResultMap" type="attend">
+		<id column="ATTEND_NO" property="attendNo" />
+		<result column="ID" property="id" />
+		<result column="ATTENDANCE_NO" property="attendanceNo" />
+	</resultMap>
+	 
+	<insert id="insertAttend" parameterType="attend"
+		useGeneratedKeys="true" keyProperty="attendNo" keyColumn="attendNo">
+		<selectKey keyColumn="ATTEND_NO" keyProperty="attendNo"
+			resultType="int" order="BEFORE">
+				SELECT ATTEND_NO_SEQ.NEXTVAL
+				FROM DUAL
+		</selectKey>
+		
+		INSERT INTO ATTEND
+		(ATTEND_NO,
+		ATTENDANCE_NO, 
+		ID 
+		)
+		
+		VALUES
+		(#{attendNo},
+		#{attendanceNo},
+		#{id})
+	</insert>
+
+</mapper>

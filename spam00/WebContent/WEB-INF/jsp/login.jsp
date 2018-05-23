@@ -9,7 +9,7 @@
 <body>
 	<div style="text-align: center; padding-top: 15%; ">
 		<form action="/login" method="POST">
-			<font size=5>&nbsp;아이디&nbsp;</font> <input type="text" name="spamId" style="height: 50px;" size=50 /><br> <font size=5>비밀번호</font>
+			<font size=5>&nbsp;아이디&nbsp;</font> <input type="text" name="id" style="height: 50px;" size=50 /><br> <font size=5>비밀번호</font>
 			<input type="password" name="passWord" style="height: 50px;" size=50 /> <br> <input type="submit" value="로그인" />
 		</form>
 	</div>

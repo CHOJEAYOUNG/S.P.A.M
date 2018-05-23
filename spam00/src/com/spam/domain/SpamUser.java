@@ -3,26 +3,51 @@ package com.spam.domain;
 import java.io.Serializable;
 
 public class SpamUser implements Serializable {
-	private int spamId;
+	private int id;
 	private String passWord;
+	private String power;
 	private String name;
-	
-	private String rank;
-	private String birthDay;
+	private int grade;
+	private String major;
+	private String phoneNo;
+	private String phoneNo1;
+	private String phoneNo2;
+	private String phoneNo3;
+	private String birthDate;
+	private String office;
+	private int empNo;
+	private int grNo;
+	private String cardNo;
+	private int enrollment;
 	
 	public SpamUser() {
-		this.spamId = 0;
-		this.passWord = null;
-		this.name = null;
-		this.rank = null;
-		this.birthDay = null;
-	}
-	public int getSpamId() {
-		return spamId;
+		
 	}
 
-	public void setSpamId(int spamId) {
-		this.spamId = spamId;
+	public SpamUser(int id, String passWord, String power, String name, String major, int grade,
+			String phoneNo, String birthDate, String office, int empNo, int grNo, String cardNo,
+			int enrollment) {
+		this.id = id;
+		this.passWord = passWord;
+		this.power = power;
+		this.name = name;
+		this.grade = grade;
+		this.major = major;
+		this.phoneNo = phoneNo;
+		this.birthDate = birthDate;
+		this.office = office;
+		this.empNo = empNo;
+		this.grNo = grNo;
+		this.cardNo = cardNo;
+		this.enrollment = enrollment;
+	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getPassWord() {
@@ -33,6 +58,14 @@ public class SpamUser implements Serializable {
 		this.passWord = passWord;
 	}
 
+	public String getPower() {
+		return power;
+	}
+
+	public void setPower(String power) {
+		this.power = power;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -41,25 +74,108 @@ public class SpamUser implements Serializable {
 		this.name = name;
 	}
 
-	public String getRank() {
-		return rank;
+	public int getGrade() {
+		return grade;
 	}
 
-	public void setRank(String rank) {
-		this.rank = rank;
+	public void setGrade(int grade) {
+		this.grade = grade;
 	}
 
-	public String getBirthDay() {
-		return birthDay;
+	public String getMajor() {
+		return major;
 	}
 
-	public void setBirthDay(String birthDay) {
-		this.birthDay = birthDay;
+	public void setMajor(String major) {
+		this.major = major;
+	}
+
+	public String getPhoneNo() {
+		return phoneNo;
+	}
+
+	public void setPhoneNo(String phoneNo) {
+		this.phoneNo = phoneNo;
+	}
+
+	public String getPhoneNo1() {
+		return phoneNo1;
+	}
+
+	public void setPhoneNo1(String phoneNo1) {
+		this.phoneNo1 = phoneNo1;
+	}
+
+	public String getPhoneNo2() {
+		return phoneNo2;
+	}
+
+	public void setPhoneNo2(String phoneNo2) {
+		this.phoneNo2 = phoneNo2;
+	}
+
+	public String getPhoneNo3() {
+		return phoneNo3;
+	}
+
+	public void setPhoneNo3(String phoneNo3) {
+		this.phoneNo3 = phoneNo3;
+	}
+
+	public String getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(String birthDate) {
+		this.birthDate = birthDate;
+	}
+
+	public String getOffice() {
+		return office;
+	}
+
+	public void setOffice(String office) {
+		this.office = office;
+	}
+
+	public int getEmpNo() {
+		return empNo;
+	}
+
+	public void setEmpNo(int empNo) {
+		this.empNo = empNo;
+	}
+
+	public int getGrNo() {
+		return grNo;
+	}
+
+	public void setGrNo(int grNo) {
+		this.grNo = grNo;
+	}
+
+	public String getCardNo() {
+		return cardNo;
+	}
+
+	public void setCardNo(String cardNo) {
+		this.cardNo = cardNo;
+	}
+
+	public int getEnrollment() {
+		return enrollment;
+	}
+
+	public void setEnrollment(int enrollment) {
+		this.enrollment = enrollment;
 	}
 
 	@Override
 	public String toString() {
-		return "SpamUser [spampId=" + spamId + ", password=" + passWord + ", name=" + name + ", rank=" + rank
-				+ ", birthDay=" + birthDay + "]";
+		return "SpamUser [id=" + id + ", passWord=" + passWord + ", power=" + power + ", name=" + name + ", grade="
+				+ grade + ", major=" + major + "phoneNo=" + phoneNo + ", phoneNo1=" + phoneNo1
+				+ ", phoneNo2=" + phoneNo2 + ", phoneNo3=" + phoneNo3 + ", birthDate=" + birthDate + ", office="
+				+ office + ", empNo=" + empNo + ", grNo=" + grNo + ", cardNo=" + cardNo + ", enrollment="
+				+ enrollment + "]";
 	}
 }
