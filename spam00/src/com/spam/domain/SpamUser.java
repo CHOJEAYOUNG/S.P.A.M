@@ -130,9 +130,4 @@ public class SpamUser implements Serializable {
 				+ birthDate + ", office=" + office + ", empForm=" + empForm + ", grForm=" + grForm + ", cardNo="
 				+ cardNo + ", enrollment=" + enrollment + "]";
 	}
-	
-	
-	
-	
-	
 }
