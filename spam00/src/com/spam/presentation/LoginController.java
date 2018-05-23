@@ -29,18 +29,17 @@ public class LoginController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ModelAndView loginPost(SpamUser spamuser, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		
-		if(spamuser.getId() == 0 
-				|| spamuser.getId() == ' '
-					|| "".equals(spamuser.getPassWord())
-						|| spamuser.getPassWord() == null) {
-			return new ModelAndView("/login");
-		}
+
 		boolean chack = false;
+		
 		chack = loginService.login(spamuser, request);
 		if(!chack) {
-			return new ModelAndView("/logout");
+
+			return new ModelAndView(new RedirectView("/logout"));
 		} else {
+
+			System.out.println(session.getAttribute("power"));
+
 			String str = session.getAttribute("power") != null ? (String)session.getAttribute("power") : null;
 			
 			if("S".equals(str)) {
@@ -51,13 +50,12 @@ public class LoginController {
 		}
 	}
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public ModelAndView logout(SpamUser spamuser, HttpServletRequest request) {
+	public ModelAndView logout(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 
 		if (session != null) {
 			session.invalidate();
 		}
-
 		return new ModelAndView(new RedirectView("/login"));
 	}
 }

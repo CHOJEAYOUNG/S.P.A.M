@@ -15,10 +15,10 @@
 		<result column="PHONE_NO" property="phoneNo" />
 		<result column="BIRTH_DATE" property="birthDate" />
 		<result column="OFFICE" property="office" />
-		<result column="EMP_NO" property="empForm" />
-		<result column="GR_NO" property="grForm" />
+		<result column="EMP_NO" property="empNo" />
+		<result column="GR_NO" property="grNo" />
 		<result column="CARD_NO" property="cardNo" />
-		<result column="ENROLLMENT_NO" property="enrollment" />
+		<result column="ENROLLMENT" property="enrollment" />
 	</resultMap>
 
 	<select id="select" parameterType="spamuser" resultMap="spamuserResultMap">
@@ -31,10 +31,10 @@
 			   , PHONE_NO
 			   , BIRTH_DATE
 			   , OFFICE
-			   , EMP_NO<!-- NO 인지 FORM 인지 확인 필요 -->
+			   , EMP_NO
 			   , GR_NO
 			   , CARD_NO
-			   , ENROLLMENT_NO
+			   , ENROLLMENT
 		FROM SPAM_USER
 		<where>
 			<if test="id != null and id !=''">
@@ -55,19 +55,18 @@
 			<if test="office != null and office != ''">
 				AND OFFICE = #{office}
 			</if>
-			<if test="empForm != null and empForm != ''">
-				AND EMP_FORM = #{empForm}
+			<if test="empNo != null and empNo != ''">
+				AND EMP_NO = #{empNo}
 			</if>
-			<if test="grForm != null and grForm != ''">
-				AND GR_FORM = #{grForm}
+			<if test="grNo != null and grNo != ''">
+				AND GR_NO = #{grNo}
 			</if>
 			<if test="cardNo != null and cardNo != ''">
 				AND CARD_NO = #{cardNo}
 			</if>
-			<!-- 
 			<if test="enrollment != null and enrollment != ''">
 				AND ENROLLMENT = #{enrollment}
-			</if> -->
+			</if>
 		</where>
 	</select>
 	<select id="list" parameterType="spamuser" resultMap="spamuserResultMap">
@@ -80,11 +79,83 @@
 			   , PHONE_NO
 			   , BIRTH_DATE
 			   , OFFICE
-			   , EMP_FORM
-			   , GR_FORM
+			   , EMP_NO
+			   , GR_NO
 			   , CARD_NO
 			   , ENROLLMENT
 		FROM SPAM_USER
 	</select>
-
+	<update id="update" parameterType="spamuser" >
+		UPDATE SPAM_USER 
+		<set>
+			<if test="passWord != null and passWord != ''" >
+				PASSWORD = #{passWord},
+			</if>
+			<if test="power != null and power != ''">
+				POWER = #{power},
+			</if>
+			<if test="grade != null and grade != ''">
+				GRADE = #{grade},
+			</if>
+			<if test="phoneNo != null and phoneNo != ''" >
+				PHONE_NO = #{phoneNo},
+			</if>
+			<if test="name != null and name != ''" >
+				NAME = #{name},
+			</if>
+			<if test="birthDate != null and birthDate != ''">
+				BIRTH_DATE = #{birthDate},
+			</if>
+			<if test="office != null and office != ''">
+				OFFICE = #{office},
+			</if>
+			<if test="empNo != null and empNo != ''">
+				EMP_NO = #{empNo},
+			</if>
+			<if test="grNo != null and grNo != ''">
+				GR_NO = #{grNo},
+			</if>
+			<if test="cardNo != null and cardNo != ''">
+				CARD_NO = #{cardNo},
+			</if>
+			<if test="enrollment != null and enrollment != ''">
+				ENROLLMENT = #{enrollment},
+			</if>
+		</set>
+		WHERE 
+		    ID = #{id}
+	</update>
+	<update id="insertS" parameterType="spamuser">
+		INSERT INTO SPAM_USER 
+		(ID, PASSWORD, POWER, NAME, GRADE, MAJOR, PHONE_NO, BIRTH_DATE, OFFICE, EMP_NO, GR_NO, CARD_NO, ENROLLMENT)
+		VALUES (#{id}
+			   ,#{passWord}
+			   ,#{power}
+			   ,#{name}
+			   ,#{grade}
+			   ,#{major}
+			   ,#{phoneNo}
+			   ,#{birthDate}
+			   ,#{office}
+			   ,#{empNo}
+			   ,#{grNo}
+			   ,#{cardNo}
+			   ,#{enrollment}
+		)
+	</update>
+	<update id="insertP" parameterType="spamuser">
+		INSERT INTO SPAM_USER 
+		(ID, PASSWORD, GRADE, POWER, NAME, MAJOR, PHONE_NO, BIRTH_DATE, OFFICE, ENROLLMENT)
+		VALUES (#{id}
+			   ,#{passWord}
+			   ,#{grade}
+			   ,#{power}
+			   ,#{name}
+			   ,#{major}
+			   ,#{phoneNo}
+			   ,#{birthDate}
+			   ,#{office}
+			   ,#{enrollment}
+		)
+	</update>
 </mapper>

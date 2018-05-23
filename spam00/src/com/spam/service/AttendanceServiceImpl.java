@@ -49,7 +49,7 @@ public class AttendanceServiceImpl implements AttendanceService{
 	
 	XSSFWorkbook xexcelOpen;
 	
-	String filePath = "C:/Users/CHOJAEYOUNG/Desktop/����/file";
+	String filePath = "C:/Users/CHOJAEYOUNG/Desktop/file";
 	
 	List<SpamUser> dataListInfoExist;
 	List<String> dataListInfoUnExist;
@@ -61,9 +61,9 @@ public class AttendanceServiceImpl implements AttendanceService{
 	Date currentTime = new Date();
 	
 	@Override
-	public void excelxlsxRead(MultipartFile excelFile) throws IOException { // ���� ���� �б�
+	public void excelxlsxRead(MultipartFile excelFile) throws IOException {
 		xexcelOpen = new XSSFWorkbook(excelFile.getInputStream()); 
-		XSSFSheet sheet; //���� ���� ��
+		XSSFSheet sheet; //sheet creat
 		
 		HashSet<String> set = new HashSet<>();
 		int cardNo;
@@ -72,18 +72,15 @@ public class AttendanceServiceImpl implements AttendanceService{
 		//System.out.println(xexcelOpen.getNumberOfSheets());
 		
 		for(int j=0; j<xexcelOpen.getNumberOfSheets(); j++) {
-			sheet = xexcelOpen.getSheetAt(j); // �ش� ���������� ��Ʈ(Sheet) ��
+			sheet = xexcelOpen.getSheetAt(j);
 			for(Row row : sheet) {
 				for(int i=row.getFirstCellNum(); i<row.getLastCellNum(); i++ ){	
-					//System.out.print(row.getCell(i) +", ");	
 					if(row.getCell(i).getCellType() == Cell.CELL_TYPE_NUMERIC) {
-						//System.out.print("������" + );
 						cardNo = (int)row.getCell(i).getNumericCellValue();
 						cardNoToString = new Integer(cardNo).toString();
-						set.add(cardNoToString); // ī�� �ߺ� �� �ذ�
+						set.add(cardNoToString); 
 					}
 				}
-				//System.out.println();
 			}
 		}
 		checkStudent(set);
@@ -96,9 +93,7 @@ public class AttendanceServiceImpl implements AttendanceService{
 	}
 
 	@Override
-	public void copyExcel(String insertedFileName) throws IOException { // ���� ����
-		
-		//System.out.println(dateFormat.format(currentTime));
+	public void copyExcel(String insertedFileName) throws IOException {
 		File file = new File(filePath+"/"+dateFormat.format(currentTime));
 		
 		if(!file.exists()) {
@@ -108,7 +103,7 @@ public class AttendanceServiceImpl implements AttendanceService{
 		int randomNumberU = randomNumber();
 		attendance.setUploadFileNameWithS(randomNumberU);
 		System.out.println(randomNumberU);
-		FileOutputStream fileOutputStream = new FileOutputStream(file+File.separator + randomNumberU); // ���� 
+		FileOutputStream fileOutputStream = new FileOutputStream(file+File.separator + randomNumberU);
 		xexcelOpen.write(fileOutputStream);
 		
 		int randomNumberM = randomNumber();
@@ -118,7 +113,7 @@ public class AttendanceServiceImpl implements AttendanceService{
 		
 		attendance.setMakedFileNameWithS(randomNumberM);
 		System.out.println(randomNumberM);
-		fileOutputStream = new FileOutputStream(file+File.separator + randomNumberM); //���� �߰� ����
+		fileOutputStream = new FileOutputStream(file+File.separator + randomNumberM);
 		makeExcel(insertedFileName).write(fileOutputStream);;
 		
 		fileOutputStream.close();
@@ -128,24 +123,24 @@ public class AttendanceServiceImpl implements AttendanceService{
 	public XSSFWorkbook makeExcel(String insertedFileName) throws IOException {
 		XSSFWorkbook xexcelWrite = new XSSFWorkbook();
 		XSSFSheet infoSheet = xexcelWrite.createSheet(insertedFileName);
-		XSSFSheet nodataSheet = xexcelWrite.createSheet("��ϵ� ���� ���� ī���ȣ��");
+		XSSFSheet nodataSheet = xexcelWrite.createSheet("no information about number");
 		XSSFRow row = infoSheet.createRow(0);
 		XSSFCell cell = null;
 		
 		cell = row.createCell(0);
-		cell.setCellValue("�̸�");
+		cell.setCellValue("name");
 		
 		cell = row.createCell(1);
-		cell.setCellValue("�й�");
+		cell.setCellValue("id");
 		
 		cell = row.createCell(2);
-		cell.setCellValue("�г�");
+		cell.setCellValue("grade");
 		
 		cell = row.createCell(3);
-		cell.setCellValue("�а�");
+		cell.setCellValue("major");
 		
 		cell = row.createCell(4);
-		cell.setCellValue("��ȭ��ȣ");
+		cell.setCellValue("phoneNo");
 		
 		for(int i = 0; i<dataListInfoExist.size(); i++) {
 			row = infoSheet.createRow(i+1);
@@ -157,10 +152,8 @@ public class AttendanceServiceImpl implements AttendanceService{
 			cell.setCellValue(dataListInfoExist.get(i).getId());
 			
 			Attend attend = new Attend();
-			attend.setId(dataListInfoExist.get(i).getId()); // �л� �߰�
+			attend.setId(dataListInfoExist.get(i).getId()); 
 			attendList.add(attend);
-			//System.out.println("cell : "+dataListInfoExist.get(i).getId());
-			//System.out.println("attend : " + attend.getId());
 			
 			cell = row.createCell(2);
 			cell.setCellValue(dataListInfoExist.get(i).getGrade());
@@ -177,7 +170,7 @@ public class AttendanceServiceImpl implements AttendanceService{
 		
 		row = nodataSheet.createRow(0);
 		cell = row.createCell(0);
-		cell.setCellValue("ī���ȣ");
+		cell.setCellValue("cardNo");
 		
 		for(int i = 0; i<dataListInfoUnExist.size(); i++) {
 			row = nodataSheet.createRow(i+1);
@@ -192,13 +185,11 @@ public class AttendanceServiceImpl implements AttendanceService{
 	public void attendanceInfo(Attendance attendance, String originalFileName) throws IOException { // �Է� ���� ó��
 		this.attendance = attendance;
 		String extension = originalFileName.substring(originalFileName.lastIndexOf("."), originalFileName.length());
-		//System.out.println(originalFileName);
-		//System.out.println(extension);
 		copyExcel(attendance.getTitle());
 		
 		attendance.setRegistrationDate(dateFormatWithTime.format(currentTime));
-		attendance.setUploadFileName(attendance.getTitle()+"_����ī������"+extension);
-		attendance.setMakedFileName(attendance.getTitle()+"_�л������߰�����"+extension);
+		attendance.setUploadFileName(attendance.getTitle()+"_uploadFile"+extension);
+		attendance.setMakedFileName(attendance.getTitle()+"_addedSinfoFile"+extension);
 		attendance.setFilesLocation(dateFormat.format(currentTime));
 		
 		
@@ -213,45 +204,22 @@ public class AttendanceServiceImpl implements AttendanceService{
 			System.out.println(attendInfo.toString());
 		}
 		
-		
-		//System.out.println("����");
-		//System.out.println(attendance);
-		// �� �� ���� �Է�
-		// db ���� �ʿ�
 	}
 
 	@Override
-	public void checkStudent(HashSet<String> set) { // �ش�Ǵ� �л� �ִ��� ��ȸ
-		//System.out.println("��°� ���");
+	public void checkStudent(HashSet<String> set) {
 		SpamUser spamUser = new SpamUser();
 		dataListInfoExist = new ArrayList<SpamUser>();
 		dataListInfoUnExist = new ArrayList<String>();
 		for(String cardNo : set) {
 			spamUser.setCardNo(cardNo);
 			if(!(spamUserMapper.select(spamUser) == null)) {			
-				//System.out.println(cardNo + "null �ƴ�");
 				dataListInfoExist.add(spamUserMapper.select(spamUser));
 			}
 			else if((spamUserMapper.select(spamUser) == null)){
-				//System.out.println(cardNo + "null��");
 				dataListInfoUnExist.add(cardNo);
 			}
 		}
-		
-		/*for(int i = 0; i< dataListInfoExist.size(); i++) {
-			System.out.println(dataListInfoExist.get(i));
-		}
-		
-		System.out.println(dataListInfoExist.size());
-		
-		
-		
-		for(int i = 0; i< dataListInfoUnExist.size(); i++) {
-			System.out.println(dataListInfoUnExist.get(i));
-		}
-		
-		System.out.println(dataListInfoUnExist.size());
-		*/
 	}
 
 	@Override
@@ -299,14 +267,7 @@ public class AttendanceServiceImpl implements AttendanceService{
 	public int randomNumber() {
 		
 		makedRandomNumber = (int)(Math.random()*1000000)+1;
-		//int number = 444773;
-		
-		//System.out.println("random "+number);
-		
-		//System.out.println(attendanceCheck.getFilesLocation());
 		for(Attendance attendance: attendanceMapper.checkRandomNumber()) {
-			//System.out.println(attendance.getMakedFileNameWithS());
-			//System.out.println(attendance.getUploadFileNameWithS());
 			if(attendance.getMakedFileNameWithS() == makedRandomNumber
 					|| attendance.getUploadFileNameWithS() == makedRandomNumber) {
 				randomNumber();

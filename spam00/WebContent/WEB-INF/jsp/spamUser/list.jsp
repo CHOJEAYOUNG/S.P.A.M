@@ -24,65 +24,96 @@
 					<th style="width: 100px;"><font color="#FFFFFF">수정</font></th>
 				</tr>
 				<c:if test="${ !empty listSpam}">
-					<c:forEach items="${ listSpam }" var="spamUser" varStatus="status">
+					<c:forEach items="${ listSpam }" var="spamuser" varStatus="status">
 					<tr>
 						<td style="text-align: left; width: 35px;">
 							<c:out value="${ status.count }"/>
 						</td>
 						<td style="text-align: left; width: 100px;">
-							<c:out value="${ spamUser.id }"/>
+							<c:out value="${ spamuser.id }"/>
 						</td>
 						<td style="text-align: left; width: 100px;">
-							<c:out value="${ spamUser.name }"/>
+							<c:out value="${ spamuser.name }"/>
 						</td>
-						<c:if test="${ spamUser.power eq 'S'}">
+						<c:if test="${ spamuser.power eq 'S'}">
 							<td style="text-align: left; width: 100px;">
-								<c:out value="${ spamUser.grade }"/>
+								<c:out value="${ spamuser.grade }"/>
 							</td>
 						</c:if>
-						<c:if test="${ !(spamUser.power eq 'S')}">
+						<c:if test="${ !(spamuser.power eq 'S')}">
 							<td style="text-align: left; width: 100px;">
 								-
 							</td>
 						</c:if>
 						<td style="text-align: left; width: 100px;">
-							<c:out value="${ spamUser.major }"/>
+							<c:out value="${ spamuser.major }"/>
 						</td>
-						<c:if test="${ spamUser.power eq 'A' }">
+						<c:if test="${ spamuser.power eq 'A' }">
 							<td style="text-align: left; width: 100px;">
 								조교
 							</td>
 						</c:if>
-						<c:if test="${ spamUser.power eq 'P' }">
+						<c:if test="${ spamuser.power eq 'P' }">
 							<td style="text-align: left; width: 100px;">
 								교수
 							</td>
 						</c:if>
-						<c:if test="${ spamUser.power eq 'S' }">
+						<c:if test="${ spamuser.power eq 'S' }">
 							<td style="text-align: left; width: 100px;">
 								학생
 							</td>
 						</c:if>
 						<c:forEach items="${ enrollment }" var="enrollment" varStatus="status">
-							<c:if test="${enrollment.enrollmentNo eq spamUser.enrollment}">
+							<c:if test="${enrollment.enrollmentNo eq spamuser.enrollment}">
 								<td style="text-align: left; width: 100px;">
 										<c:out value="${ enrollment.enrollmentContent }"/>
 								</td>
 							</c:if>
 						</c:forEach>
 						<td style="text-align: center;"><a
-							href="<c:url value="/spamUser/viewPA/${spamUser.id}" /> "> <input
+							href="<c:url value="/spamUser/viewPA/${spamuser.id}" /> "> <input
 								type="button" value="상세보기" />
 						</a></td>
-						<td style="text-align: center;"><a
-							href="<c:url value="/spamUser/edit/${spamUser.id}" /> "> <input
-								type="button" value="수정" />
-						</a></td>
+						<c:if test="${ !(spamuser.power eq 'P') }">
+							<c:if test="${ sessionScope.power eq 'A' }">
+								<td style="text-align: center;"><a
+									href="<c:url value="/spamUser/edit/${spamuser.id}" /> "> <input
+										type="button" value="수정" />
+								</a></td>
+							</c:if>
+							<c:if test="${ !(sessionScope.power eq 'A') }">
+								<td>수정권한 없음</td>
+							</c:if>
+						</c:if>
+						<c:if test="${ spamuser.power eq 'P' }">
+							<td style="text-align: center;"><a
+									href="<c:url value="/spamUser/edit/${spamuser.id}" /> "> <input
+										type="button" value="수정" />
+								</a></td>
+						</c:if>
 					</tr>
 					</c:forEach>
 				</c:if>
 			</thead>
 		</table>
+		<c:if test="${ sessionScope.power eq 'A' }">
+			<div style="overflow:auto; width:100%; height:500px; padding-top:1%;text-align: right; ">
+				<a
+					href="<c:url value="/spamUser/listAdd/${spamuser.id}" /> "> <input
+						type="button" value="일괄등록" />
+				</a>
+				
+				<a
+					href="<c:url value="/spamUser/oneAddS" /> "> <input
+						type="button" value="학생개별등록" />
+				</a>
+				<a
+					href="<c:url value="/spamUser/oneAddP" /> "> <input
+						type="button" value="교수개별등록" />
+				</a>
+			</div>
+		</c:if>
 	</div>
+	
 </body>
 </html>

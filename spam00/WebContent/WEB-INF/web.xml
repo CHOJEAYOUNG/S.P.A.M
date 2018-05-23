@@ -20,23 +20,21 @@
   	<servlet-name>spring</servlet-name>
   	<url-pattern>/</url-pattern>
   </servlet-mapping>
-  
-  <filter>
-        <filter-name>encodingFilter</filter-name>
-        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
-        <init-param>
-           <param-name>encoding</param-name>
-           <param-value>UTF-8</param-value>
-        </init-param>
-   </filter>
-   
-   <filter-mapping>
-        <filter-name>encodingFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+
+	<filter>
+	  	<filter-name>encodingFilter</filter-name>
+	  	<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+	  	<init-param>
+	  		<param-name>encoding</param-name>
+	  		<param-value>UTF-8</param-value>
+	  	</init-param>
+	</filter>
+	
+	<filter-mapping>
+	  	<filter-name>encodingFilter</filter-name>
+	  	<url-pattern>/*</url-pattern>
   </filter-mapping>
-  
- <!-- 
- <error-page>
+<!--  <error-page>
   	<error-code>404</error-code>
   	<location>/remain</location>
   </error-page>
@@ -47,8 +45,7 @@
   <error-page>
   	<error-code>500</error-code>
   	<location>/remain</location>
-  </error-page>
-  -->
+  </error-page> -->
  
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>

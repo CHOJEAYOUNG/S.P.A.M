@@ -1,5 +1,18 @@
 package com.spam.service;
 
-public class EmploymentCategoryService {
+import java.util.List;
 
-}
+import com.spam.domain.EmploymentCategory;
+import com.spam.domain.EmploymentType;
+
+public interface EmploymentCategoryService {
+	public List<EmploymentCategory> find(EmploymentCategory category, List<String> purpose);
+	
+	public void add(EmploymentCategory category);
+
+	public void edit(EmploymentCategory category);
+
+	public EmploymentCategory view(int no);
+	
+	public void remove(int no);
+}	

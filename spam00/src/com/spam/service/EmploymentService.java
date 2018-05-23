@@ -1,5 +1,5 @@
 package com.spam.service;
 
-public class EmploymentService {
+public interface EmploymentService {
 
 }

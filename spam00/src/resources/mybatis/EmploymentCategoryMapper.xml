@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.spam.persistence.EmploymentCategoryMapper">
+	<resultMap id="categoryResultMap" type="employmentCategory">
+		<id column="EMPC_NO" property="no" />
+		<result column="EMPC_NAME" property="name" />
+		<result column="EMP_NO" property="empTypeNo" />
+		<result column="CONDITION_NO" property="conditionSqeNo" />
+		<result column="EMP_SCORE" property="score" />
+		<result column="INFO" property="info" />
+		<result column="STATE" property="state" />
+	</resultMap>
+	
+	<select id="list" parameterType="employmentCategory" resultMap="categoryResultMap">
+		SELECT   EMPC_NO
+			   , EMPC_NAME
+			   , EMP_NO
+			   , CONDITION_NO
+			   , EMP_SCORE
+			   , INFO
+			   , STATE 
+		FROM EMPC
+		ORDER BY EMPC_NAME
+	</select>
+	
+	<select id="select" parameterType="employmentCategory" resultMap="categoryResultMap">
+		SELECT   EMPC_NO
+			   , EMPC_NAME
+			   , EMP_NO
+			   , CONDITION_NO
+			   , EMP_SCORE
+			   , INFO
+			   , STATE 
+		FROM EMPC
+		<where>
+			EMPC_NO = #{no}
+		</where>
+	</select>
+	
+	<insert id="insert" parameterType="employmentCategory">
+		<selectKey keyColumn="EMPC_NO" keyProperty="no" resultType="int" order="BEFORE" >
+            SELECT EMPC_SEQ.NEXTVAL
+            FROM DUAL
+        </selectKey>
+        INSERT INTO EMPC
+            (EMPC_NO, EMPC_NAME, EMP_NO, CONDITION_NO, EMP_SCORE, INFO, STATE)
+        VALUES
+            (#{no}, #{name}, #{empTypeNo}, #{conditionSqeNo}, #{score}, #{info}, 'Y')
+    </insert>
+    
+    <update id="update" parameterType="employmentCategory">
+    	UPDATE EMPC
+    	<set>
+    		EMPC_NAME = #{name},
+    		EMP_NO = #{empTypeNo},
+    		CONDITION_NO = #{conditionSqeNo},
+    		EMP_SCORE = #{score},
+    		INFO = #{info}
+    	</set>
+    	WHERE EMPC_NO = #{no}
+    </update>
+    
+    <update id="delete" parameterType="employmentCategory">
+    	UPDATE EMPC
+    	<set>
+    		STATE = 'N'
+    	</set>
+    	WHERE EMPC_NO = #{no}
+    </update>
+</mapper>

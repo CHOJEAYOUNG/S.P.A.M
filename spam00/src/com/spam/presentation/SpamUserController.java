@@ -10,12 +10,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.spam.domain.Enrollment;
 import com.spam.domain.SpamUser;
-import com.spam.persistence.EnrollmentMapper;
 import com.spam.service.SpamUserService;
-
 
 
 @Controller
@@ -71,7 +70,7 @@ public class SpamUserController {
 	
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
 	public ModelAndView edit(@PathVariable String id, HttpServletRequest request) {
-		ModelAndView modelAndView = new ModelAndView("/spamUser/view");
+		ModelAndView modelAndView = new ModelAndView("/spamUser/edit");
 		SpamUser spamuser = new SpamUser();
 		int intId = Integer.parseInt(id);
 		spamuser.setId(intId);
@@ -83,5 +82,29 @@ public class SpamUserController {
 		modelAndView.addObject("enrollment",enrollment);
 		
 		return modelAndView;
+	}
+	
+	@RequestMapping(value = "/edit", method = RequestMethod.POST)
+	public ModelAndView postedit(SpamUser spamuser, HttpServletRequest request) {
+		ModelAndView modelAndView = new ModelAndView("/spamUser/list");
+		spamUserService.edit(spamuser);
+		
+		return new ModelAndView(new RedirectView("/spamUser/list"));
+	}
+	
+	@RequestMapping(value = "/oneAddS", method = RequestMethod.GET)
+	public ModelAndView oneAddS(SpamUser spamuser, HttpServletRequest request) {
+		return new ModelAndView("/spamUser/addS");
+	}
+	
+	@RequestMapping(value = "/oneAdd", method = RequestMethod.POST)
+	public ModelAndView oneAdd(SpamUser spamuser, HttpServletRequest request) {
+		spamUserService.add(spamuser);
+		return new ModelAndView(new RedirectView("/spamUser/list"));
+	}
+	
+	@RequestMapping(value = "/oneAddP", method = RequestMethod.GET)
+	public ModelAndView oneAddP(SpamUser spamuser, HttpServletRequest request) {
+		return new ModelAndView("/spamUser/addP");
 	}
 }
