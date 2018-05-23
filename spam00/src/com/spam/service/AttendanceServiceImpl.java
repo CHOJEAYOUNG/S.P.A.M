@@ -69,21 +69,16 @@ public class AttendanceServiceImpl implements AttendanceService{
 		int cardNo;
 		String cardNoToString;
 		
-		//System.out.println(xexcelOpen.getNumberOfSheets());
-		
 		for(int j=0; j<xexcelOpen.getNumberOfSheets(); j++) {
 			sheet = xexcelOpen.getSheetAt(j); // 해당 엑셀파일의 시트(Sheet) 수
 			for(Row row : sheet) {
 				for(int i=row.getFirstCellNum(); i<row.getLastCellNum(); i++ ){	
-					//System.out.print(row.getCell(i) +", ");	
 					if(row.getCell(i).getCellType() == Cell.CELL_TYPE_NUMERIC) {
-						//System.out.print("숫자임" + );
 						cardNo = (int)row.getCell(i).getNumericCellValue();
 						cardNoToString = new Integer(cardNo).toString();
 						set.add(cardNoToString); // 카드 중복 값 해결
 					}
 				}
-				//System.out.println();
 			}
 		}
 		checkStudent(set);
@@ -98,7 +93,6 @@ public class AttendanceServiceImpl implements AttendanceService{
 	@Override
 	public void copyExcel(String insertedFileName) throws IOException { // 파일 복사
 		
-		//System.out.println(dateFormat.format(currentTime));
 		File file = new File(filePath+"/"+dateFormat.format(currentTime));
 		
 		if(!file.exists()) {
@@ -107,7 +101,7 @@ public class AttendanceServiceImpl implements AttendanceService{
 		
 		int randomNumberU = randomNumber();
 		attendance.setUploadFileNameWithS(randomNumberU);
-		System.out.println(randomNumberU);
+		//System.out.println(randomNumberU);
 		FileOutputStream fileOutputStream = new FileOutputStream(file+File.separator + randomNumberU); // 파일 
 		xexcelOpen.write(fileOutputStream);
 		
@@ -117,7 +111,7 @@ public class AttendanceServiceImpl implements AttendanceService{
 		}
 		
 		attendance.setMakedFileNameWithS(randomNumberM);
-		System.out.println(randomNumberM);
+		//System.out.println(randomNumberM);
 		fileOutputStream = new FileOutputStream(file+File.separator + randomNumberM); //정보 추가 파일
 		makeExcel(insertedFileName).write(fileOutputStream);;
 		
@@ -159,8 +153,6 @@ public class AttendanceServiceImpl implements AttendanceService{
 			Attend attend = new Attend();
 			attend.setId(dataListInfoExist.get(i).getId()); // 학생 추가
 			attendList.add(attend);
-			//System.out.println("cell : "+dataListInfoExist.get(i).getId());
-			//System.out.println("attend : " + attend.getId());
 			
 			cell = row.createCell(2);
 			cell.setCellValue(dataListInfoExist.get(i).getGrade());
@@ -192,15 +184,12 @@ public class AttendanceServiceImpl implements AttendanceService{
 	public void attendanceInfo(Attendance attendance, String originalFileName) throws IOException { // 입력 정보 처리
 		this.attendance = attendance;
 		String extension = originalFileName.substring(originalFileName.lastIndexOf("."), originalFileName.length());
-		//System.out.println(originalFileName);
-		//System.out.println(extension);
 		copyExcel(attendance.getTitle());
 		
 		attendance.setRegistrationDate(dateFormatWithTime.format(currentTime));
 		attendance.setUploadFileName(attendance.getTitle()+"_원본카드파일"+extension);
 		attendance.setMakedFileName(attendance.getTitle()+"_학생정보추가파일"+extension);
 		attendance.setFilesLocation(dateFormat.format(currentTime));
-		
 		
 		attendanceMapper.insertAttendance(attendance);
 		
@@ -213,45 +202,22 @@ public class AttendanceServiceImpl implements AttendanceService{
 			System.out.println(attendInfo.toString());
 		}
 		
-		
-		//System.out.println("최종");
-		//System.out.println(attendance);
-		// 그 외 파일 입력
-		// db 저장 필요
 	}
 
 	@Override
 	public void checkStudent(HashSet<String> set) { // 해당되는 학생 있는지 조회
-		//System.out.println("출력값 출력");
 		SpamUser spamUser = new SpamUser();
 		dataListInfoExist = new ArrayList<SpamUser>();
 		dataListInfoUnExist = new ArrayList<String>();
 		for(String cardNo : set) {
 			spamUser.setCardNo(cardNo);
 			if(!(spamUserMapper.select(spamUser) == null)) {			
-				//System.out.println(cardNo + "null 아님");
 				dataListInfoExist.add(spamUserMapper.select(spamUser));
 			}
 			else if((spamUserMapper.select(spamUser) == null)){
-				//System.out.println(cardNo + "null임");
 				dataListInfoUnExist.add(cardNo);
 			}
 		}
-		
-		/*for(int i = 0; i< dataListInfoExist.size(); i++) {
-			System.out.println(dataListInfoExist.get(i));
-		}
-		
-		System.out.println(dataListInfoExist.size());
-		
-		
-		
-		for(int i = 0; i< dataListInfoUnExist.size(); i++) {
-			System.out.println(dataListInfoUnExist.get(i));
-		}
-		
-		System.out.println(dataListInfoUnExist.size());
-		*/
 	}
 
 	@Override
@@ -289,7 +255,6 @@ public class AttendanceServiceImpl implements AttendanceService{
 				response.getOutputStream().write(fileByte);
 
 				response.getOutputStream().flush();
-				
 			}
 		}
 		response.getOutputStream().close();
@@ -299,14 +264,8 @@ public class AttendanceServiceImpl implements AttendanceService{
 	public int randomNumber() {
 		
 		makedRandomNumber = (int)(Math.random()*1000000)+1;
-		//int number = 444773;
 		
-		//System.out.println("random "+number);
-		
-		//System.out.println(attendanceCheck.getFilesLocation());
 		for(Attendance attendance: attendanceMapper.checkRandomNumber()) {
-			//System.out.println(attendance.getMakedFileNameWithS());
-			//System.out.println(attendance.getUploadFileNameWithS());
 			if(attendance.getMakedFileNameWithS() == makedRandomNumber
 					|| attendance.getUploadFileNameWithS() == makedRandomNumber) {
 				randomNumber();
@@ -314,5 +273,4 @@ public class AttendanceServiceImpl implements AttendanceService{
 		};
 		return makedRandomNumber;
 	}
-
 }
