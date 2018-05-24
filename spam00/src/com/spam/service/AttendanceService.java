@@ -2,6 +2,7 @@ package com.spam.service;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,4 +20,5 @@ public interface AttendanceService {
 	public void checkStudent(HashSet<String> set);
 	public void download(Attendance attendance,HttpServletResponse response)throws IOException;
 	public int randomNumber();
+	public List<Attendance> list();
 }

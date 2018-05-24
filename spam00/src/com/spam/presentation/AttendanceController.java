@@ -81,4 +81,9 @@ public class AttendanceController {
 		
 		return new ModelAndView("/attendance/view"); //using error control
 	};
+	
+	@RequestMapping(value = "/list", method = RequestMethod.POST)
+	public ModelAndView list() {
+		List<Attendance> = attendanceService.list();
+	}
 }

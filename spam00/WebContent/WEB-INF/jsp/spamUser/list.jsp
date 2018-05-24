@@ -24,68 +24,6 @@
 					<th style="width: 100px;"><font color="#FFFFFF">수정</font></th>
 				</tr>
 				<c:if test="${ !empty listSpam}">
-<<<<<<< HEAD
-					<c:forEach items="${ listSpam }" var="spamUser" varStatus="status">
-					<tr>
-						<td style="text-align: left; width: 35px;">
-							<c:out value="${ status.count }"/>
-						</td>
-						<td style="text-align: left; width: 100px;">
-							<c:out value="${ spamUser.id }"/>
-						</td>
-						<td style="text-align: left; width: 100px;">
-							<c:out value="${ spamUser.name }"/>
-						</td>
-						<c:if test="${ spamUser.power eq 'S'}">
-							<td style="text-align: left; width: 100px;">
-								<c:out value="${ spamUser.grade }"/>
-							</td>
-						</c:if>
-						<c:if test="${ !(spamUser.power eq 'S')}">
-							<td style="text-align: left; width: 100px;">
-								-
-							</td>
-						</c:if>
-						<td style="text-align: left; width: 100px;">
-							<c:out value="${ spamUser.major }"/>
-						</td>
-						<c:if test="${ spamUser.power eq 'A' }">
-							<td style="text-align: left; width: 100px;">
-								조교
-							</td>
-						</c:if>
-						<c:if test="${ spamUser.power eq 'P' }">
-							<td style="text-align: left; width: 100px;">
-								교수
-							</td>
-						</c:if>
-						<c:if test="${ spamUser.power eq 'S' }">
-							<td style="text-align: left; width: 100px;">
-								학생
-							</td>
-						</c:if>
-						<c:forEach items="${ enrollment }" var="enrollment" varStatus="status">
-							<c:if test="${enrollment.enrollmentNo eq spamUser.enrollment}">
-								<td style="text-align: left; width: 100px;">
-										<c:out value="${ enrollment.enrollmentContent }"/>
-								</td>
-							</c:if>
-						</c:forEach>
-						<td style="text-align: center;"><a
-							href="<c:url value="/spamUser/viewPA/${spamUser.id}" /> "> <input
-								type="button" value="상세보기" />
-						</a></td>
-						<td style="text-align: center;"><a
-							href="<c:url value="/spamUser/edit/${spamUser.id}" /> "> <input
-								type="button" value="수정" />
-						</a></td>
-					</tr>
-					</c:forEach>
-				</c:if>
-			</thead>
-		</table>
-	</div>
-=======
 					<c:forEach items="${ listSpam }" var="spamuser" varStatus="status">
 					<tr>
 						<td style="text-align: left; width: 35px;">
@@ -176,7 +114,5 @@
 			</div>
 		</c:if>
 	</div>
-	
->>>>>>> refs/remotes/origin/SUB_KIM
 </body>
 </html>

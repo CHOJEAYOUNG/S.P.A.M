@@ -32,6 +32,7 @@ import com.spam.persistence.AttendMapper;
 import com.spam.persistence.AttendanceMapper;
 import com.spam.persistence.SpamUserMapper;
 
+
 @Service
 public class AttendanceServiceImpl implements AttendanceService{
 	
@@ -49,7 +50,7 @@ public class AttendanceServiceImpl implements AttendanceService{
 	
 	XSSFWorkbook xexcelOpen;
 	
-	String filePath = "C:/Users/CHOJAEYOUNG/Desktop/Á¾¼³/file";
+	String filePath = "C:/Users/CHOJAEYOUNG/Desktop/ï¿½ï¿½ï¿½ï¿½/file";
 	
 	List<SpamUser> dataListInfoExist;
 	List<String> dataListInfoUnExist;
@@ -61,22 +62,22 @@ public class AttendanceServiceImpl implements AttendanceService{
 	Date currentTime = new Date();
 	
 	@Override
-	public void excelxlsxRead(MultipartFile excelFile) throws IOException { // ¿¢¼¿ ÆÄÀÏ ÀÐ±â
+	public void excelxlsxRead(MultipartFile excelFile) throws IOException { // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ð±ï¿½
 		xexcelOpen = new XSSFWorkbook(excelFile.getInputStream()); 
-		XSSFSheet sheet; //³»¿ë º¹»ç ¿ë
+		XSSFSheet sheet; //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 		
 		HashSet<String> set = new HashSet<>();
 		int cardNo;
 		String cardNoToString;
 		
 		for(int j=0; j<xexcelOpen.getNumberOfSheets(); j++) {
-			sheet = xexcelOpen.getSheetAt(j); // ÇØ´ç ¿¢¼¿ÆÄÀÏÀÇ ½ÃÆ®(Sheet) ¼ö
+			sheet = xexcelOpen.getSheetAt(j); // ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ®(Sheet) ï¿½ï¿½
 			for(Row row : sheet) {
 				for(int i=row.getFirstCellNum(); i<row.getLastCellNum(); i++ ){	
 					if(row.getCell(i).getCellType() == Cell.CELL_TYPE_NUMERIC) {
 						cardNo = (int)row.getCell(i).getNumericCellValue();
 						cardNoToString = new Integer(cardNo).toString();
-						set.add(cardNoToString); // Ä«µå Áßº¹ °ª ÇØ°á
+						set.add(cardNoToString); // Ä«ï¿½ï¿½ ï¿½ßºï¿½ ï¿½ï¿½ ï¿½Ø°ï¿½
 					}
 				}
 			}
@@ -91,7 +92,7 @@ public class AttendanceServiceImpl implements AttendanceService{
 	}
 
 	@Override
-	public void copyExcel(String insertedFileName) throws IOException { // ÆÄÀÏ º¹»ç
+	public void copyExcel(String insertedFileName) throws IOException { // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		
 		File file = new File(filePath+"/"+dateFormat.format(currentTime));
 		
@@ -102,7 +103,7 @@ public class AttendanceServiceImpl implements AttendanceService{
 		int randomNumberU = randomNumber();
 		attendance.setUploadFileNameWithS(randomNumberU);
 		//System.out.println(randomNumberU);
-		FileOutputStream fileOutputStream = new FileOutputStream(file+File.separator + randomNumberU); // ÆÄÀÏ 
+		FileOutputStream fileOutputStream = new FileOutputStream(file+File.separator + randomNumberU); // ï¿½ï¿½ï¿½ï¿½ 
 		xexcelOpen.write(fileOutputStream);
 		
 		int randomNumberM = randomNumber();
@@ -112,7 +113,7 @@ public class AttendanceServiceImpl implements AttendanceService{
 		
 		attendance.setMakedFileNameWithS(randomNumberM);
 		//System.out.println(randomNumberM);
-		fileOutputStream = new FileOutputStream(file+File.separator + randomNumberM); //Á¤º¸ Ãß°¡ ÆÄÀÏ
+		fileOutputStream = new FileOutputStream(file+File.separator + randomNumberM); //ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ ï¿½ï¿½ï¿½ï¿½
 		makeExcel(insertedFileName).write(fileOutputStream);;
 		
 		fileOutputStream.close();
@@ -122,24 +123,24 @@ public class AttendanceServiceImpl implements AttendanceService{
 	public XSSFWorkbook makeExcel(String insertedFileName) throws IOException {
 		XSSFWorkbook xexcelWrite = new XSSFWorkbook();
 		XSSFSheet infoSheet = xexcelWrite.createSheet(insertedFileName);
-		XSSFSheet nodataSheet = xexcelWrite.createSheet("µî·ÏµÈ Á¤º¸ ¾ø´Â Ä«µå¹øÈ£µé");
+		XSSFSheet nodataSheet = xexcelWrite.createSheet("ï¿½ï¿½Ïµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½ï¿½ï¿½È£ï¿½ï¿½");
 		XSSFRow row = infoSheet.createRow(0);
 		XSSFCell cell = null;
 		
 		cell = row.createCell(0);
-		cell.setCellValue("ÀÌ¸§");
+		cell.setCellValue("ï¿½Ì¸ï¿½");
 		
 		cell = row.createCell(1);
-		cell.setCellValue("ÇÐ¹ø");
+		cell.setCellValue("ï¿½Ð¹ï¿½");
 		
 		cell = row.createCell(2);
-		cell.setCellValue("ÇÐ³â");
+		cell.setCellValue("ï¿½Ð³ï¿½");
 		
 		cell = row.createCell(3);
-		cell.setCellValue("ÇÐ°ú");
+		cell.setCellValue("ï¿½Ð°ï¿½");
 		
 		cell = row.createCell(4);
-		cell.setCellValue("ÀüÈ­¹øÈ£");
+		cell.setCellValue("ï¿½ï¿½È­ï¿½ï¿½È£");
 		
 		for(int i = 0; i<dataListInfoExist.size(); i++) {
 			row = infoSheet.createRow(i+1);
@@ -151,7 +152,7 @@ public class AttendanceServiceImpl implements AttendanceService{
 			cell.setCellValue(dataListInfoExist.get(i).getId());
 			
 			Attend attend = new Attend();
-			attend.setId(dataListInfoExist.get(i).getId()); // ÇÐ»ý Ãß°¡
+			attend.setId(dataListInfoExist.get(i).getId()); // ï¿½Ð»ï¿½ ï¿½ß°ï¿½
 			attendList.add(attend);
 			
 			cell = row.createCell(2);
@@ -169,7 +170,7 @@ public class AttendanceServiceImpl implements AttendanceService{
 		
 		row = nodataSheet.createRow(0);
 		cell = row.createCell(0);
-		cell.setCellValue("Ä«µå¹øÈ£");
+		cell.setCellValue("Ä«ï¿½ï¿½ï¿½È£");
 		
 		for(int i = 0; i<dataListInfoUnExist.size(); i++) {
 			row = nodataSheet.createRow(i+1);
@@ -181,14 +182,14 @@ public class AttendanceServiceImpl implements AttendanceService{
 	
 
 	@Override
-	public void attendanceInfo(Attendance attendance, String originalFileName) throws IOException { // ÀÔ·Â Á¤º¸ Ã³¸®
+	public void attendanceInfo(Attendance attendance, String originalFileName) throws IOException { // ï¿½Ô·ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
 		this.attendance = attendance;
 		String extension = originalFileName.substring(originalFileName.lastIndexOf("."), originalFileName.length());
 		copyExcel(attendance.getTitle());
 		
 		attendance.setRegistrationDate(dateFormatWithTime.format(currentTime));
-		attendance.setUploadFileName(attendance.getTitle()+"_¿øº»Ä«µåÆÄÀÏ"+extension);
-		attendance.setMakedFileName(attendance.getTitle()+"_ÇÐ»ýÁ¤º¸Ãß°¡ÆÄÀÏ"+extension);
+		attendance.setUploadFileName(attendance.getTitle()+"_ï¿½ï¿½ï¿½ï¿½Ä«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"+extension);
+		attendance.setMakedFileName(attendance.getTitle()+"_ï¿½Ð»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß°ï¿½ï¿½ï¿½ï¿½ï¿½"+extension);
 		attendance.setFilesLocation(dateFormat.format(currentTime));
 		
 		attendanceMapper.insertAttendance(attendance);
@@ -205,7 +206,7 @@ public class AttendanceServiceImpl implements AttendanceService{
 	}
 
 	@Override
-	public void checkStudent(HashSet<String> set) { // ÇØ´çµÇ´Â ÇÐ»ý ÀÖ´ÂÁö Á¶È¸
+	public void checkStudent(HashSet<String> set) { // ï¿½Ø´ï¿½Ç´ï¿½ ï¿½Ð»ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ ï¿½ï¿½È¸
 		SpamUser spamUser = new SpamUser();
 		dataListInfoExist = new ArrayList<SpamUser>();
 		dataListInfoUnExist = new ArrayList<String>();
