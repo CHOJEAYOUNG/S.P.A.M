@@ -1,1 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.spam.persistence.EmploymentMapper">
+	<resultMap id="employmentResultMap" type="employment">
+		<id column="EMPL_NO" property="emplNo" />
+		<result column="ID" property="id" />
+		<result column="EMPC_NO" property="empcNo" />
+		<result column="REGISTRATION" property="registration" />
+		<result column="IMAGE" property="image" />
+		<result column="CAUSE" property="cause" />
+		<result column="ASSENT_NO" property="assentNo" />
+		<result column="ASSENT_DATE" property="assentDate" />
+		<result column="ATTENDANCE_NO" property="attendanceNo" />
+	</resultMap>
+	
+	<select id="list" parameterType="employment" resultMap="employmentResultMap">
+		SELECT   EMPL_NO
+			   , ID
+			   , EMPC_NO
+			   , REGISTRATION
+			   , IMAGE
+			   , CAUSE
+			   , ASSENT_NO
+			   , ASSENT_DATE
+			   , ATTENDANCE_NO
+		FROM EMPL
+		WHERE ID = #{id}
+		ORDER BY EMPL_NO
+	</select>
+	
+	<select id="select" parameterType="employment" resultMap="employmentResultMap">
+		SELECT   EMPL_NO
+			   , ID
+			   , EMPC_NO
+			   , REGISTRATION
+			   , IMAGE
+			   , CAUSE
+			   , ASSENT_NO
+			   , ASSENT_DATE
+			   , ATTENDANCE_NO
+		FROM EMPL
+		<where>
+			EMPL_NO = #{emplNo}
+		</where>
+	</select>
+	
+	<select id="selectID" parameterType="employment" resultMap="employmentResultMap">
+		SELECT   EMPL_NO
+			   , ID
+			   , EMPC_NO
+			   , REGISTRATION
+			   , IMAGE
+			   , CAUSE
+			   , ASSENT_NO
+			   , ASSENT_DATE
+			   , ATTENDANCE_NO
+		FROM EMPL
+		<where>
+			ID = #{id}
+		</where>
+	</select>
+	
+	<insert id="insert" parameterType="employment">
+		<selectKey keyColumn="EMPL_NO" keyProperty="no" resultType="int" order="BEFORE" >
+            SELECT EMPL_SEQ.NEXTVAL
+            FROM DUAL
+        </selectKey>
+        INSERT INTO EMPL
+            (EMPL_NO, ID, EMPC_NO, REGISTRATION, IMAGE, CAUSE, ASSENT_NO, ASSENT_DATE, ATTENDANCE_NO)
+        VALUES
+            (#{emplNo}, #{id}, #{empcNo}, #{registration}, #{image}, null, #{assentNo}, #{assentDate}, #{attendanceNo})
+            <!-- 승인 1   대기 2   거절 3 -->
+    </insert>
+    
+    <update id="update" parameterType="employment">
+    	UPDATE EMPL
+    	<set>
+    		CAUSE = #{cause},
+    		ASSENT_NO = #{assentNo},
+    		ASSENT_DATE = #{assentDate},
+    	</set>
+    	WHERE EMPL_NO = #{emplNo}
+    </update>
+
+	<delete id="delete" parameterType="employment">
+		DELETE FROM EMPL 
+		WHERE EMPL_NO = #{emplNo}
+	</delete>    
+</mapper>
