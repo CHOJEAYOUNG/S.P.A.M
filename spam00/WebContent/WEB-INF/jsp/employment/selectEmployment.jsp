@@ -8,9 +8,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
 </head>
+<script type="text/javascript">
+</script>
 <body>
 	<h2>취업 선택</h2>
-	<form action="/employment/confirm" method="post" enctype="multipart/form-data">
+	<form action="/employment/add" method="post" enctype="multipart/form-data">
 				<input type="hidden" name="id" value="${user.id}"/>
 				<input type="hidden" name="name" value="${user.name}"/>
 		<table style="width:100%" border="1">
@@ -28,7 +30,7 @@
 						<c:if test="${employmentCategory.state eq 'Y'}">
 							<tr>
 								<td style="text-align: center;">
-										<input type="radio" name="no" value="${ employmentCategory.no }"> 
+										<input type="radio" name="empcNo" value="${ employmentCategory.no }"> 
 									</td>
 								<td style="text-align: center;">
 									<c:out value="${ employmentCategory.name }"/>
@@ -66,7 +68,7 @@
 		</table>
 		<h2>파일 업로드</h2>
 		<input type="file" name="file" />
-		<input type="submit" value="전송" />
+		<input type="submit" value="전송"/>
 	</form>
 </body>
 </html>

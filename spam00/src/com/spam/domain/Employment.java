@@ -2,12 +2,16 @@ package com.spam.domain;
 
 import java.io.Serializable;
 
+import oracle.sql.BLOB;
+
 public class Employment implements Serializable {
 	private int emplNo; 		//시퀀스
 	private int id;				//아이디
 	private int empcNo;			//취업 카테고리 번호
 	private String registration;//등록일
-	private String image;		//이미지 (첨부파일)
+	private String originalName;//파일 원본 이름
+	private String saveName;	//변경된 파일 이름
+	private String filePath;	//파일 저장 경로
 	private String cause;		//거절사유
 	private int assentNo;		//승인 상태 시퀀스
 	private String assentDate;	//승인 날짜
@@ -17,13 +21,15 @@ public class Employment implements Serializable {
 
 	}
 
-	public Employment(int emplNo, int id, int empcNo, String registration, String image, String cause, int assentNo,
-			String assentDate, int attendanceNo) {
+	public Employment(int emplNo, int id, int empcNo, String registration, String originalName, String saveName,
+			String filePath, String cause, int assentNo, String assentDate, int attendanceNo) {
 		this.emplNo = emplNo;
 		this.id = id;
 		this.empcNo = empcNo;
 		this.registration = registration;
-		this.image = image;
+		this.originalName = originalName;
+		this.saveName = saveName;
+		this.filePath = filePath;
 		this.cause = cause;
 		this.assentNo = assentNo;
 		this.assentDate = assentDate;
@@ -62,12 +68,28 @@ public class Employment implements Serializable {
 		this.registration = registration;
 	}
 
-	public String getImage() {
-		return image;
+	public String getOriginalName() {
+		return originalName;
 	}
 
-	public void setImage(String image) {
-		this.image = image;
+	public void setOriginalName(String originalName) {
+		this.originalName = originalName;
+	}
+
+	public String getSaveName() {
+		return saveName;
+	}
+
+	public void setSaveName(String saveName) {
+		this.saveName = saveName;
+	}
+
+	public String getFilePath() {
+		return filePath;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
 	}
 
 	public String getCause() {
@@ -98,8 +120,7 @@ public class Employment implements Serializable {
 		return attendanceNo;
 	}
 
-	public void setattendanceNo(int attendanceNo) {
+	public void setAttendanceNo(int attendanceNo) {
 		this.attendanceNo = attendanceNo;
 	}
-
 }

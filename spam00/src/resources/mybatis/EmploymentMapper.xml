@@ -10,7 +10,9 @@
 		<result column="ID" property="id" />
 		<result column="EMPC_NO" property="empcNo" />
 		<result column="REGISTRATION" property="registration" />
-		<result column="IMAGE" property="image" />
+		<result column="ORIGINAL_NAME" property="originalName" />
+		<result column="SAVE_NAME" property="saveName" />
+		<result column="FILE_PATH" property="filePath" />
 		<result column="CAUSE" property="cause" />
 		<result column="ASSENT_NO" property="assentNo" />
 		<result column="ASSENT_DATE" property="assentDate" />
@@ -22,7 +24,9 @@
 			   , ID
 			   , EMPC_NO
 			   , REGISTRATION
-			   , IMAGE
+			   , ORIGINAL_NAME
+			   , SAVE_NAME
+			   , FILE_PATH
 			   , CAUSE
 			   , ASSENT_NO
 			   , ASSENT_DATE
@@ -37,7 +41,9 @@
 			   , ID
 			   , EMPC_NO
 			   , REGISTRATION
-			   , IMAGE
+			   , ORIGINAL_NAME
+			   , SAVE_NAME
+			   , FILE_PATH
 			   , CAUSE
 			   , ASSENT_NO
 			   , ASSENT_DATE
@@ -53,7 +59,9 @@
 			   , ID
 			   , EMPC_NO
 			   , REGISTRATION
-			   , IMAGE
+			   , ORIGINAL_NAME
+			   , SAVE_NAME
+			   , FILE_PATH
 			   , CAUSE
 			   , ASSENT_NO
 			   , ASSENT_DATE
@@ -65,14 +73,14 @@
 	</select>
 	
 	<insert id="insert" parameterType="employment">
-		<selectKey keyColumn="EMPL_NO" keyProperty="no" resultType="int" order="BEFORE" >
+		<selectKey keyColumn="EMPL_NO" keyProperty="emplNo" resultType="int" order="BEFORE" >
             SELECT EMPL_SEQ.NEXTVAL
             FROM DUAL
         </selectKey>
         INSERT INTO EMPL
-            (EMPL_NO, ID, EMPC_NO, REGISTRATION, IMAGE, CAUSE, ASSENT_NO, ASSENT_DATE, ATTENDANCE_NO)
+            (EMPL_NO, ID, EMPC_NO, REGISTRATION, ORIGINAL_NAME, SAVE_NAME, FILE_PATH, CAUSE, ASSENT_NO, ASSENT_DATE, ATTENDANCE_NO)
         VALUES
-            (#{emplNo}, #{id}, #{empcNo}, #{registration}, #{image}, null, #{assentNo}, #{assentDate}, #{attendanceNo})
+            (#{emplNo}, #{id}, #{empcNo}, TO_DATE(#{registration},'YYYY-MM-DD HH24:MI:SS'), #{originalName}, #{saveName}, #{filePath}, #{cause}, #{assentNo}, TO_DATE(#{assentDate},'YYYY-MM-DD HH24:MI:SS'),<if test="attendanceNo == 0">null</if> <if test="attendanceNo != 0">#{attendanceNo}</if>)
             <!-- 승인 1   대기 2   거절 3 -->
     </insert>
     
@@ -81,7 +89,7 @@
     	<set>
     		CAUSE = #{cause},
     		ASSENT_NO = #{assentNo},
-    		ASSENT_DATE = #{assentDate},
+    		ASSENT_DATE = TO_DATE(#{assentDate},'YYYY-MM-DD HH24:MI:SS'),
     	</set>
     	WHERE EMPL_NO = #{emplNo}
     </update>
