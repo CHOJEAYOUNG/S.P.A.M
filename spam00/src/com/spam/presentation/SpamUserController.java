@@ -1,5 +1,7 @@
 package com.spam.presentation;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,11 +11,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.spam.domain.EmploymentType;
 import com.spam.domain.Enrollment;
 import com.spam.domain.SpamUser;
+import com.spam.service.EmploymentTypeService;
 import com.spam.service.SpamUserService;
 
 
@@ -22,6 +28,9 @@ import com.spam.service.SpamUserService;
 public class SpamUserController {
 	@Autowired
 	private SpamUserService spamUserService;
+	
+	@Autowired
+	private EmploymentTypeService employmentTypeService;
 	
 	@RequestMapping(value = "/viewS", method = RequestMethod.GET)
 	public ModelAndView viewS(SpamUser spamuser, HttpServletRequest request) {
@@ -106,5 +115,36 @@ public class SpamUserController {
 	@RequestMapping(value = "/oneAddP", method = RequestMethod.GET)
 	public ModelAndView oneAddP(SpamUser spamuser, HttpServletRequest request) {
 		return new ModelAndView("/spamUser/addP");
+	}
+	
+	@RequestMapping(value = "/listAdd", method = RequestMethod.GET)
+	public ModelAndView getListAdd(SpamUser spamuser, HttpServletRequest request) {
+		ModelAndView modelAndView = new ModelAndView("/spamUser/listAdd");
+		EmploymentType type = new EmploymentType();
+		List<String> purpose = new ArrayList<String>();
+		String select = request.getParameter("select");
+		String search = request.getParameter("search");
+		purpose.add(select);
+		purpose.add(search);
+		List<EmploymentType> listEmp = new ArrayList<EmploymentType>();
+		
+		listEmp = employmentTypeService.find(type, purpose);
+		modelAndView.addObject("listEmp",listEmp);
+		return modelAndView;
+	}
+	
+	@RequestMapping(value = "/listAdd", method = RequestMethod.POST)
+	public ModelAndView postListAdd(SpamUser spamuser, HttpServletRequest request) {
+		MultipartRequest multipartRequest = (MultipartRequest) request;
+		MultipartFile excelFile = multipartRequest.getFile("uploadfile");
+		
+		if(excelFile.getOriginalFilename().toUpperCase().endsWith(".XLSX")) {
+			try {
+				spamUserService.excelxlsxRead(spamuser, excelFile);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return new ModelAndView(new RedirectView("/spamUser/list"));
 	}
 }

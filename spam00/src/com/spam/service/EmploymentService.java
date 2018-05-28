@@ -20,4 +20,6 @@ public interface EmploymentService {
 	public Employment viewID(int id);
 
 	public void remove(int no);
+	
+	public String uploadFile(String originalName);
 }

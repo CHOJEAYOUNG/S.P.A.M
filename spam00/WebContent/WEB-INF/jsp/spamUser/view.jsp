@@ -99,6 +99,24 @@
 				</c:if>
 			</thead>
 		</table>
+		<c:if test="${ spamuser.power eq 'S' }">
+			<c:out value="${ spamuser.name }" />의 유형은 <c:out value="${ emp.no }" />
+			<div style="overflow:auto; width:100%; height:500px; padding-top:10%; ">
+				<table style="width: 100%" border="1">
+					<thead>
+						<tr bgcolor="#4C4639" >
+							<th style="width: 100px;"><font color="#FFFFFF">아이디</font></th>
+							<th style="width: 100px;"><font color="#FFFFFF">신분</font></th>
+							<th style="width: 100px;"><font color="#FFFFFF">이름</font></th>
+							<th style="width: 100px;"><font color="#FFFFFF">학년</font></th>
+							<th style="width: 100px;"><font color="#FFFFFF">학과</font></th>
+							<th style="width: 100px;"><font color="#FFFFFF">전화번호</font></th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</c:if>		
+		
 	</div>
 </body>
 </html>

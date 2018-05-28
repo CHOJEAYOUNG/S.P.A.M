@@ -68,9 +68,7 @@ public class AttendanceServiceImpl implements AttendanceService{
 		HashSet<String> set = new HashSet<>();
 		int cardNo;
 		String cardNoToString;
-		
-		//System.out.println(xexcelOpen.getNumberOfSheets());
-		
+
 		for(int j=0; j<xexcelOpen.getNumberOfSheets(); j++) {
 			sheet = xexcelOpen.getSheetAt(j);
 			for(Row row : sheet) {

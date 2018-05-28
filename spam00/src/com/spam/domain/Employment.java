@@ -2,30 +2,32 @@ package com.spam.domain;
 
 import java.io.Serializable;
 
-import oracle.sql.BLOB;
-
 public class Employment implements Serializable {
-	private int emplNo; 		//½ÃÄö½º
-	private int id;				//¾ÆÀÌµğ
-	private int empcNo;			//Ãë¾÷ Ä«Å×°í¸® ¹øÈ£
-	private String registration;//µî·ÏÀÏ
-	private String image;		//ÀÌ¹ÌÁö (Ã·ºÎÆÄÀÏ)
-	private String cause;		//°ÅÀı»çÀ¯
-	private int assentNo;		//½ÂÀÎ »óÅÂ ½ÃÄö½º
-	private String assentDate;	//½ÂÀÎ ³¯Â¥
-	private int attendanceNo;		//ºñ±³°ú ½ÃÄö½º
+	private int emplNo; 		//ì‹œí€€ìŠ¤
+	private int id;				//ì•„ì´ë””
+	private int empcNo;			//ì·¨ì—… ì¹´í…Œê³ ë¦¬ ë²ˆí˜¸
+	private String registration;//ë“±ë¡ì¼
+	private String originalName;//íŒŒì¼ ì›ë³¸ ì´ë¦„
+	private String saveName;	//ë³€ê²½ëœ íŒŒì¼ ì´ë¦„
+	private String filePath;	//íŒŒì¼ ì €ì¥ ê²½ë¡œ
+	private String cause;		//ê±°ì ˆì‚¬ìœ 
+	private int assentNo;		//ìŠ¹ì¸ ìƒíƒœ ì‹œí€€ìŠ¤
+	private String assentDate;	//ìŠ¹ì¸ ë‚ ì§œ
+	private int attendanceNo;		//ë¹„êµê³¼ ì‹œí€€ìŠ¤
 
 	public Employment() {
 
 	}
 
-	public Employment(int emplNo, int id, int empcNo, String registration, String image, String cause, int assentNo,
-			String assentDate, int attendanceNo) {
+	public Employment(int emplNo, int id, int empcNo, String registration, String originalName, String saveName,
+			String filePath, String cause, int assentNo, String assentDate, int attendanceNo) {
 		this.emplNo = emplNo;
 		this.id = id;
 		this.empcNo = empcNo;
 		this.registration = registration;
-		this.image = image;
+		this.originalName = originalName;
+		this.saveName = saveName;
+		this.filePath = filePath;
 		this.cause = cause;
 		this.assentNo = assentNo;
 		this.assentDate = assentDate;
@@ -64,12 +66,28 @@ public class Employment implements Serializable {
 		this.registration = registration;
 	}
 
-	public String getImage() {
-		return image;
+	public String getOriginalName() {
+		return originalName;
 	}
 
-	public void setImage(String image) {
-		this.image = image;
+	public void setOriginalName(String originalName) {
+		this.originalName = originalName;
+	}
+
+	public String getSaveName() {
+		return saveName;
+	}
+
+	public void setSaveName(String saveName) {
+		this.saveName = saveName;
+	}
+
+	public String getFilePath() {
+		return filePath;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
 	}
 
 	public String getCause() {
@@ -103,5 +121,4 @@ public class Employment implements Serializable {
 	public void setAttendanceNo(int attendanceNo) {
 		this.attendanceNo = attendanceNo;
 	}
-
 }

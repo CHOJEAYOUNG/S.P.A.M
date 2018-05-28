@@ -99,7 +99,7 @@
 		<c:if test="${ sessionScope.power eq 'A' }">
 			<div style="overflow:auto; width:100%; height:500px; padding-top:1%;text-align: right; ">
 				<a
-					href="<c:url value="/spamUser/listAdd/${spamuser.id}" /> "> <input
+					href="<c:url value="/spamUser/listAdd" /> "> <input
 						type="button" value="일괄등록" />
 				</a>
 				
