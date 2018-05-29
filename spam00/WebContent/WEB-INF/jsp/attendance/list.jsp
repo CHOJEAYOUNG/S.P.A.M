@@ -17,7 +17,7 @@
 				<option value="type">유형</option>
 				<option value="year">연도</option>
 			</select>
-			<a href="/employmentType/list"><input type="button" value="전체보기"></a>
+			<a href="/attendance/list"><input type="button" value="전체보기"></a>
 			<br><br><br>
 		</form>
 		
@@ -25,54 +25,56 @@
 			<thead>
 				<tr>
 					<th>번호</th>
-					<th>유형</th>
-					<th>필수점수</th>
-					<th>선택점수</th>
-					<th>연도</th>
-					<th>수정</th>
+					<th>이름</th>
+					<th>시간</th>
+					<th>위치</th>
+					<th>점수</th>
+					<th>상세조회</th>
 					<th>삭제</th>
 				</tr>
 				
-				<c:if test="${ !empty listType}">
-					<c:forEach items="${ listType }" var="employmentType" varStatus="status">
-						<c:if test="${ employmentType.state eq 'Y'}">	
-							<tr>
-								<td style="text-align: center;">
-									<c:out value="${ status.count }"/>
-								</td>
-								<td style="text-align: center;">
-									<c:out value="${ employmentType.name }"/>
-								</td>
-								<td style="text-align: center;">
-									<c:out value="${ employmentType.required }"/>
-								</td>
-								<td style="text-align: center;">
-									<c:out value="${ employmentType.choice }"/>
-								</td>
-								<td style="text-align: center;">
-									<c:out value="${ employmentType.year }"/>
-								</td>
-								<td style="text-align: center;">
-									<a href="<c:url value="/employmentType/edit/${employmentType.no}" />">
-										<input type="button" value="수정"> 
-									</a>
-								</td>
-								<td style="text-align: center;">
-									<a href="<c:url value="/employmentType/remove/${employmentType.no}" />">
-										<input type="button" value="삭제"> 
-									</a>
-								</td>
-							</tr>
-						</c:if>
+				<c:if test="${ !empty attendanceList}">
+					<c:forEach items="${ attendanceList }" var="attendance" varStatus="status">
+						<tr>
+							<td style="text-align: center;">
+								<c:out value="${ attendance.attendanceNo }"/>
+							</td>
+							<td style="text-align: center;">
+								<c:out value="${ attendance.title }"/>
+							</td>
+							<!-- 
+							<td style="text-align: center;">
+								<c:out value="${ employmentType.required }"/>
+							</td>
+							<td style="text-align: center;">
+								<c:out value="${ employmentType.choice }"/>
+							</td>
+							<td style="text-align: center;">
+								<c:out value="${ employmentType.year }"/>
+							</td>
+							<td style="text-align: center;">
+								<a href="<c:url value="/employmentType/edit/${employmentType.no}" />">
+									<input type="button" value="수정"> 
+								</a>
+							</td>
+							<td style="text-align: center;">
+								<a href="<c:url value="/employmentType/remove/${employmentType.no}" />">
+									<input type="button" value="삭제"> 
+								</a>
+							</td>
+							-->
+						</tr>
 					</c:forEach>
 				</c:if>
-				<c:if test="${empty listType}">
+				<c:if test="${empty attendanceList}">
 					<tr>
 						<td style="text-align: center;" colspan="7"/>
 							목록이 존재하지 않습니다.
 						</td>
 					</tr>
+					 
 				</c:if>
+				
 			</thead>
 		</table>
 		<br><br><br>

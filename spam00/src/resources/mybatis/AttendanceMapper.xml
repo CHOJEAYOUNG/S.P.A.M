@@ -18,6 +18,17 @@
 		<result column="MAKED_FILE_NAME_WITH_S" property="makedFileNameWithS" />
 		<result column="FILES_LOCATION" property="filesLocation" />
 	</resultMap>
+	
+	<select id = "list" resultMap = "attendanceResultMap">
+		SELECT 
+			ATTENDANCE_NO,
+			TITLE,
+			LECTURE_DATE,
+			LECTURE_TIME,
+			LOCATION,
+			SCORE
+			FROM ATTENDANCE
+	</select>
 
 	<select id="attendanceSEQ" resultType="int">
 		SELECT ATTENDANCE_NO_SEQ.NEXTVAL

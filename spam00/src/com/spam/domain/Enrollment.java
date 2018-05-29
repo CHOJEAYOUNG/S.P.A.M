@@ -29,5 +29,4 @@ public class Enrollment implements Serializable {
 	public String toString() {
 		return "Enrollment [enrollmentNo=" + enrollmentNo + ", enrollmentContent=" + enrollmentContent + "]";
 	}
-	
 }

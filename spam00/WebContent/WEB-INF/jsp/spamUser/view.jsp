@@ -82,17 +82,10 @@
 						</c:if>
 						<c:if test="${ spamuser.power eq 'S' }">
 							<td style="text-align: left; width: 100px;">
-<<<<<<< HEAD
-								<c:out value="${ spamuser.empForm }"/>
-							</td>
-							<td style="text-align: left; width: 100px;">
-								<c:out value="${ spamuser.grForm }"/>
-=======
 								<c:out value="${ spamuser.empNo }"/>
 							</td>
 							<td style="text-align: left; width: 100px;">
 								<c:out value="${ spamuser.grNo }"/>
->>>>>>> refs/remotes/origin/SUB_KIM
 							</td>
 						</c:if>
 						<c:forEach items="${ enrollment }" var="enrollment" varStatus="status">
