@@ -100,22 +100,46 @@
 			</thead>
 		</table>
 		<c:if test="${ spamuser.power eq 'S' }">
-			<c:out value="${ spamuser.name }" />의 유형은 <c:out value="${ emp.no }" />
 			<div style="overflow:auto; width:100%; height:500px; padding-top:10%; ">
+				<c:out value="${ spamuser.name }" />님의 취업 유형은 
+				<c:forEach items="${ empCategory }" var="empCategory" varStatus="status">
+					<c:if test='${ spamuser.empNo eq empCategory.empTypeNo}'>
+						<c:out value="${empCategory.name}" />
+					</c:if>
+				</c:forEach>
+				입니다.
 				<table style="width: 100%" border="1">
 					<thead>
 						<tr bgcolor="#4C4639" >
-							<th style="width: 100px;"><font color="#FFFFFF">아이디</font></th>
-							<th style="width: 100px;"><font color="#FFFFFF">신분</font></th>
-							<th style="width: 100px;"><font color="#FFFFFF">이름</font></th>
-							<th style="width: 100px;"><font color="#FFFFFF">학년</font></th>
-							<th style="width: 100px;"><font color="#FFFFFF">학과</font></th>
-							<th style="width: 100px;"><font color="#FFFFFF">전화번호</font></th>
+							<th style="width: 100px;"><font color="#FFFFFF">번호</font></th>
+							<th style="width: 100px;"><font color="#FFFFFF">제목</font></th>
+							<th style="width: 100px;"><font color="#FFFFFF">점수</font></th>
+							<th style="width: 100px;"><font color="#FFFFFF">등록일</font></th>
 						</tr>
+						<c:forEach items="${ listEmp }" var="employment" varStatus="status">
+							<tr>
+								<td style="text-align: center;">
+									<c:out value="${status.count}"/>
+								</td>
+								<c:forEach items="${ empCategory }" var="category" varStatus="status">
+									<c:if test="${ employment.empcNo eq category.no}">
+										<td style="text-align: center;">
+											<c:out value="${category.name}"/>
+										</td>
+										<td style="text-align: center;">
+											<c:out value="${category.score}"/>
+										</td>
+									</c:if>
+								</c:forEach>			
+								<td style="text-align: center;">
+									<c:out value="${ employment.registration }"/>
+								</td>
+							</tr>
+					</c:forEach>
 					</thead>
 				</table>
 			</div>
-		</c:if>		
+		</c:if>
 		
 	</div>
 </body>

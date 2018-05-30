@@ -16,9 +16,15 @@ import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.spam.domain.Employment;
+import com.spam.domain.EmploymentCategory;
 import com.spam.domain.EmploymentType;
 import com.spam.domain.Enrollment;
+import com.spam.domain.Graduation;
+import com.spam.domain.GraduationCategory;
 import com.spam.domain.SpamUser;
+import com.spam.service.EmploymentCategoryService;
+import com.spam.service.EmploymentService;
 import com.spam.service.EmploymentTypeService;
 import com.spam.service.SpamUserService;
 
@@ -30,11 +36,18 @@ public class SpamUserController {
 	private SpamUserService spamUserService;
 	
 	@Autowired
+	private EmploymentCategoryService employmentCategoryService;
+	
+	@Autowired
+	private EmploymentService employmentService;
+	
+	@Autowired
 	private EmploymentTypeService employmentTypeService;
 	
 	@RequestMapping(value = "/viewS", method = RequestMethod.GET)
 	public ModelAndView viewS(SpamUser spamuser, HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView("/spamUser/view");
+		EmploymentCategory category = new EmploymentCategory();
 		String id = request.getParameter("id");
 		int intId = Integer.parseInt(id);
 		spamuser.setId(intId);
@@ -44,6 +57,11 @@ public class SpamUserController {
 		
 		List<Enrollment> enrollment = spamUserService.enrollments();
 		modelAndView.addObject("enrollment",enrollment);
+		List<String> purpose = new ArrayList<String>();
+		purpose.add("name");
+		List<EmploymentCategory> empCategory = employmentCategoryService.find(category, purpose);
+		modelAndView.addObject("empCategory",empCategory);
+		
 		
 		return modelAndView;
 	}
@@ -58,8 +76,21 @@ public class SpamUserController {
 		spamuser = spamUserService.view(spamuser);
 		modelAndView.addObject("spamuser", spamuser);
 		
+		EmploymentCategory category = new EmploymentCategory();
 		List<Enrollment> enrollment = spamUserService.enrollments();
 		modelAndView.addObject("enrollment",enrollment);
+		
+		List<String> purpose = new ArrayList<String>();
+		purpose.add("name");
+		List<EmploymentCategory> empCategory = employmentCategoryService.find(category, purpose);
+		modelAndView.addObject("empCategory",empCategory);
+		
+		
+		Employment employment = new Employment();
+		employment.setId(spamuser.getId());
+		employment.setAssentNo(1);
+		List<Employment> employmentP = employmentService.find(employment);
+		modelAndView.addObject("listEmp",employmentP);
 		
 		return modelAndView;
 	}
@@ -67,7 +98,7 @@ public class SpamUserController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list(SpamUser spamuser, HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView("/spamUser/list");
-
+		
 		List<SpamUser> listSpam = spamUserService.list(spamuser, request);
 		modelAndView.addObject("listSpam", listSpam);
 		
@@ -103,7 +134,8 @@ public class SpamUserController {
 	
 	@RequestMapping(value = "/oneAddS", method = RequestMethod.GET)
 	public ModelAndView oneAddS(SpamUser spamuser, HttpServletRequest request) {
-		return new ModelAndView("/spamUser/addS");
+		ModelAndView modelAndView = new ModelAndView("/spamUser/addS");
+		return modelAndView;
 	}
 	
 	@RequestMapping(value = "/oneAdd", method = RequestMethod.POST)

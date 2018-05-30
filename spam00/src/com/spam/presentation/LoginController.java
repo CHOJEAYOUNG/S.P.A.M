@@ -56,6 +56,7 @@ public class LoginController {
 		if (session != null) {
 			session.invalidate();
 		}
-		return new ModelAndView(new RedirectView("/login"));
+		//return new ModelAndView(new RedirectView("/login"));
+		return new ModelAndView("/main");
 	}
 }

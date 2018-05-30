@@ -80,6 +80,7 @@ public class SpamUserServiceImpl implements SpamUserService {
 	}
 
 	@Override
+	@Transactional
 	public void add(SpamUser spamuser) {
 		spamuser.setPhoneNo(spamuser.getPhoneNo1()+"-"+spamuser.getPhoneNo2()+"-"+spamuser.getPhoneNo3());
 		spamuser.setPassWord(spamuser.getBirthDate());
@@ -96,6 +97,7 @@ public class SpamUserServiceImpl implements SpamUserService {
 	}
 	
 	@Override
+	@Transactional
 	public void excelxlsxRead(SpamUser spamuser, MultipartFile excelFile) throws IOException {
 		xexcelOpen = new XSSFWorkbook(excelFile.getInputStream()); 
 		XSSFSheet sheet; //sheet creat
