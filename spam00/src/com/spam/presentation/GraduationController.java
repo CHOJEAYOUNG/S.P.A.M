@@ -76,17 +76,19 @@ public class GraduationController {
 	public ModelAndView view(@PathVariable int grlNo, HttpServletRequest request, Graduation graduation,
 			SpamUser spamuser) throws Exception {
 		ModelAndView modelAndView = new ModelAndView("/graduation/view");
-
+		GraduationType graduationType = new GraduationType();
+		
 		graduation = graduationService.view(grlNo);
 		spamuser.setId(graduation.getId());
 		spamuser = spamUserService.view(spamuser);
-
+		graduationType = graduationTypeService.view(spamuser.getGrNo());
 		if (0 != graduation.getGrcNo()) {
 			GraduationCategory category = graduationCategoryService.view(graduation.getGrcNo());
 			modelAndView.addObject("category", category);
 		}
 		modelAndView.addObject("graduation", graduation);
 		modelAndView.addObject("spamuser", spamuser);
+		modelAndView.addObject("graduationType", graduationType);
 
 		return modelAndView;
 	}

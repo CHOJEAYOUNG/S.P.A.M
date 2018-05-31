@@ -28,8 +28,8 @@ function showDiv( id,check ) {
 		<input type="hidden" name="grlNo" value="${graduation.grlNo}">
 		학번<input type="text" name="id" value="${spamuser.id}" readOnly="readonly" />
 		이름<input type="text" name="nameS" value="${spamuser.name}" readOnly="readonly" />
-	 	취업 유형<input type="text" name="grNo" value="${spamuser.grNo}" readOnly="readonly" /> <br>
-		제목<input type="text" name="nameC" value="${category.name} (${category.info})" readOnly="readonly" />
+	 	졸업 유형<input type="text" name="grNo" value="${graduationType.name}" readOnly="readonly" /> <br>
+		제목<input type="text" name="nameC" value="${category.name}" readOnly="readonly" />
 		등록일<input type="text" name="registration" value="${graduation.registration}" readOnly="readonly" />
 		조건
 		<c:if test="${category.conditionSqeNo eq 1}">
@@ -38,8 +38,9 @@ function showDiv( id,check ) {
 		<c:if test="${category.conditionSqeNo eq 2}">
 			<input type="text" name="conditionSqeNo" value="선택" readOnly="readonly" />
 		</c:if> <br>
-		파일명 <a href="<c:out value = "/graduation/download/${graduation.grlNo}"/>">${graduation.originalName}
-		</a>다운로드 하는중<br>
+		상세 정보  <input type="text" name="info" value="${category.info} " readOnly="readonly" />
+		파일명 <a href="<c:out value = "/graduation/download/${graduation.grlNo}"/>">${graduation.originalName}</a>
+		<br>
 		승인 여부
 		<c:if test="${ graduation.assentNo eq 1}">
 			<span style="color:blue">승인</span>

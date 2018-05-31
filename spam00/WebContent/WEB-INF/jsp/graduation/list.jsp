@@ -81,7 +81,7 @@ function captureReturnKey(e) {
 								<c:forEach items="${ listCategory }" var="category" varStatus="status">
 									<c:if test="${ graduation.grcNo eq category.no}">
 										<td style="text-align: center;">
-											<c:out value="${category.name} (${category.info})"/>
+											<c:out value="${category.name}"/>
 										</td>
 										<td style="text-align: center;">
 											<c:if test="${ category.conditionSqeNo eq 1}">
