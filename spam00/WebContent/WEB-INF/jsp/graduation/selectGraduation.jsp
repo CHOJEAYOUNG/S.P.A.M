@@ -15,8 +15,8 @@ function submitForm()
 }
 </script>
 <body>
-	<h2>취업 선택</h2>
-	<form action="/employment/add" method="post" name="myform" enctype="multipart/form-data">
+	<h2>졸업 기준 선택</h2>
+	<form action="/graduation/add" method="post" name="myform" enctype="multipart/form-data">
 				<input type="hidden" name="id" value="${user.id}"/>
 				<input type="hidden" name="name" value="${user.name}"/>
 		<table style="width:100%" border="1">
@@ -26,36 +26,32 @@ function submitForm()
 					<th>카테고리 명</th>
 					<th>유형</th>
 					<th>조건</th>
-					<th>점수</th>
 				</tr>
 				
  				<c:if test="${ !empty listCategory}">
-					<c:forEach items="${ listCategory }" var="employmentCategory" varStatus="status">
-						<c:if test="${employmentCategory.state eq 'Y'}">
+					<c:forEach items="${ listCategory }" var="graduationCategory" varStatus="status">
+						<c:if test="${graduationCategory.state eq 'Y'}">
 							<tr>
 								<td style="text-align: center;">
-										<input type="radio" name="empcNo" value="${ employmentCategory.no }"> 
+										<input type="radio" name="grcNo" value="${ graduationCategory.no }"> 
 									</td>
 								<td style="text-align: center;">
-									<c:out value="${ employmentCategory.name }"/>
+									<c:out value="${graduationCategory.name }"/>
 								</td>
 								<td style="text-align: center;">
-									<c:forEach items="${ listType }" var="employmentType" varStatus="status">
-										<c:if test="${employmentType.no eq employmentCategory.empTypeNo}">
-											<c:out value="${employmentType.name}"/>
+									<c:forEach items="${ listType }" var="graduationType" varStatus="status">
+										<c:if test="${graduationType.no eq graduationCategory.grTypeNo}">
+											<c:out value="${graduationType.name}"/>
 										</c:if>
 									</c:forEach>
 								</td>
 								<td style="text-align: center;">
-									<c:if test="${employmentCategory.conditionSqeNo eq 1}">
+									<c:if test="${graduationCategory.conditionSqeNo eq 1}">
 										<c:out value="필수"/>
 									</c:if>
-									<c:if test="${employmentCategory.conditionSqeNo eq 2}">
+									<c:if test="${graduationCategory.conditionSqeNo eq 2}">
 										<c:out value="선택"/>
 									</c:if>
-								</td>
-								<td style="text-align: center;">
-									<c:out value="${ employmentCategory.score }"/>
 								</td>
 							</tr>
 						</c:if>

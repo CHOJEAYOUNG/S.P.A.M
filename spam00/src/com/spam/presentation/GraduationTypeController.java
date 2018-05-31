@@ -28,15 +28,13 @@ public class GraduationTypeController {
 		List<GraduationType> listType = null;
 		String select = request.getParameter("select");
 		String search = request.getParameter("search");
-		if ("".equals(search) || search == null) {
-			search = "0";
+
+		if("type".equals(select)) {
+			type.setName(search);
+		} else if ("year".equals(select)) {
+			type.setYear(Integer.parseInt(search));
 		}
-
-		List<String> purpose = new ArrayList<String>();
-		purpose.add(select);
-		purpose.add(search);
-
-		listType = this.graduationTypeService.find(type, purpose);
+		listType = this.graduationTypeService.find(type);
 
 		modelAndView.addObject("select", select);
 		modelAndView.addObject("listType", listType);
@@ -50,20 +48,17 @@ public class GraduationTypeController {
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public ModelAndView add(HttpServletRequest request, GraduationType type) throws Exception {
+	public ModelAndView add(HttpServletRequest request, GraduationType graduationType) throws Exception {
 		ModelAndView modelAndView = null;
-		List<String> purpose = new ArrayList<String>();
-		purpose.add("type");
-		purpose.add(type.getName());
+		GraduationType type = new GraduationType();
+		type.setName(graduationType.getName());
+		List<GraduationType> check = this.graduationTypeService.find(type);
 
-		List<GraduationType> check = this.graduationTypeService.find(type, purpose);
-
-		if ("".equals(type.getName().trim())) {
+		if ("".equals(graduationType.getName().trim())) {
 			String checkName = "유형을 입력해주세요.";
 
 			modelAndView = new ModelAndView("/graduationType/add");
 			modelAndView.addObject("checkName", checkName);
-
 			return modelAndView;
 		}
 
@@ -76,7 +71,7 @@ public class GraduationTypeController {
 			return modelAndView;
 		}
 
-		graduationTypeService.add(type);
+		graduationTypeService.add(graduationType);
 		return new ModelAndView(new RedirectView("/graduationType/list"));
 	}
 
@@ -91,34 +86,31 @@ public class GraduationTypeController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
-	public ModelAndView edit(HttpServletRequest request, GraduationType type) throws Exception {
+	public ModelAndView edit(HttpServletRequest request, GraduationType graduationType) throws Exception {
 		ModelAndView modelAndView = null;
+		GraduationType type = new GraduationType();
+		type.setName(graduationType.getName());
+		List<GraduationType> check = this.graduationTypeService.find(type);
 
-		List<String> purpose = new ArrayList<String>();
-		purpose.add("type");
-		purpose.add(type.getName());
-
-		List<GraduationType> check = this.graduationTypeService.find(type, purpose);
-
-		if ("".equals(type.getName().trim())) {
+		if ("".equals(graduationType.getName().trim())) {
 			String checkName = "유형을 입력해주세요.";
 
 			modelAndView = new ModelAndView("/graduationType/edit");
 			modelAndView.addObject("checkName", checkName);
-			modelAndView.addObject("type", type);
+			modelAndView.addObject("type", graduationType);
 
 			return modelAndView;
 		}
-		if (!check.isEmpty() && !((type.getNo()) == check.get(0).getNo())) {
+		if (!check.isEmpty() && !((graduationType.getNo()) == check.get(0).getNo())) {
 			String checkName = "이미 등록된 유형 입니다.";
 
 			modelAndView = new ModelAndView("/graduationType/edit");
 			modelAndView.addObject("checkName", checkName);
-			modelAndView.addObject("type", type);
+			modelAndView.addObject("type", graduationType);
 
 			return modelAndView;
 		}
-		graduationTypeService.edit(type);
+		graduationTypeService.edit(graduationType);
 
 		return new ModelAndView(new RedirectView("/graduationType/list"));
 	}

@@ -7,14 +7,14 @@
 <title>취업 점수 관리</title>
 </head>
 	<h2>학생을 선택하세요.</h2>
-	<form action="/employment/searchE" method="get">
+	<form action="/employment/searchA" method="get">
 		검 색 <input type="text" name="search" />
 			<select name="select">
 				<option value="id">학번</option>
 				<option value="name">이름</option>
 			</select>
 	</form>
-	<form action="/employment/selectEmployment" method="post">
+	<form action="/employment/selectAttendance" method="post">
 		
 		<table style="width:100%" border="1">
 				<thead>

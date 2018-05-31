@@ -18,26 +18,34 @@ function showDiv( id,check ) {
 }
 </script>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>수정</title>
 </head>
 <body>
 	<form action="/employment/edit" method="post">
 		<input type="hidden" name="emplNo" value="${employment.emplNo}">
 		학번<input type="text" name="id" value="${spamuser.id}" readOnly="readonly" />
-		이름<input type="text" name="nameS" value="${spamuser.name}" readOnly="readonly" />
-	 	취업 유형<input type="text" name="empNo" value="${spamuser.empNo}" readOnly="readonly" /> <br>
-		제목<input type="text" name="nameC" value="${category.name} (${category.info})" readOnly="readonly" />
-		등록일<input type="text" name="nameC" value="${employment.registration}" readOnly="readonly" />
-		조건
-		<c:if test="${category.conditionSqeNo eq 1}">
-			<input type="text" name="conditionSqeNo" value="필수" readOnly="readonly" />
-		</c:if>
-		<c:if test="${category.conditionSqeNo eq 2}">
-			<input type="text" name="conditionSqeNo" value="선택" readOnly="readonly" />
-		</c:if> <br>
-		파일명 <a href="<c:out value = "/employment/download/${employment.saveName}"/>">${employment.originalName}
-		</a>다운로드 하는중<br>
+		이름<input type="text" value="${spamuser.name}" readOnly="readonly" />
+	 	취업 유형<input type="text" name="empNo" value="${employmentType.name}" readOnly="readonly" /> <br>
+	 	<c:if test="${employment.empcNo ne 0}">
+			제목<input type="text" value="${category.name}" readOnly="readonly" />
+			조건
+			<c:if test="${category.conditionSqeNo eq 1}">
+				<input type="text" name="conditionSqeNo" value="필수" readOnly="readonly" />
+			</c:if>
+			<c:if test="${category.conditionSqeNo eq 2}">
+				<input type="text" name="conditionSqeNo" value="선택" readOnly="readonly" />
+			</c:if> <br>
+	 	</c:if>
+	 	<c:if test="${employment.empcNo eq 0}">
+			제목<input type="text" value="${attendance.title}" readOnly="readonly" />
+			조건 <input type="text" value="비교과" readOnly="readonly" />
+	 	</c:if>
+		등록일<input type="text" name="registration" value="${employment.registration}" readOnly="readonly" />
+		<c:if test="${employment.empcNo ne 0}">
+			상세 정보 <input type="text" name="info" value="${category.info} " readOnly="readonly" /><br>
+			파일명 <a href="<c:out value = "/employment/download/${employment.emplNo}"/>">${employment.originalName}</a>다운로드 하는중
+	 	</c:if> <br>
 		승인 여부
 		<c:if test="${ employment.assentNo eq 1}">
 			<span style="color:blue">승인</span>
@@ -66,7 +74,7 @@ function showDiv( id,check ) {
 		<c:if test="${power eq 'S' && employment.assentNo ne 1}">
 			<a href="/employment/remove/${employment.emplNo}"><input type="button" value="삭제"/></a>
 		</c:if>
-		<a href="/employment/list?id=${spamuser.id}"><input type="button" value="목록"/></a>
+		<a href="/employment/list"><input type="button" value="목록"/></a>
 	</form>
 </body>
 </html>

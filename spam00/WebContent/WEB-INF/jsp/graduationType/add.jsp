@@ -21,7 +21,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<title>취업 유형 등록</title>
+<title>졸업 유형 등록</title>
 </head>
 <body>
 	<form action="/graduationType/add" method="POST">

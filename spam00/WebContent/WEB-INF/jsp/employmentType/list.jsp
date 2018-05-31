@@ -8,13 +8,37 @@
 <title>취업 유형 조회</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
+<script type="text/javascript">
+function check(){
+	var str = document.getElementById('id');
+    var blank_pattern = /^\s+|\s+$/g;
+
+    if( str.value == '' || str.value == null ){
+        alert( '값을 입력해주세요' );
+        return false;
+    } else if( str.value.replace( blank_pattern, '' ) == "" ){
+        alert(' 공백만 입력되었습니다 ');
+        return false;
+    } else {
+    	return true;
+    }
+    
+}
+function captureReturnKey(e) {
+    if(e.keyCode==13 && e.srcElement.type != 'textarea')
+    return false;
+}
+
+
+</script>
 <body>	
-		<form action="/employmentType/list" method="GET">
+		<form action="/employmentType/list" method="GET"  onkeydown="return captureReturnKey(event)" onsubmit="return check()">
 			검색 <input type="text" name="search" />
 			<select name="select">
 				<option value="type">유형</option>
 				<option value="year">연도</option>
 			</select>
+			<input type="submit"value="검색"/>
 			<a href="/employmentType/list"><input type="button" value="전체보기"></a>
 			<br><br><br>
 		</form>

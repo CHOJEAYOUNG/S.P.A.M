@@ -5,7 +5,7 @@ import java.util.List;
 import com.spam.domain.GraduationCategory;
 
 public interface GraduationCategoryService {
-public List<GraduationCategory> find(GraduationCategory category, List<String> purpose);
+public List<GraduationCategory> find(GraduationCategory category);
 	
 	public void add(GraduationCategory category);
 

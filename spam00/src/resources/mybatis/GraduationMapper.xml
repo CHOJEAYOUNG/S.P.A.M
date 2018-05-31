@@ -1,1 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.spam.persistence.GraduationMapper">
+	<resultMap id="graduationResultMap" type="graduation">
+		<id column="GRL_NO" property="grlNo" />
+		<result column="ID" property="id" />
+		<result column="GRC_NO" property="grcNo" />
+		<result column="REGISTRATION" property="registration" />
+		<result column="ORIGINAL_NAME" property="originalName" />
+		<result column="SAVE_NAME" property="saveName" />
+		<result column="FILE_PATH" property="filePath" />
+		<result column="CAUSE" property="cause" />
+		<result column="ASSENT_NO" property="assentNo" />
+		<result column="ASSENT_DATE" property="assentDate" />
+	</resultMap>
+	
+	<select id="list" parameterType="graduation" resultMap="graduationResultMap">
+		SELECT   GRL_NO
+			   , ID
+			   , GRC_NO
+			   , REGISTRATION
+			   , ORIGINAL_NAME
+			   , SAVE_NAME
+			   , FILE_PATH
+			   , CAUSE
+			   , ASSENT_NO
+			   , ASSENT_DATE
+		FROM GRL
+		<where>
+			<if test="id != null and id !=''">
+				AND ID = #{id}
+			</if>
+			<if test="assentNo != null and assentNo != ''" >
+				AND ASSENT_NO = #{assentNo}
+			</if>
+			<if test="saveName != null and saveName != ''" >
+				AND SAVE_NAME = #{saveName}
+			</if>
+		</where>
+		ORDER BY GRL_NO
+	</select>
+	
+	<select id="select" parameterType="graduation" resultMap="graduationResultMap">
+		SELECT   GRL_NO
+			   , ID
+			   , GRC_NO
+			   , REGISTRATION
+			   , ORIGINAL_NAME
+			   , SAVE_NAME
+			   , FILE_PATH
+			   , CAUSE
+			   , ASSENT_NO
+			   , ASSENT_DATE
+		FROM GRL
+		<where>
+			GRL_NO = #{grlNo}
+		</where>
+	</select>
+	
+	<insert id="insert" parameterType="graduation">
+		<selectKey keyColumn="GRL_NO" keyProperty="grlNo" resultType="int" order="BEFORE" >
+            SELECT GRL_SEQ.NEXTVAL
+            FROM DUAL
+        </selectKey>
+        INSERT INTO GRL
+            (GRL_NO, ID, GRC_NO, REGISTRATION, ORIGINAL_NAME, SAVE_NAME, FILE_PATH, CAUSE, ASSENT_NO, ASSENT_DATE)
+        VALUES
+            (#{grlNo}, #{id}, #{grcNo}, TO_DATE(#{registration},'YYYY-MM-DD HH24:MI:SS'), #{originalName}, #{saveName}, #{filePath}, #{cause}, #{assentNo}, TO_DATE(#{assentDate},'YYYY-MM-DD HH24:MI:SS'))
+            <!-- 승인 1   대기 2   거절 3 -->
+    </insert>
+    
+    <update id="update" parameterType="graduation">
+    	UPDATE GRL
+    	<set>
+    		CAUSE = #{cause},
+    		ASSENT_NO = #{assentNo},
+    		ASSENT_DATE = TO_DATE(#{assentDate},'YYYY-MM-DD HH24:MI:SS'),
+    	</set>
+    	WHERE GRL_NO = #{grlNo}
+    </update>
+
+	<delete id="delete" parameterType="graduation">
+		DELETE FROM GRL 
+		WHERE GRL_NO = #{grlNo}
+	</delete>    
+</mapper>

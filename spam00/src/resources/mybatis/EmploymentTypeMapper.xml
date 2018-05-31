@@ -22,6 +22,15 @@
 			   , CHOICE
 			   , STATE 
 		FROM EMPLOYMENT
+		<where>
+			STATE = 'Y'
+			<if test="name != null and name !=''">
+				AND EMP_FORM = #{name}
+			</if>
+			<if test="year != 0 and year != null">
+				AND YEAR = #{year}
+			</if>
+		</where>
 		ORDER BY EMP_FORM
 	</select>
 	
