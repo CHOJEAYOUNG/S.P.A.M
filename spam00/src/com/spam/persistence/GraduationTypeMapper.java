@@ -5,7 +5,7 @@ import java.util.List;
 import com.spam.domain.GraduationType;
 
 public interface GraduationTypeMapper {
-	public List<GraduationType> list();
+	public List<GraduationType> list(GraduationType type);
 
 	public void insert(GraduationType type);
 

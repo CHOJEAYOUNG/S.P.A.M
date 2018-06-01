@@ -14,12 +14,14 @@ power = (String)session.getAttribute("power");
 <title>취업 점수 목록 조회</title>
 </head>
 <script type="text/javascript">
+
 function openWindow() {
 	window.open(
 		"select", 
 		"open the window",
 		"toolbar=no, width=500, height=500, top=150, left=150");
 }
+
 function openWindowS() {
 	var myForm = document.S;
 	 var url = "/employment/selectEmployment";
@@ -31,9 +33,11 @@ function openWindowS() {
 	 myForm.testVal = 'test';
 	myForm.submit();
 }	
+
 function check(){
 	var str = document.getElementById('id');
     var blank_pattern = /^\s+|\s+$/g;
+
     if( str.value == '' || str.value == null ){
         alert( '값을 입력해주세요' );
         return false;
@@ -49,12 +53,17 @@ function captureReturnKey(e) {
     if(e.keyCode==13 && e.srcElement.type != 'textarea')
     return false;
 }
+function assent(no){
+	opener.document.getElementById("assentNo").innerText=2;
+}
+
 </script>
 <body>
-	<form action="/employment/list" method="GET" onkeydown="return captureReturnKey(event)" onsubmit="return check()">
+	<form action="/employment/list" method="get" onkeydown="return captureReturnKey(event)" onsubmit="return check()">
 		<c:if test="${power ne 'S' }">
 			검색 <input type="text" name="id" id="id"/>
 			<input type="submit"value="검색"/>
+			<br>
 		</c:if>
 		<br><br><br>
 		 <table style="width:100%" border="1">

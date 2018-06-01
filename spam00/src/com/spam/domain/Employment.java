@@ -2,18 +2,20 @@ package com.spam.domain;
 
 import java.io.Serializable;
 
+import oracle.sql.BLOB;
+
 public class Employment implements Serializable {
-	private int emplNo; 		//ì‹œí€€ìŠ¤
-	private int id;				//ì•„ì´ë””
-	private int empcNo;			//ì·¨ì—… ì¹´í…Œê³ ë¦¬ ë²ˆí˜¸
-	private String registration;//ë“±ë¡ì¼
-	private String originalName;//íŒŒì¼ ì›ë³¸ ì´ë¦„
-	private String saveName;	//ë³€ê²½ëœ íŒŒì¼ ì´ë¦„
-	private String filePath;	//íŒŒì¼ ì €ì¥ ê²½ë¡œ
-	private String cause;		//ê±°ì ˆì‚¬ìœ 
-	private int assentNo;		//ìŠ¹ì¸ ìƒíƒœ ì‹œí€€ìŠ¤
-	private String assentDate;	//ìŠ¹ì¸ ë‚ ì§œ
-	private int attendanceNo;		//ë¹„êµê³¼ ì‹œí€€ìŠ¤
+	private int emplNo; 		//½ÃÄö½º
+	private int id;				//¾ÆÀÌµğ
+	private int empcNo;			//Ãë¾÷ Ä«Å×°í¸® ¹øÈ£
+	private String registration;//µî·ÏÀÏ
+	private String originalName;//ÆÄÀÏ ¿øº» ÀÌ¸§
+	private String saveName;	//º¯°æµÈ ÆÄÀÏ ÀÌ¸§
+	private String filePath;	//ÆÄÀÏ ÀúÀå °æ·Î
+	private String cause;		//°ÅÀı»çÀ¯
+	private int assentNo;		//½ÂÀÎ »óÅÂ ½ÃÄö½º
+	private String assentDate;	//½ÂÀÎ ³¯Â¥
+	private int attendanceNo;		//ºñ±³°ú ½ÃÄö½º
 
 	public Employment() {
 

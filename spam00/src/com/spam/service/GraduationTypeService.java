@@ -5,7 +5,7 @@ import java.util.List;
 import com.spam.domain.GraduationType;
 
 public interface GraduationTypeService {
-	public List<GraduationType> find(GraduationType type, List<String> purpose);
+	public List<GraduationType> find(GraduationType type);
 
 	public void add(GraduationType type);
 

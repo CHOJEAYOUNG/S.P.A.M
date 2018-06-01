@@ -8,25 +8,138 @@
 <title>사용자 수정</title>
 </head>
 <script type="text/javascript">
-function editOnClick() {
-	var special = "{}[]()<>?_|~`!@#$%^&*-+\"'\\/"
-			
-	var num1 = document.getElementById("phoneNo1").value
-	var num2 = document.getElementById("phoneNo2").value
-	var num3 = document.getElementById("phoneNo3").value
-			
-	var phoneNumber = num1 + num2 + num3
-
-	
-	for (var i = 0; i < phoneNumber.length; i++) {
-		if (-1 != special.indexOf(phoneNumber.charAt(i))) {
-			alert("전화번호에 특수문자는 입력 할 수 없습니다.");
+	//입력하지 않은 곳과 전화번호에 특수문자 방지
+	function formOnClick() {
+		var id = document.getElementById('id').value;
+		var birthDate = document.getElementById('birthDate').value;
+		var name = document.getElementById('name').value;
+		var grade = document.getElementById('grade').value;
+		var major = document.getElementById('major').value;
+		var num2 = document.getElementById("phoneNo2").value
+		var num3 = document.getElementById("phoneNo3").value
+		if (!id) {
+			alert("교번을 입력하지 않았습니다!");
 			return;
 		}
+		if (!birthDate) {
+			alert("생년월일을 입력하지 않았습니다!");
+			return;
+		}
+		if (!name) {
+			alert("이름을 입력하지 않았습니다!");
+			return;
+		}
+		if (!major) {
+			alert("학과를 입력하지 않았습니다!");
+			return;
+		}
+		if (!num2) {
+			alert("전화번호를 다 입력하지 않았습니다!");
+			return;
+		}
+		if (!num3) {
+			alert("전화번호를 다 입력하지 않았습니다!");
+			return;
+		}
+		var special = "{}[]()<>?_|~`!@#$%^&*-+\"'\\/"
+		var phoneNumber = num2 + num3
+
+		for (var i = 0; i < phoneNumber.length; i++) {
+			if (-1 != special.indexOf(phoneNumber.charAt(i))) {
+				alert("전화번호에 특수문자는 입력 할 수 없습니다.");
+				return;
+			}
+		}
+		document.getElementById("form").submit();
+		return;
 	}
-	document.getElementById("edit").submit();
-	return;
-}
+	//숫자만 입력(한영키 못막음)
+	function showKeyCode(event) {
+		event = event || window.event;
+		var keyID = (event.which) ? event.which : event.keyCode;
+		if ( ( keyID >=48 && keyID <= 57 ) || ( keyID >=96 && keyID <= 105 ) || keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39 || keyID == 9 )
+		{
+			return;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	function formOnClick2() {
+		var id = document.getElementById('id').value;
+		var birthDate = document.getElementById('birthDate').value;
+		var name = document.getElementById('name').value;
+		var major = document.getElementById('major').value;
+		var num2 = document.getElementById("phoneNo2").value
+		var num3 = document.getElementById("phoneNo3").value
+		var office = document.getElementById('office').value;
+		if (!id) {
+			alert("교번을 입력하지 않았습니다!");
+			return;
+		}
+		if (!birthDate) {
+			alert("생년월일을 입력하지 않았습니다!");
+			return;
+		}
+		if (!name) {
+			alert("이름을 입력하지 않았습니다!");
+			return;
+		}
+		if (!major) {
+			alert("학과를 입력하지 않았습니다!");
+			return;
+		}
+		if (!num2) {
+			alert("전화번호를 다 입력하지 않았습니다!");
+			return;
+		}
+		if (!num3) {
+			alert("전화번호를 다 입력하지 않았습니다!");
+			return;
+		}
+		if (!office) {
+			alert("사무실 위치를 입력하지 않았습니다!");
+			return;
+		}
+		var special = "{}[]()<>?_|~`!@#$%^&*-+\"'\\/"
+
+		var num2 = document.getElementById("phoneNo2").value
+		var num3 = document.getElementById("phoneNo3").value
+
+		var phoneNumber = num2 + num3
+
+		for (var i = 0; i < phoneNumber.length; i++) {
+			if (-1 != special.indexOf(phoneNumber.charAt(i))) {
+				alert("전화번호에 특수문자는 입력 할 수 없습니다.");
+				return;
+			}
+		}
+		document.getElementById("form").submit();
+		return;
+	}
+	//숫자만 입력(한영키 못막음)=학년입력전용
+	function showKeyCode2(event) {
+		event = event || window.event;
+		var keyID = (event.which) ? event.which : event.keyCode;
+		if ( ( keyID >=49 && keyID <= 55 ) || ( keyID >=96 && keyID <= 105 ) || keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39 || keyID == 9 )
+		{
+			return;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	//한글 방지(한글 입력시 사라짐)
+	function removeChar(event) {
+		event = event || window.event;
+		var keyID = (event.which) ? event.which : event.keyCode;
+		if ( keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39 ) 
+			return;
+		else
+			event.target.value = event.target.value.replace(/[^0-9]/g, "");
+	}
 </script>
 <body>
 <form id="edit" action="/spamUser/edit" method="post" style="padding-top: 3%; padding-bottom: 3%;">
@@ -57,11 +170,11 @@ function editOnClick() {
 				</td>
 			</tr>
 			<c:if test="${sessionScope.power eq 'A'}" >
-				<c:if test="${sessionScope.power eq 'S'}" >
+				<c:if test="${spamuser.power eq 'S'}" >
 					<tr>
 						<td>학년</td>
 						<td>
-							<input type="text" name="grade" maxlength="60" value = "${spamuser.grade}" />
+							<input type="text" name="grade" id="grade" value = "${spamuser.grade}" maxlength="1" onkeydown="return showKeyCode2(event)" onkeyup='removeChar(event)' style="ime-mode:disabled;" />
 						</td>
 					</tr>
 				</c:if>
@@ -128,8 +241,8 @@ function editOnClick() {
 					</c:if>
 					</select>
 					-
-					<input type="text" id="phoneNo2" size="6" name="phoneNo2" maxlength="4" value="${spamuser.phoneNo2}" onkeydown='return onlyNumber(event)' style='ime-mode:disabled;' /> - 
-					<input type="text" id="phoneNo3" size="6" name="phoneNo3" maxlength="4" value="${spamuser.phoneNo3}" onkeydown='return onlyNumber(event)' style='ime-mode:disabled;' />
+					<input type="text" id="phoneNo2" size="6" name="phoneNo2" maxlength="4" value="${spamuser.phoneNo2}" onkeydown="return showKeyCode(event)" onkeyup='removeChar(event)' style="ime-mode:disabled;" /> - 
+					<input type="text" id="phoneNo3" size="6" name="phoneNo3" maxlength="4" value="${spamuser.phoneNo3}" onkeydown="return showKeyCode(event)" onkeyup='removeChar(event)' style="ime-mode:disabled;" />
 				</td>
 			</tr>
 			<c:if test="${!(sessionScope.power eq 'S')}" >
@@ -212,13 +325,13 @@ function editOnClick() {
 			</c:if>
 		</table>
 		<div style="text-align: center; padding-top: 10px; padding-left: 255px; ">
-			<input type="submit" value="수정" />
+			<c:if test="${spamuser.power eq 'S'}">
+				<input type="button" value="수정" onclick="formOnClick()" />
+			</c:if>
+			<c:if test="${spamuser.power eq 'P'}">
+				<input type="button" value="수정" onclick="formOnClick2()" />
+			</c:if>
 		</div>
-		<c:if test="${ sessionScope.power eq 'A'}" >
-			<div style="text-align: center; padding-top: 10px; padding-left: 10px; ">
-				<c:out  value="교수님의 학년은 0 학년 입니다."/>
-			</div>
-		</c:if>
 	</form>
 </body>
 </html>

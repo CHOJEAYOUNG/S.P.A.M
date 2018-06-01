@@ -1,5 +1,17 @@
 package com.spam.persistence;
 
-public class GraduationCategoryMapper {
+import java.util.List;
 
+import com.spam.domain.GraduationCategory;
+
+public interface GraduationCategoryMapper {
+	public List<GraduationCategory> list(GraduationCategory category);
+
+	public void insert(GraduationCategory category);
+
+	public GraduationCategory select(int no);
+
+	public void update(GraduationCategory category);
+
+	public void delete(int no);
 }

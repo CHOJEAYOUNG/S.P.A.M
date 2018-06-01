@@ -7,9 +7,13 @@ String power = "";
 power = (String)session.getAttribute("power");
 %>
 <script type="text/javascript">
+
 function dataSend(){
+
 	opener.document.getElementById("baseWindowLabel").innerText="new";
+
 	window.close();
+
 }
 function openAttendance() {
 	window.open(
@@ -28,6 +32,7 @@ function openEmploymentA() {
 function openEmploymentS() {
 	 var myForm = document.S;
 	 var url = "/employment/selectEmployment";
+
 	window.open(
 		"","selectEmployment", 
 		"open the window",

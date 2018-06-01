@@ -36,7 +36,7 @@ function showDiv( id,check ) {
 		<c:if test="${category.conditionSqeNo eq 2}">
 			<input type="text" name="conditionSqeNo" value="선택" readOnly="readonly" />
 		</c:if> <br>
-		파일명 <a href="<c:out value = "/employment/download/${employment.saveName}"/>">${employment.originalName}
+		파일명 <a href="<c:out value = "/employment/download/${employment.emplNo}"/>">${employment.originalName}
 		</a>다운로드 하는중<br>
 		승인 여부
 		<c:if test="${ employment.assentNo eq 1}">
@@ -66,7 +66,7 @@ function showDiv( id,check ) {
 		<c:if test="${power eq 'S' && employment.assentNo ne 1}">
 			<a href="/employment/remove/${employment.emplNo}"><input type="button" value="삭제"/></a>
 		</c:if>
-		<a href="/employment/list?id=${spamuser.id}"><input type="button" value="목록"/></a>
+		<a href="/employment/list"><input type="button" value="목록"/></a>
 	</form>
 </body>
 </html>

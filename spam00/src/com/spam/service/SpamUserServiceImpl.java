@@ -46,7 +46,7 @@ public class SpamUserServiceImpl implements SpamUserService {
 	public List<SpamUser> list(SpamUser spamuser, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		
-		List<SpamUser> listSpamUser = spamUserMapper.list();
+		List<SpamUser> listSpamUser = spamUserMapper.list(spamuser);
 		
 		if("A".equals(session.getAttribute("power"))) {
 			return listSpamUser;

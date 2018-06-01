@@ -4,15 +4,76 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 
-<mapper namespace="com.spam.persistence.EnrollmentMapper">
-	<resultMap id="enrollmentResultMap" type="enrollment">
-		<id column="ENROLLMENT_NO" property="enrollmentNo" />
-		<result column="ENROLLMENT_CONTENT" property="enrollmentContent" />
+<mapper namespace="com.spam.persistence.GraduationCategoryMapper">
+	<resultMap id="categoryResultMap" type="graduationCategory">
+		<id column="GRC_NO" property="no" />
+		<result column="GRC_NAME" property="name" />
+		<result column="GR_NO" property="grTypeNo" />
+		<result column="CONDITION_NO" property="conditionSqeNo" />
+		<result column="INFO" property="info" />
+		<result column="STATE" property="state" />
 	</resultMap>
-
-	<select id="select" parameterType="enrollment" resultMap="enrollmentResultMap">
-		SELECT   ENROLLMENT_NO
-			   , ENROLLMENT_CONTENT
-		FROM ENROLLMENT
+	
+	<select id="list" parameterType="graduationCategory" resultMap="categoryResultMap">
+		SELECT   GRC_NO
+			   , GRC_NAME
+			   , GR_NO
+			   , CONDITION_NO
+			   , INFO
+			   , STATE 
+		FROM GRC
+		<where>
+			STATE = 'Y'
+			<if test="name != null and name !=''">
+				AND GRC_NAME = #{name}
+			</if>
+			<if test="conditionSqeNo != 0 and conditionSqeNo != null">
+				AND CONDITION_NO = #{conditionSqeNo}
+			</if>
+		</where>
+		ORDER BY GRC_NAME
 	</select>
+	
+	<select id="select" parameterType="graduationCategory" resultMap="categoryResultMap">
+		SELECT   GRC_NO
+			   , GRC_NAME
+			   , GR_NO
+			   , CONDITION_NO
+			   , INFO
+			   , STATE 
+		FROM GRC
+		<where>
+			GRC_NO = #{no}
+		</where>
+	</select>
+	
+	<insert id="insert" parameterType="graduationCategory">
+		<selectKey keyColumn="GRC_NO" keyProperty="no" resultType="int" order="BEFORE" >
+            SELECT GRC_SEQ.NEXTVAL
+            FROM DUAL
+        </selectKey>
+        INSERT INTO GRC
+            (GRC_NO, GRC_NAME, GR_NO, CONDITION_NO, INFO, STATE)
+        VALUES
+            (#{no}, #{name}, #{grTypeNo}, #{conditionSqeNo}, #{info}, 'Y')
+    </insert>
+    
+    <update id="update" parameterType="graduationCategory">
+    	UPDATE GRC
+    	<set>
+    		GRC_NAME = #{name},
+    		GR_NO = #{grTypeNo},
+    		CONDITION_NO = #{conditionSqeNo},
+    		INFO = #{info}
+    	</set>
+    	WHERE GRC_NO = #{no}
+    </update>
+    
+    <update id="delete" parameterType="graduationCategory">
+    	UPDATE GRC
+    	<set>
+    		STATE = 'N'
+    	</set>
+    	WHERE GRC_NO = #{no}
+    </update>
 </mapper>

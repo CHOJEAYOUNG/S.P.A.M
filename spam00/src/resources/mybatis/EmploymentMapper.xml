@@ -32,7 +32,17 @@
 			   , ASSENT_DATE
 			   , ATTENDANCE_NO
 		FROM EMPL
-		WHERE ID = #{id}
+		<where>
+			<if test="id != null and id !=''">
+				AND ID = #{id}
+			</if>
+			<if test="assentNo != null and assentNo != ''" >
+				AND ASSENT_NO = #{assentNo}
+			</if>
+			<if test="saveName != null and saveName != ''" >
+				AND SAVE_NAME = #{saveName}
+			</if>
+		</where>
 		ORDER BY EMPL_NO
 	</select>
 	
@@ -54,24 +64,6 @@
 		</where>
 	</select>
 	
-	<select id="selectID" parameterType="employment" resultMap="employmentResultMap">
-		SELECT   EMPL_NO
-			   , ID
-			   , EMPC_NO
-			   , REGISTRATION
-			   , ORIGINAL_NAME
-			   , SAVE_NAME
-			   , FILE_PATH
-			   , CAUSE
-			   , ASSENT_NO
-			   , ASSENT_DATE
-			   , ATTENDANCE_NO
-		FROM EMPL
-		<where>
-			ID = #{id}
-		</where>
-	</select>
-	
 	<insert id="insert" parameterType="employment">
 		<selectKey keyColumn="EMPL_NO" keyProperty="emplNo" resultType="int" order="BEFORE" >
             SELECT EMPL_SEQ.NEXTVAL
@@ -80,7 +72,7 @@
         INSERT INTO EMPL
             (EMPL_NO, ID, EMPC_NO, REGISTRATION, ORIGINAL_NAME, SAVE_NAME, FILE_PATH, CAUSE, ASSENT_NO, ASSENT_DATE, ATTENDANCE_NO)
         VALUES
-            (#{emplNo}, #{id}, #{empcNo}, TO_DATE(#{registration},'YYYY-MM-DD HH24:MI:SS'), #{originalName}, #{saveName}, #{filePath}, #{cause}, #{assentNo}, TO_DATE(#{assentDate},'YYYY-MM-DD HH24:MI:SS'),<if test="attendanceNo == 0">null</if> <if test="attendanceNo != 0">#{attendanceNo}</if>)
+            (#{emplNo}, #{id}, <if test="empcNo == 0">null</if> <if test="empcNo != 0">#{empcNo}</if>, TO_DATE(#{registration},'YYYY-MM-DD HH24:MI:SS'), #{originalName}, #{saveName}, #{filePath}, #{cause}, #{assentNo}, TO_DATE(#{assentDate},'YYYY-MM-DD HH24:MI:SS'),<if test="attendanceNo == 0">null</if> <if test="attendanceNo != 0">#{attendanceNo}</if>)
             <!-- 승인 1   대기 2   거절 3 -->
     </insert>
     

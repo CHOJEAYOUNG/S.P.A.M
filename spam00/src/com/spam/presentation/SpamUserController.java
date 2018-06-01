@@ -20,12 +20,14 @@ import com.spam.domain.Employment;
 import com.spam.domain.EmploymentCategory;
 import com.spam.domain.EmploymentType;
 import com.spam.domain.Enrollment;
-import com.spam.domain.Graduation;
-import com.spam.domain.GraduationCategory;
+import com.spam.domain.GraduationType;
 import com.spam.domain.SpamUser;
 import com.spam.service.EmploymentCategoryService;
 import com.spam.service.EmploymentService;
 import com.spam.service.EmploymentTypeService;
+import com.spam.service.GraduationCategoryService;
+import com.spam.service.GraduationService;
+import com.spam.service.GraduationTypeService;
 import com.spam.service.SpamUserService;
 
 
@@ -40,6 +42,15 @@ public class SpamUserController {
 	
 	@Autowired
 	private EmploymentService employmentService;
+	
+	@Autowired
+	private GraduationCategoryService graduationCategoryService;
+	
+	@Autowired
+	private GraduationService graduationService;
+	
+	@Autowired
+	private GraduationTypeService graduationTypeService;
 	
 	@Autowired
 	private EmploymentTypeService employmentTypeService;
@@ -96,7 +107,7 @@ public class SpamUserController {
 	}
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(SpamUser spamuser, HttpServletRequest request) {
+	public ModelAndView getList(SpamUser spamuser, HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView("/spamUser/list");
 		
 		List<SpamUser> listSpam = spamUserService.list(spamuser, request);
@@ -105,6 +116,57 @@ public class SpamUserController {
 		List<Enrollment> enrollment = spamUserService.enrollments();
 		modelAndView.addObject("enrollment",enrollment);
 		
+		return modelAndView;
+	}
+	
+	@RequestMapping(value = "/list", method = RequestMethod.POST)
+	public ModelAndView postList(SpamUser spamuser, HttpServletRequest request) {
+		ModelAndView modelAndView = new ModelAndView("/spamUser/list");
+		String select =  request.getParameter("select");
+		String context = request.getParameter("search");
+		List<SpamUser> listSpam = new ArrayList<SpamUser>();
+		
+		if(context == null || context == "") {
+			return new ModelAndView(new RedirectView("/spamUser/list"));
+		}
+		
+		if("1".equals(select)) {
+			String temp = null;
+			for(SpamUser spamuserTest : spamUserService.list(new SpamUser(), request)) {
+				temp =  Integer.toString(spamuserTest.getId());
+				if(temp.contains(context)) {
+					listSpam.add(spamuserTest);
+				}
+			}
+		}else if("2".equals(select)) {
+			String temp = null;
+			for(SpamUser spamuserTest : spamUserService.list(new SpamUser(), request)) {
+				temp = spamuserTest.getName();
+				if(temp.contains(context)) {
+					listSpam.add(spamuserTest);
+				}
+			}
+		}else if("3".equals(select)) {
+			String temp = null;
+			for(SpamUser spamuserTest : spamUserService.list(new SpamUser(), request)) {
+				if("S".equals(spamuserTest.getPower())) {
+					temp = "학생";
+				}
+				if("P".equals(spamuserTest.getPower())) {
+					temp = "교수";
+				}
+				if("A".equals(spamuserTest.getPower())) {
+					temp = "조교";
+				}
+				if(temp.contains(context)) {
+					listSpam.add(spamuserTest);
+				}
+			}
+		}
+		modelAndView.addObject("listSpam", listSpam);
+		
+		List<Enrollment> enrollment = spamUserService.enrollments();
+		modelAndView.addObject("enrollment",enrollment);
 		return modelAndView;
 	}
 	
@@ -152,6 +214,7 @@ public class SpamUserController {
 	@RequestMapping(value = "/listAdd", method = RequestMethod.GET)
 	public ModelAndView getListAdd(SpamUser spamuser, HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView("/spamUser/listAdd");
+		
 		EmploymentType type = new EmploymentType();
 		List<String> purpose = new ArrayList<String>();
 		String select = request.getParameter("select");
@@ -159,9 +222,14 @@ public class SpamUserController {
 		purpose.add(select);
 		purpose.add(search);
 		List<EmploymentType> listEmp = new ArrayList<EmploymentType>();
-		
 		listEmp = employmentTypeService.find(type, purpose);
 		modelAndView.addObject("listEmp",listEmp);
+		
+		
+		GraduationType type2 = new GraduationType();
+		List<GraduationType> listGr = new ArrayList<GraduationType>();
+		listGr = graduationTypeService.find(type2, purpose);
+		modelAndView.addObject("listGr",listGr);
 		return modelAndView;
 	}
 	
