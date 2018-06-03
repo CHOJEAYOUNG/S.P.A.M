@@ -1,6 +1,5 @@
 package com.spam.presentation;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,6 +54,7 @@ public class GraduationController {
 		} else {
 			String id = request.getParameter("id");
 			if (!("".equals(id) || id == null)) {
+				if(id == "0") id = "1";
 				graduation.setId(Integer.parseInt(id));
 				listGr = graduationService.find(graduation);
 				if (listGr.size() != 0) {
@@ -99,7 +99,7 @@ public class GraduationController {
 		List<SpamUser> listSpam = spamUserService.list(spamuser, request);
 		String search = request.getParameter("search");
 		String select = request.getParameter("select");
-
+		
 		if ("".equals(search) || search == null) {
 			modelAndView.addObject("listSpam", listSpam);
 			return modelAndView;

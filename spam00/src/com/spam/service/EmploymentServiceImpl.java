@@ -43,9 +43,8 @@ public class EmploymentServiceImpl implements EmploymentService {
 
 		employment.setRegistration(str);
 		employment.setCause("");
-
 		// Ãë¾÷ µî·Ï
-		if (file.getSize() != 0) {
+		if (employment.getEmpcNo() != 0) {
 			employment.setAttendanceNo(0);
 			if ("A".equals(session.getAttribute("power"))) {
 				employment.setAssentNo(1); // ½ÂÀÎ
@@ -77,6 +76,9 @@ public class EmploymentServiceImpl implements EmploymentService {
 			employment.setAssentNo(1); // ½ÂÀÎ
 			employment.setAssentDate(str);
 			employment.setEmpcNo(0);
+			employment.setOriginalName("");
+			employment.setSaveName("");
+			employment.setFilePath("");
 		}
 		this.employmentMapper.insert(employment);
 	}

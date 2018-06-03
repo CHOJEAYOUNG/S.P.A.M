@@ -2,10 +2,28 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+<script type="text/javascript">
+function checkRadio() {
+	var radio = document.getElementsByName('id');
+	var id = null;
+	for(var i = 0 ; i < radio.length; i++) {
+		if(radio[i].checked == true) {
+			id = radio[i].value;
+		}
+	}
+	if(id == null) {
+		alert("학생을 선택하세요");
+		return false;
+	} else {
+		return true;
+	}
+}
+</script>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>졸업 기준 관리</title>
 </head>
+<body>
 	<h2>학생을 선택하세요.</h2>
 	<form action="/graduation/search" method="get">
 		검 색 <input type="text" name="search" />
@@ -29,7 +47,7 @@
 							<c:if test="${ spamUser.power eq 'S'}">	
 								<tr>
 									<td style="text-align: center;">
-										<input type="radio" name="id" value="${ spamUser.id }"> 
+										<input type="radio" id="id" name="id" value="${ spamUser.id }"> 
 									</td>
 									<td style="text-align: center;">
 										<c:out value="${ spamUser.id }"/>
@@ -54,7 +72,7 @@
 				</thead>
 			</table>
 			<br>
-			<input type="submit" value="다음"/>
+			<input type="submit" value="다음" onclick="return checkRadio()"/>
 		</form>
 </body>
 </html>

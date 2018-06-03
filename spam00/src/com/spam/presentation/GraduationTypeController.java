@@ -54,14 +54,6 @@ public class GraduationTypeController {
 		type.setName(graduationType.getName());
 		List<GraduationType> check = this.graduationTypeService.find(type);
 
-		if ("".equals(graduationType.getName().trim())) {
-			String checkName = "유형을 입력해주세요.";
-
-			modelAndView = new ModelAndView("/graduationType/add");
-			modelAndView.addObject("checkName", checkName);
-			return modelAndView;
-		}
-
 		if (!check.isEmpty()) {
 			String checkName = "이미 등록된 유형 입니다.";
 
@@ -92,15 +84,6 @@ public class GraduationTypeController {
 		type.setName(graduationType.getName());
 		List<GraduationType> check = this.graduationTypeService.find(type);
 
-		if ("".equals(graduationType.getName().trim())) {
-			String checkName = "유형을 입력해주세요.";
-
-			modelAndView = new ModelAndView("/graduationType/edit");
-			modelAndView.addObject("checkName", checkName);
-			modelAndView.addObject("type", graduationType);
-
-			return modelAndView;
-		}
 		if (!check.isEmpty() && !((graduationType.getNo()) == check.get(0).getNo())) {
 			String checkName = "이미 등록된 유형 입니다.";
 

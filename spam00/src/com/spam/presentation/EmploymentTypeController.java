@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.hamcrest.text.IsEmptyString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,7 +36,9 @@ public class EmploymentTypeController {
 		if("type".equals(select)) {
 			type.setName(search);
 		} else if ("year".equals(select)) {
-			type.setYear(Integer.parseInt(search));
+			if(isStringDouble(search)) {
+				type.setYear(Integer.parseInt(search));
+			}
 		}
 		listType = this.employmentTypeService.find(type);
 		
@@ -56,16 +59,6 @@ public class EmploymentTypeController {
 		EmploymentType type = new EmploymentType();
 		type.setName(employmentType.getName());
 		List<EmploymentType> check = this.employmentTypeService.find(type);
-		
-		if("".equals(employmentType.getName().trim())) {
-			String checkName = "유형을 입력해주세요.";
-			
-			modelAndView = new ModelAndView("/employmentType/add");
-			modelAndView.addObject("checkName", checkName);
-			
-			return modelAndView;
-		}
-		
 		
 		if(!check.isEmpty()) {
 			String checkName = "이미 등록된 유형 입니다.";
@@ -96,16 +89,6 @@ public class EmploymentTypeController {
 		type.setName(employmentType.getName());
 		List<EmploymentType> check = this.employmentTypeService.find(type);
 		
-		if("".equals(employmentType.getName().trim())) {
-			String checkName = "유형을 입력해주세요.";
-			
-			modelAndView = new ModelAndView("/employmentType/edit");
-			modelAndView.addObject("checkName", checkName);
-			modelAndView.addObject("type", employmentType);
-			
-			return modelAndView;
-		}
-		
 		if(!check.isEmpty() && !((employmentType.getNo()) == check.get(0).getNo())) {
 			String checkName = "이미 등록된 유형 입니다.";
 					
@@ -125,5 +108,14 @@ public class EmploymentTypeController {
 		employmentTypeService.remove(no);
 		employmentCategoryService.remove(no);
 		return new ModelAndView(new RedirectView("/employmentType/list"));
+	}
+	
+	public boolean isStringDouble(String s) {
+		try {
+			Double.parseDouble(s);
+			return true;
+		}catch (NumberFormatException e) {
+			return false;
+		}
 	}
 }

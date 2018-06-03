@@ -60,7 +60,11 @@ public class EmploymentController {
 			spamuser = spamUserService.view(spamuser);
 		} else {
 			String id = request.getParameter("id");
-			if (!("".equals(id) || id == null)) {
+			if (!("".equals(id) || id == null)) { //널이 아니거나 한글이 아닐때
+				if(!isStringDouble(id)) {
+					System.out.println(isStringDouble(id));
+					System.out.println(id);
+				}
 				employment.setId(Integer.parseInt(id));
 				listEmp = employmentService.find(employment);
 				if (listEmp.size() != 0) {
@@ -85,8 +89,6 @@ public class EmploymentController {
 		ModelAndView modelAndView = new ModelAndView("/employment/view");
 		Attendance attendance = new Attendance();
 		EmploymentType employmentType = new EmploymentType();
-		
-		
 		
 		employment = employmentService.view(emplNo);
 		spamuser.setId(employment.getId());
@@ -119,11 +121,13 @@ public class EmploymentController {
 			int id = (int) session.getAttribute("id");
 			spamuser.setId(id);
 			user = spamUserService.view(spamuser);
-
 		}
 		
 		List<Attendance> listAttendance = new ArrayList<Attendance>();
 		listAttendance = attendanceService.list();
+		for(int i = 0 ; i < listAttendance.size(); i++) {
+			System.out.println(listAttendance.get(i).getTitle() + "    " + listAttendance.get(i).getRegistrationDate());
+		}
 		modelAndView.addObject("user", user);
 		modelAndView.addObject("listAttendance", listAttendance);
 		return modelAndView;
@@ -239,6 +243,14 @@ public class EmploymentController {
 		this.employmentService.add(employment, file, request);
 		return new ModelAndView("employment/confirm");
 	}
+	
+	@RequestMapping(value = "/addAttendance", method = RequestMethod.POST)
+	public ModelAndView addAttendance(HttpServletRequest request, Employment employment,
+			EmploymentCategory category) throws Exception {
+		MultipartFile file = null;
+		this.employmentService.add(employment, file, request);
+		return new ModelAndView("employment/confirm");
+	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
 	public ModelAndView edit(HttpServletRequest request, Employment employment) throws Exception {
@@ -273,5 +285,14 @@ public class EmploymentController {
 		employmentService.download(employment, response);
 
 		return new ModelAndView("/employment/view");
+	}
+	
+	public boolean isStringDouble(String s) {
+		try {
+			Double.parseDouble(s);
+			return true;
+		}catch (NumberFormatException e) {
+			return false;
+		}
 	}
 }

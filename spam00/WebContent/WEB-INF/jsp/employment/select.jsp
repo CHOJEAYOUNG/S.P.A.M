@@ -47,5 +47,6 @@ function openEmploymentS() {
 	<c:if test="${power eq 'S' }">
 		<a href="javascript:openEmploymentS()">취업</a>
 	</c:if>
+	<input type="button" value="닫기" onclick="window.open('', '_self', ''); window.close();"/>
 </body>
 </html>
