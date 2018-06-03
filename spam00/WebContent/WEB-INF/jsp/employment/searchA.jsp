@@ -8,7 +8,7 @@ function checkRadio() {
 	var id = null;
 	for(var i = 0 ; i < radio.length; i++) {
 		if(radio[i].checked == true) {
-			id = radiop[i].value;
+			id = radio[i].value;
 		}
 	}
 	if(id == null) {
