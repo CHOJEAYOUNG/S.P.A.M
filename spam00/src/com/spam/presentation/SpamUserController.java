@@ -16,12 +16,16 @@ import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.spam.domain.Attendance;
 import com.spam.domain.Employment;
 import com.spam.domain.EmploymentCategory;
 import com.spam.domain.EmploymentType;
 import com.spam.domain.Enrollment;
+import com.spam.domain.Graduation;
+import com.spam.domain.GraduationCategory;
 import com.spam.domain.GraduationType;
 import com.spam.domain.SpamUser;
+import com.spam.service.AttendanceService;
 import com.spam.service.EmploymentCategoryService;
 import com.spam.service.EmploymentService;
 import com.spam.service.EmploymentTypeService;
@@ -55,10 +59,14 @@ public class SpamUserController {
 	@Autowired
 	private EmploymentTypeService employmentTypeService;
 	
+	@Autowired
+	private AttendanceService attendanceService;
+	
 	@RequestMapping(value = "/viewS", method = RequestMethod.GET)
 	public ModelAndView viewS(SpamUser spamuser, HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView("/spamUser/view");
 		EmploymentCategory category = new EmploymentCategory();
+		GraduationCategory category2 = new GraduationCategory();
 		String id = request.getParameter("id");
 		int intId = Integer.parseInt(id);
 		spamuser.setId(intId);
@@ -68,11 +76,12 @@ public class SpamUserController {
 		
 		List<Enrollment> enrollment = spamUserService.enrollments();
 		modelAndView.addObject("enrollment",enrollment);
-		List<String> purpose = new ArrayList<String>();
-		purpose.add("name");
-		List<EmploymentCategory> empCategory = employmentCategoryService.find(category, purpose);
+		
+		List<EmploymentCategory> empCategory = employmentCategoryService.find(category);
 		modelAndView.addObject("empCategory",empCategory);
 		
+		List<GraduationCategory> grCategory = graduationCategoryService.find(category2);
+		modelAndView.addObject("grCategory",grCategory);
 		
 		return modelAndView;
 	}
@@ -87,21 +96,40 @@ public class SpamUserController {
 		spamuser = spamUserService.view(spamuser);
 		modelAndView.addObject("spamuser", spamuser);
 		
-		EmploymentCategory category = new EmploymentCategory();
 		List<Enrollment> enrollment = spamUserService.enrollments();
 		modelAndView.addObject("enrollment",enrollment);
 		
-		List<String> purpose = new ArrayList<String>();
-		purpose.add("name");
-		List<EmploymentCategory> empCategory = employmentCategoryService.find(category, purpose);
+		EmploymentCategory category = new EmploymentCategory();
+		List<EmploymentCategory> empCategory = employmentCategoryService.find(category);
 		modelAndView.addObject("empCategory",empCategory);
-		
 		
 		Employment employment = new Employment();
 		employment.setId(spamuser.getId());
 		employment.setAssentNo(1);
 		List<Employment> employmentP = employmentService.find(employment);
 		modelAndView.addObject("listEmp",employmentP);
+		
+		EmploymentType employmentType = new EmploymentType();
+		List<EmploymentType> employmentTypeP = employmentTypeService.find(employmentType);
+		modelAndView.addObject("listEmpType", employmentTypeP);
+		
+		GraduationCategory category2 = new GraduationCategory();
+		List<GraduationCategory> grCategory = graduationCategoryService.find(category2);
+		modelAndView.addObject("grCategory",grCategory);
+		
+		Graduation graduation = new Graduation();
+		graduation.setId(spamuser.getId());
+		graduation.setAssentNo(1);
+		List<Graduation> graduationP = graduationService.find(graduation);
+		modelAndView.addObject("listGr",graduationP);
+		
+		GraduationType graduationType = new GraduationType();
+		List<GraduationType> graduationTypeP = graduationTypeService.find(graduationType);
+		modelAndView.addObject("listGrType", graduationTypeP);
+		
+		List<Attendance> listAttendance = new ArrayList<Attendance>();
+		listAttendance = attendanceService.list();
+		modelAndView.addObject("listAttendance", listAttendance);
 		
 		return modelAndView;
 	}
@@ -174,15 +202,35 @@ public class SpamUserController {
 	public ModelAndView edit(@PathVariable String id, HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView("/spamUser/edit");
 		SpamUser spamuser = new SpamUser();
+		String sam = "0";
+
 		int intId = Integer.parseInt(id);
 		spamuser.setId(intId);
-		
+
 		spamuser = spamUserService.view(spamuser);
 		modelAndView.addObject("spamuser", spamuser);
+		if(request.getSession(false).getAttribute("power").equals("S")) {
+			if(spamuser.getBirthDate().equals(spamuser.getPassWord())) {
+				sam = "1";
+			}
+		}
 		
 		List<Enrollment> enrollment = spamUserService.enrollments();
 		modelAndView.addObject("enrollment",enrollment);
 		
+		EmploymentType type = new EmploymentType();
+		List<EmploymentType> listEmp = new ArrayList<EmploymentType>();
+		listEmp = employmentTypeService.find(type);
+		modelAndView.addObject("listEmp",listEmp);
+		
+		
+		GraduationType type2 = new GraduationType();
+		List<GraduationType> listGr = new ArrayList<GraduationType>();
+		listGr = graduationTypeService.find(type2);
+		modelAndView.addObject("listGr",listGr);
+		
+		modelAndView.addObject("sam",sam);
+
 		return modelAndView;
 	}
 	
@@ -197,6 +245,18 @@ public class SpamUserController {
 	@RequestMapping(value = "/oneAddS", method = RequestMethod.GET)
 	public ModelAndView oneAddS(SpamUser spamuser, HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView("/spamUser/addS");
+		
+		EmploymentType type = new EmploymentType();
+		List<EmploymentType> listEmp = new ArrayList<EmploymentType>();
+		listEmp = employmentTypeService.find(type);
+		modelAndView.addObject("listEmp",listEmp);
+		
+		
+		GraduationType type2 = new GraduationType();
+		List<GraduationType> listGr = new ArrayList<GraduationType>();
+		listGr = graduationTypeService.find(type2);
+		modelAndView.addObject("listGr",listGr);
+		
 		return modelAndView;
 	}
 	
@@ -213,24 +273,7 @@ public class SpamUserController {
 	
 	@RequestMapping(value = "/listAdd", method = RequestMethod.GET)
 	public ModelAndView getListAdd(SpamUser spamuser, HttpServletRequest request) {
-		ModelAndView modelAndView = new ModelAndView("/spamUser/listAdd");
-		
-		EmploymentType type = new EmploymentType();
-		List<String> purpose = new ArrayList<String>();
-		String select = request.getParameter("select");
-		String search = request.getParameter("search");
-		purpose.add(select);
-		purpose.add(search);
-		List<EmploymentType> listEmp = new ArrayList<EmploymentType>();
-		listEmp = employmentTypeService.find(type, purpose);
-		modelAndView.addObject("listEmp",listEmp);
-		
-		
-		GraduationType type2 = new GraduationType();
-		List<GraduationType> listGr = new ArrayList<GraduationType>();
-		listGr = graduationTypeService.find(type2, purpose);
-		modelAndView.addObject("listGr",listGr);
-		return modelAndView;
+		return new ModelAndView("/spamUser/listAdd");
 	}
 	
 	@RequestMapping(value = "/listAdd", method = RequestMethod.POST)
@@ -240,6 +283,7 @@ public class SpamUserController {
 		
 		if(excelFile.getOriginalFilename().toUpperCase().endsWith(".XLSX")) {
 			try {
+				System.out.println("asdasd");
 				spamUserService.excelxlsxRead(spamuser, excelFile);
 			} catch (IOException e) {
 				e.printStackTrace();

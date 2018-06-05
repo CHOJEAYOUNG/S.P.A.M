@@ -159,7 +159,7 @@
 	</update>
 	<insert id="insertS" parameterType="spamuser">
 		INSERT INTO SPAM_USER 
-		(ID, PASSWORD, POWER, NAME, GRADE, MAJOR, PHONE_NO, BIRTH_DATE, OFFICE, EMP_NO, GR_NO, CARD_NO, ENROLLMENT)
+		(ID, PASSWORD, POWER, NAME, GRADE, MAJOR, PHONE_NO, BIRTH_DATE, EMP_NO, GR_NO, CARD_NO, ENROLLMENT)
 		VALUES (#{id}
 			   ,#{passWord}
 			   ,#{power}
@@ -168,7 +168,6 @@
 			   ,#{major}
 			   ,#{phoneNo}
 			   ,#{birthDate}
-			   ,#{office}
 			   ,#{empNo}
 			   ,#{grNo}
 			   ,<if test="cardNo == 0">0</if> 
@@ -176,7 +175,7 @@
 			   ,#{enrollment}
 		)
 	</insert>
-	<insert id="insertP" parameterType="spamuser">
+	<insert id="insertP" parameterType="spamuser" >
 		INSERT INTO SPAM_USER 
 		(ID, PASSWORD, GRADE, POWER, NAME, MAJOR, PHONE_NO, BIRTH_DATE, OFFICE, ENROLLMENT)
 		VALUES (#{id}

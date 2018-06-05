@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE HTML>
 <!--
 	Horizons by TEMPLATED
@@ -26,7 +27,7 @@
 <!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
 </head>
 <body class="left-sidebar">
-	<form action="/spamUser/list" method="POST">
+	<form action="/spamUser/listAdd" method="POST" enctype="multipart/form-data">
 		<!-- Header -->
 		<div id="header">
 			<div class="container">
@@ -74,27 +75,33 @@
 							<div class="row half">
 								<section class="6u">
 									<ul class="default">
-										<li><a href="/spamUser/listAdd">일괄 등록</a></li>
-										<li><a href="/spamUser/oneAddS">학생 개별 등록</a></li>
-										<li><a href="/spamUser/oneAddP">교수 개별 등록</a></li>
+										<c:if test = "${sessionScope.power eq 'A' }" > 
+											<li><a href="/spamUser/listAdd">일괄 등록</a></li>
+											<li><a href="/spamUser/oneAddS">학생 개별 등록</a></li>
+											<li><a href="/spamUser/oneAddP">교수 개별 등록</a></li>
+											<li><a href="/spamUser/list">학생 목록</a></li>
+										</c:if>
+										<li><a href="/logout">로그 아웃</a></li>
 									</ul>
 								</section>
 							</div>
 						</section>
-						<section>
-							<header class="major">
-								<h2>학생 검색</h2>
-							</header>
-							<ul class="default">
-								<select name="select">
-									<option value="1">학번</option>
-									<option value="2">이름</option>
-									<option value="3">신분</option>
-								</select>
-								<input type="text" name="search" />
-								<input type="submit" value="검색" style="margin-left: 86%;" />
-							</ul>
-						</section>
+						<c:if test = "${sessionScope.power eq 'A' }" >
+							<section>
+								<header class="major">
+									<h2>학생 검색</h2>
+								</header>
+									<ul class="default">
+										<select name="select">
+											<option value="1">학번</option>
+											<option value="2">이름</option>
+											<option value="3">신분</option>
+										</select>
+										<input type="text" name="search" />
+										<input type="submit" value="검색" style="margin-left: 86%;" />
+									</ul>
+							</section>
+						</c:if>
 					</div>
 
 					<!-- Content -->
@@ -106,26 +113,6 @@
 							<form action="/spamUser/listAdd" method="post" enctype="multipart/form-data">
 								<div style="text-align: center; padding-top: 15%;">
 									<table border="1" width="300" align="center" height="250">
-										<tr>
-											<td>취업 유형</td>
-											<td>
-												<select name="empNo">
-													<c:forEach items="${ listEmp }" var="employmentType" varStatus="status">
-														<option value="${ employmentType.no }">${ employmentType.name }</option>
-													</c:forEach>
-												</select>
-											</td>
-										</tr>
-										<tr>
-											<td>졸업 유형</td>
-											<td>
-												<select name="grNo">
-													<c:forEach items="${ listGr }" var="grType" varStatus="status">
-														<option value="${ grType.no }">${ grType.name }</option>
-													</c:forEach>
-												</select>
-											</td>
-										</tr>
 										<tr>
 											<td>파일 업로드</td>
 											<td>

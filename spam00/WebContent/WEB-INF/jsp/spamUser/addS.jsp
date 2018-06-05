@@ -108,7 +108,7 @@
 <!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
 </head>
 <body class="left-sidebar">
-	<form action="/spamUser/list" method="POST">
+	<form action="/spamUser/oneAdd" method="POST" id="form">
 		<!-- Header -->
 		<div id="header">
 			<div class="container">
@@ -155,34 +155,40 @@
 							<div class="row half">
 								<section class="6u">
 									<ul class="default">
-										<li><a href="/spamUser/listAdd">일괄 등록</a></li>
-										<li><a href="/spamUser/oneAddS">학생 개별 등록</a></li>
-										<li><a href="/spamUser/oneAddP">교수 개별 등록</a></li>
+										<c:if test = "${sessionScope.power eq 'A' }" > 
+											<li><a href="/spamUser/listAdd">일괄 등록</a></li>
+											<li><a href="/spamUser/oneAddS">학생 개별 등록</a></li>
+											<li><a href="/spamUser/oneAddP">교수 개별 등록</a></li>
+											<li><a href="/spamUser/list">학생 목록</a></li>
+										</c:if>
+										<li><a href="/logout">로그 아웃</a></li>
 									</ul>
 								</section>
 							</div>
 						</section>
-						<section>
-							<header class="major">
-								<h2>학생 검색</h2>
-							</header>
-							<ul class="default">
-								<select name="select">
-									<option value="1">학번</option>
-									<option value="2">이름</option>
-									<option value="3">신분</option>
-								</select>
-								<input type="text" name="search" />
-								<input type="submit" value="검색" style="margin-left: 86%;" />
-							</ul>
-						</section>
+						<c:if test = "${sessionScope.power eq 'A' }" >
+							<section>
+								<header class="major">
+									<h2>학생 검색</h2>
+								</header>
+									<ul class="default">
+										<select name="select">
+											<option value="1">학번</option>
+											<option value="2">이름</option>
+											<option value="3">신분</option>
+										</select>
+										<input type="text" name="search" />
+										<input type="submit" value="검색" style="margin-left: 86%;" />
+									</ul>
+							</section>
+						</c:if>
 					</div>
 
 					<!-- Content -->
 					<div id="content" class="8u skel-cell-important">
 						<section>
 							<header class="major">
-								<h2>학생 일괄 등록</h2>
+								<h2>학생 개별 등록</h2>
 							</header>
 							<form id="form" action="/spamUser/oneAdd" method="post" style="padding-top: 3%; padding-bottom: 3%;">
 								<table border="1" width="300" align="center" height="250" >
@@ -234,32 +240,26 @@
 											<input type="text" id="phoneNo3" size="6" name="phoneNo3" maxlength="4" onkeydown="return showKeyCode(event)" onkeyup='removeChar(event)' style="ime-mode:disabled; width: 42%" />
 										</td>
 									</tr>
-									<tr>
-										<td>취업유형</td>
-										<td>
-											<input type="text" name="empNo" value="1" />
-										</td>
-									</tr>
-									<tr>
-										<td>졸업유형</td>
-										
-										<td>
-											<input type="text" name="grNo"  value="1"/>
-										</td>
-									</tr>
-									<tr>
-										<c:if test="${sessionScope.power eq 'A'}" >
-										<td>상태</td>
-										<td>
-											<select name="enrollment">
-													<option value="1" selected="selected">재학</option>
-													<option value="2">휴학</option>
-													<option value="3">자퇴</option>
-													<option value="4">졸업</option>
-											</select>
-										</td>
-										</c:if>
-									</tr>
+				<tr>
+					<td>취업 유형</td>
+					<td>
+						<select name="empNo">
+							<c:forEach items="${ listEmp }" var="employmentType" varStatus="status">
+									<option value="${ employmentType.no }">${ employmentType.name }</option>
+							</c:forEach>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>졸업 유형</td>
+					<td>
+						<select name="grNo">
+							<c:forEach items="${ listGr }" var="grType" varStatus="status">
+									<option value="${ grType.no }"  >${ grType.name }</option>
+							</c:forEach>
+						</select>
+					</td>
+				</tr>
 									<c:if test="${(sessionScope.power eq 'A')}" >
 											<tr>
 												<td>카드 번호</td>

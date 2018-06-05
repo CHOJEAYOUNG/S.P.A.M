@@ -151,27 +151,33 @@
 							<div class="row half">
 								<section class="6u">
 									<ul class="default">
-										<li><a href="/spamUser/listAdd">일괄 등록</a></li>
-										<li><a href="/spamUser/oneAddS">학생 개별 등록</a></li>
-										<li><a href="/spamUser/oneAddP">교수 개별 등록</a></li>
+										<c:if test = "${sessionScope.power eq 'A' }" > 
+											<li><a href="/spamUser/listAdd">일괄 등록</a></li>
+											<li><a href="/spamUser/oneAddS">학생 개별 등록</a></li>
+											<li><a href="/spamUser/oneAddP">교수 개별 등록</a></li>
+											<li><a href="/spamUser/list">학생 목록</a></li>
+										</c:if>
+										<li><a href="/logout">로그 아웃</a></li>
 									</ul>
 								</section>
 							</div>
 						</section>
-						<section>
-							<header class="major">
-								<h2>학생 검색</h2>
-							</header>
-							<ul class="default">
-								<select name="select">
-									<option value="1">학번</option>
-									<option value="2">이름</option>
-									<option value="3">신분</option>
-								</select>
-								<input type="text" name="search" />
-								<input type="submit" value="검색" style="margin-left: 86%;" />
-							</ul>
-						</section>
+						<c:if test = "${sessionScope.power eq 'A' }" >
+							<section>
+								<header class="major">
+									<h2>학생 검색</h2>
+								</header>
+									<ul class="default">
+										<select name="select">
+											<option value="1">학번</option>
+											<option value="2">이름</option>
+											<option value="3">신분</option>
+										</select>
+										<input type="text" name="search" />
+										<input type="submit" value="검색" style="margin-left: 86%;" />
+									</ul>
+							</section>
+						</c:if>
 					</div>
 
 					<!-- Content -->
