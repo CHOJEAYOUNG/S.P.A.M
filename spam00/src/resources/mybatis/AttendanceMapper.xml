@@ -27,7 +27,8 @@
 			LECTURE_TIME,
 			LOCATION,
 			SCORE
-			FROM ATTENDANCE
+			FROM ATTENDANCE 
+			ORDER BY ATTENDANCE_NO DESC
 	</select>
 
 	<select id="attendanceSEQ" resultType="int">
@@ -135,6 +136,30 @@
 		#{filesLocation})
 	</insert>
 	
+	<select id="selectOne" parameterType="int"  resultMap="attendanceResultMap">
+		SELECT 
+			ATTENDANCE_NO,
+			TITLE,
+			REGISTRATION_DATE,
+			LECTURE_DATE,
+			LECTURE_TIME,
+			LOCATION,
+			SCORE,
+			UPLOAD_FILE_NAME,
+			UPLOAD_FILE_NAME_WITH_S,
+			MAKED_FILE_NAME,
+			MAKED_FILE_NAME_WITH_S,
+			FILES_LOCATION
+		FROM ATTENDANCE
+		WHERE ATTENDANCE_NO = #{attendanceNo}
+	</select>
+	
+	
+	<delete id="delete" parameterType="int">
+		DELETE FROM ATTENDANCE 
+		WHERE ATTENDANCE_NO = #{attendanceNo}
+	</delete>
+	
 	<!-- 
 	<insert id="insertAttendanceStudentInfo" parameterType="attendance"
 		useGeneratedKeys="true" keyProperty="attendanceNo" keyColumn="attendanceNo">
@@ -143,6 +168,7 @@
 				SELECT ATTENDANCE_NO_SEQ.CURRVAL
 				FROM DUAL
 		</selectKey>
+		
 		
 		INSERT INTO ATTEND
 		(ATTEND_NO,

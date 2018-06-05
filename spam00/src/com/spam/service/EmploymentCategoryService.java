@@ -3,10 +3,9 @@ package com.spam.service;
 import java.util.List;
 
 import com.spam.domain.EmploymentCategory;
-import com.spam.domain.EmploymentType;
 
 public interface EmploymentCategoryService {
-	public List<EmploymentCategory> find(EmploymentCategory category, List<String> purpose);
+	public List<EmploymentCategory> find(EmploymentCategory category);
 	
 	public void add(EmploymentCategory category);
 

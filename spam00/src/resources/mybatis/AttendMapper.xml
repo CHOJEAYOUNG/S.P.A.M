@@ -30,4 +30,24 @@
 		#{id})
 	</insert>
 
+	<select id = "list" parameterType="attend"  resultMap="attendResultMap">
+	SELECT 
+		ID,
+		ATTENDANCE_NO
+	FROM ATTEND
+	<where>
+		<if test="id != null and id !=''">
+			AND ID = #{id}
+		</if>
+		<if test="attendanceNo != null and attendanceNo != ''" >
+			AND ATTENDANCE_NO = #{attendanceNo}
+		</if>
+	</where>
+	</select>
+	
+	<delete id="delete" parameterType="int">
+		DELETE FROM ATTEND 
+		WHERE ATTENDANCE_NO = #{attendanceNo}
+	</delete>
+	
 </mapper>

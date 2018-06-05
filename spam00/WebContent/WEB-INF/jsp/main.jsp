@@ -1,73 +1,97 @@
+<%@page import="com.spam.domain.Attendance"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<!DOCTYPE HTML>
+
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>SPAM 로그인</title>
-</head>
-<body>
-	<div style="overflow:auto; width:100%; height:500px; padding-bottom:5%; ">
-		<table style="width: 100%" border="1">
-			<thead>
-				<tr bgcolor="#4C4639" >
-					<th style="width: 35px;"><font color="#FFFFFF">번호</font></th>
-					<th style="width: 100px;"><font color="#FFFFFF">아이디</font></th>
-					<th style="width: 100px;"><font color="#FFFFFF">신분</font></th>
-					<th style="width: 100px;"><font color="#FFFFFF">이름</font></th>
-					<th style="width: 100px;"><font color="#FFFFFF">생년월일</font></th>
-					<th style="width: 100px;"><font color="#FFFFFF">상세보기</font></th>
-					<th style="width: 100px;"><font color="#FFFFFF">수정</font></th>
-					<th style="width: 100px;"><font color="#FFFFFF">삭제</font></th>
-				</tr>
-				<c:if test="${ !empty listSpam}">
-					<c:forEach items="${ listSpam }" var="spamUser" varStatus="status">
-					<tr>
-						<td style="text-align: left; width: 35px;">
-							<c:out value="${ status.count }"/>
-						</td>
-						<td style="text-align: left; width: 100px;">
-							<c:out value="${ spamUser.id }"/>
-						</td>
-						<td style="text-align: left; width: 100px;">
-							<c:out value="${ spamUser.power }"/>
-						</td>
-						<td style="text-align: left; width: 100px;">
-							<c:out value="${ spamUser.name }"/>
-						</td>
-						<td style="text-align: left; width: 100px;">
-							<c:out value="${ spamUser.birthDate }"/>
-						</td>
-						<td style="text-align: center;"><a
-							href="<c:url value="/spamUser/view/${spamUser.id}" /> "> <input
-								type="button" value="상세보기" />
-						</a></td>
-						<td style="text-align: center;"><a
-							href="<c:url value="/spamUser/edit/${spamUser.id}" /> "> <input
-								type="button" value="수정" />
-						</a></td>
-						<td style="text-align: center;"><a
-							href="<c:url value="/spamUser/remove/${spamUser.id}" /> "> <input
-								type="button" value="삭제" />
-						</a></td>
-					</tr>
-					</c:forEach>
-				</c:if>
-			</thead>
-		</table>
-	</div>
-	<c:if test="${ sessionScope.power eq 'A' }">
-		<font size="30">조교</font>
-	</c:if>
+	<head>
+		<title>S.P.A.M </title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+
+		<script src="/js/jquery.min.js"></script>
+		<script src="/js/jquery.dropotron.min.js" ></script>
+		<script src="/js/skel.min.js" ></script>
+		<script src="/js/skel-layers.min.js" ></script>
+		<script src="/js/init.js" ></script>
 	
-	<c:if test="${ sessionScope.power eq 'P' }">
-		<font size="30">교수</font>
-	</c:if>
-	
-	<c:if test="${ sessionScope.power eq 'S' }">
-		<font size="30">학생</font>
-	</c:if>
-</body>
+		<link rel="stylesheet" href="${pageContext.servletContext.contextPath}/css/skel.css" />
+		<link rel="stylesheet" href="${pageContext.servletContext.contextPath}/css/style.css" />
+		
+	</head>
+	<body class="homepage">
+
+			<div id="header">
+				<div class="container">
+						
+					<!-- Logo -->
+						<h1><a href="#" id="logo">S.P.A.M</a></h1>
+					
+					<!-- Nav -->
+						<nav id="nav">
+							<ul>
+								<li>
+									<h1><a href="">상담</a></h1>
+									<ul>
+										<li><a href="#">상담 예약</a></li>
+										<li><a href="#">상담 예약 조회</a></li>
+							<!-- 	<li><a href="#">Etiam dolore nisl</a></li>
+										<li>
+											<a href="">Phasellus consequat</a>
+											<ul>
+												<li><a href="#">Lorem ipsum dolor</a></li>
+												<li><a href="#">Phasellus consequat</a></li>
+												<li><a href="#">Magna phasellus</a></li>
+												<li><a href="#">Etiam dolore nisl</a></li>
+												<li><a href="#">Veroeros feugiat</a></li>
+											</ul>
+										</li>
+										<li><a href="#">Veroeros feugiat</a></li>  -->
+									</ul>
+								</li>
+								<li><h1><a href="">취업 점수</a></h1></li>
+								<li><h1><a href="">졸업 점수</a></h1></li>
+								<li>
+									<h1><a href="">내 정보</a></h1>
+									<ul>
+										<li><a href="#">정보 조회</a></li>
+										<li><a href="#">정보 수정</a></li>
+									</ul>
+								</li>
+							</ul>
+						</nav>
+
+					<!-- Banner -->
+						<div id="banner">
+							<div class="container">
+								<section>
+									<header class="major">
+										<h2>"Hello World!"</h2>
+										<span class="byline" style="">해당페이지는 선문대학교 컴퓨터공학과 사용자간의 원활한 의사소통을 위해  만들었습니다.<br>학과에 관한 공지사항은  &ndash; <a href="http://cs.sunmoon.ac.kr/">선문대학교 컴퓨터공학과 홈페이지</a> &ndash; 를 참고하여 주시길 바랍니다.</span>
+									</header>
+									<c:if test = "${sessionScope.isLogin}" >  
+										<a href="/logout" class="loginbtn alt">로 그 아 웃</a> 
+									</c:if>
+									<c:if test = "${!sessionScope.isLogin}" >
+										<a href="/login" class="loginbtn alt">로 그 인</a>
+									</c:if> 
+									
+								</section>			
+							</div>
+						</div>
+				</div>
+			</div>
+
+		<!-- Footer -->
+			<div id="footer">
+					<!-- Copyright -->
+					<div class="copyright">
+						Tel: 041-530-2212 (선문대학교 컴퓨터공학과 과사무실)
+					</div>
+			</div>
+	</body>
 </html>

@@ -10,8 +10,10 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -21,6 +23,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.spam.domain.Attend;
 import com.spam.domain.Attendance;
 import com.spam.domain.SpamUser;
@@ -41,7 +44,7 @@ public class AttendanceServiceImpl implements AttendanceService{
 	private SpamUserMapper spamUserMapper;
 	
 	Attendance attendance;
-	List<Attend> attendList = new ArrayList<Attend>();
+	List<Attend> attendList;
 	
 	XSSFWorkbook xexcelOpen;
 	
@@ -77,9 +80,13 @@ public class AttendanceServiceImpl implements AttendanceService{
 				}
 			}
 		}
+		
 		checkStudent(set);
 	}
 
+	
+	
+	
 	@Override
 	public void copyExcel(String insertedFileName) throws IOException {
 		File file = new File(filePath+"/"+dateFormat.format(currentTime));
@@ -109,6 +116,7 @@ public class AttendanceServiceImpl implements AttendanceService{
 	
 	@Override
 	public XSSFWorkbook makeExcel(String insertedFileName) throws IOException {
+		attendList = new ArrayList<Attend>();
 		XSSFWorkbook xexcelWrite = new XSSFWorkbook();
 		XSSFSheet infoSheet = xexcelWrite.createSheet(insertedFileName);
 		XSSFSheet nodataSheet = xexcelWrite.createSheet("no information about number");
@@ -141,6 +149,7 @@ public class AttendanceServiceImpl implements AttendanceService{
 			
 			Attend attend = new Attend();
 			attend.setId(dataListInfoExist.get(i).getId()); 
+			System.out.println("확인용"+attend.toString());
 			attendList.add(attend);
 			
 			cell = row.createCell(2);
@@ -184,8 +193,8 @@ public class AttendanceServiceImpl implements AttendanceService{
 		attendanceMapper.insertAttendance(attendance);
 		
 		int seq = attendanceMapper.attendanceSEQ() -1;
-		System.out.println();
-		
+		System.out.println(seq);
+		System.out.println("여기서 출력이 되는건가////?");
 		for(Attend attendInfo :attendList) {
 			attendInfo.setAttendanceNo(seq);
 			attendMapper.insertAttend(attendInfo);
@@ -230,6 +239,10 @@ public class AttendanceServiceImpl implements AttendanceService{
 				response.setHeader("Content-Disposition",
 						"attachment; filename=\"" + URLEncoder.encode(attendanceInfo.getMakedFileName(), "UTF-8") + "\";");
 				response.setHeader("Content-Ttransfere-Encoding", "binary");
+				
+				//response.getWriter().write(buf);
+				// getOutput Stream 오류 수정을 위해서 writer쓰면 됨
+				
 				response.getOutputStream().write(fileByte);
 
 				response.getOutputStream().flush();

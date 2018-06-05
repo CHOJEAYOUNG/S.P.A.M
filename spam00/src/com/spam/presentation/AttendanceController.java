@@ -42,13 +42,11 @@ public class AttendanceController {
 		
 		MultipartRequest multipartRequest = (MultipartRequest) request;
 		MultipartFile excelFile = multipartRequest.getFile("uploadfile");
-		
 		if(excelFile.getOriginalFilename().toUpperCase().endsWith(".XLSX")) {
 			attendanceService.excelxlsxRead(excelFile);
 		}
 		
 		//자바 스크립트로 확장자 확인 필요
-		
 		attendanceService.attendanceInfo(attendance, excelFile.getOriginalFilename());
 		
 		return new ModelAndView(new RedirectView("/attendance/view/"+attendance.getAttendanceNo())); //using error control
@@ -85,7 +83,7 @@ public class AttendanceController {
 	public ModelAndView listPost(HttpServletRequest request) {
 		String select = request.getParameter("select");
 		String search = request.getParameter("search");
-		System.out.println(select + ",,,,"+ search);
+		//System.out.println(select + ",,,,"+ search);
 		
 		List<Attendance> attendanceList = new ArrayList<Attendance>();
 		

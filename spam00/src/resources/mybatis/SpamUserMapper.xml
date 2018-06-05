@@ -84,6 +84,38 @@
 			   , CARD_NO
 			   , ENROLLMENT
 		FROM SPAM_USER
+		<where>
+			<if test="id != null and id !=''">
+				AND ID = #{id}
+			</if>
+			<if test="passWord != null and passWord != ''" >
+				AND PASSWORD = #{passWord}
+			</if>
+			<if test="power != null and power != ''">
+				AND POWER = #{power}
+			</if>
+			<if test="name != null and name != ''" >
+				AND NAME = #{name}
+			</if>
+			<if test="birthDate != null and birthDate != ''">
+				AND BIRTH_DATE = #{birthDate}
+			</if>
+			<if test="office != null and office != ''">
+				AND OFFICE = #{office}
+			</if>
+			<if test="empNo != null and empNo != ''">
+				AND EMP_NO = #{empNo}
+			</if>
+			<if test="grNo != null and grNo != ''">
+				AND GR_NO = #{grNo}
+			</if>
+			<if test="cardNo != null and cardNo != ''">
+				AND CARD_NO = #{cardNo}
+			</if>
+			<if test="enrollment != null and enrollment != ''">
+				AND ENROLLMENT = #{enrollment}
+			</if>
+		</where>
 	</select>
 	<update id="update" parameterType="spamuser" >
 		UPDATE SPAM_USER 
@@ -125,9 +157,9 @@
 		WHERE 
 		    ID = #{id}
 	</update>
-	<update id="insertS" parameterType="spamuser">
+	<insert id="insertS" parameterType="spamuser">
 		INSERT INTO SPAM_USER 
-		(ID, PASSWORD, POWER, NAME, GRADE, MAJOR, PHONE_NO, BIRTH_DATE, OFFICE, EMP_NO, GR_NO, CARD_NO, ENROLLMENT)
+		(ID, PASSWORD, POWER, NAME, GRADE, MAJOR, PHONE_NO, BIRTH_DATE, EMP_NO, GR_NO, CARD_NO, ENROLLMENT)
 		VALUES (#{id}
 			   ,#{passWord}
 			   ,#{power}
@@ -136,14 +168,14 @@
 			   ,#{major}
 			   ,#{phoneNo}
 			   ,#{birthDate}
-			   ,#{office}
 			   ,#{empNo}
 			   ,#{grNo}
-			   ,#{cardNo}
+			   ,<if test="cardNo == 0">0</if> 
+			   <if test="cardNo != 0">#{cardNo} </if>
 			   ,#{enrollment}
 		)
-	</update>
-	<update id="insertP" parameterType="spamuser">
+	</insert>
+	<insert id="insertP" parameterType="spamuser" >
 		INSERT INTO SPAM_USER 
 		(ID, PASSWORD, GRADE, POWER, NAME, MAJOR, PHONE_NO, BIRTH_DATE, OFFICE, ENROLLMENT)
 		VALUES (#{id}
@@ -157,5 +189,5 @@
 			   ,#{office}
 			   ,#{enrollment}
 		)
-	</update>
+	</insert>
 </mapper>

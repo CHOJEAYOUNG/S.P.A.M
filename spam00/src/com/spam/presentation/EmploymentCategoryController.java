@@ -3,9 +3,9 @@ package com.spam.presentation;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import com.spam.domain.EmploymentCategory;
 import com.spam.domain.EmploymentType;
 import com.spam.service.EmploymentCategoryService;
@@ -22,150 +21,137 @@ import com.spam.service.EmploymentTypeService;
 @Controller
 @RequestMapping(value = "/employmentCategory")
 public class EmploymentCategoryController {
-	@Resource
+	@Autowired
 	private EmploymentTypeService employmentTypeService;
-	@Resource
+	@Autowired
 	private EmploymentCategoryService employmentCategoryService;
-	
+
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(HttpServletRequest request, EmploymentCategory category, EmploymentType type) throws Exception {
+	public ModelAndView list(HttpServletRequest request, EmploymentCategory category)
+			throws Exception {
 		ModelAndView modelAndView = new ModelAndView("/employmentCategory/list");
 		String select = request.getParameter("select");
 		String search = request.getParameter("search");
-		if("".equals(search) || search == null) {
-			search = "0";	
+		EmploymentType type = null;
+		List<EmploymentCategory> listCategory = null;
+
+		if ("name".equals(select)) {
+			category.setName(search);
+		} else if ("condition".equals(select)) {
+			if ("ÌïÑÏàò".equals(search)) {
+				category.setConditionSqeNo(1);
+			} else if ("ÏÑ†ÌÉù".equals(search)) {
+				category.setConditionSqeNo(2);
+			}
 		}
-		List<String> purpose = new ArrayList<String>();
-		List<String> purposeType = new ArrayList<String>();
-		purpose.add(select);
-		purpose.add(search);
-		purposeType.add("type");
-		List<EmploymentType> listType = this.employmentTypeService.find(type, purposeType);
-		List<EmploymentCategory> listCategory = this.employmentCategoryService.find(category, purpose);
-		
+
+		listCategory = this.employmentCategoryService.find(category);
+		List<EmploymentType> listType = this.employmentTypeService.find(type);
+
 		modelAndView.addObject("listCategory", listCategory);
 		modelAndView.addObject("listType", listType);
 		return modelAndView;
 	}
-	
+
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public ModelAndView addForm(EmploymentType type) throws Exception {
-		List<String> purposeType = new ArrayList<String>();
-		purposeType.add("type");
-		List<EmploymentType> listType = this.employmentTypeService.find(type, purposeType);
+		List<EmploymentType> listType = this.employmentTypeService.find(type);
 		ModelAndView modelAndView = new ModelAndView("/employmentCategory/add");
 		modelAndView.addObject("listType", listType);
 		return modelAndView;
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public ModelAndView add(HttpServletRequest request, EmploymentType type, EmploymentCategory category) throws Exception {
+	public ModelAndView add(HttpServletRequest request, EmploymentType type, EmploymentCategory category)
+			throws Exception {
 		ModelAndView modelAndView = new ModelAndView("/employmentCategory/add");
-		List<String> purpose = new ArrayList<String>();
-		purpose.add("name");
-		purpose.add(category.getName());
 		List<EmploymentCategory> check = new ArrayList<EmploymentCategory>();
-		check = this.employmentCategoryService.find(category, purpose);
-		//¿Ã∏ß ∫ˆ
-		if("".equals(category.getName().trim())) {
-			List<String> purposeType = new ArrayList<String>();
-			purposeType.add("type");
-			List<EmploymentType> listType = this.employmentTypeService.find(type, purposeType);
-			String checkName = "ƒ´≈◊∞Ì∏Æ ∏Ì¿Ã ∫ÒæÓ¿÷Ω¿¥œ¥Ÿ.";
+		check = this.employmentCategoryService.find(category);
+		// Ïù¥Î¶Ñ Îπî
+		if ("".equals(category.getName().trim())) {
+			List<EmploymentType> listType = this.employmentTypeService.find(type);
+			String checkName = "Ïπ¥ÌÖåÍ≥†Î¶¨ Î™ÖÏù¥ ÎπÑÏñ¥ÏûàÏäµÎãàÎã§.";
 			modelAndView.addObject("checkName", checkName);
 			modelAndView.addObject("listType", listType);
-			
+
 			return modelAndView;
 		}
-		//¿Ã∏ß ¡ﬂ∫π
-		if(!check.isEmpty()) {
-			List<String> purposeType = new ArrayList<String>();
-			purposeType.add("type");
-			List<EmploymentType> listType = this.employmentTypeService.find(type, purposeType);
-			String checkName = "¿ÃπÃ µÓ∑œµ» ƒ´≈◊∞Ì∏Æ¿‘¥œ¥Ÿ.";
+		// Ïù¥Î¶Ñ Ï§ëÎ≥µ
+		if (!check.isEmpty()) {
+			List<EmploymentType> listType = this.employmentTypeService.find(type);
+			String checkName = "Ïù¥ÎØ∏ Îì±Î°ùÎêú Ïπ¥ÌÖåÍ≥†Î¶¨ÏûÖÎãàÎã§.";
 			modelAndView.addObject("checkName", checkName);
 			modelAndView.addObject("listType", listType);
-			
+
 			return modelAndView;
 		}
-		
-		
+
 		employmentCategoryService.add(category);
 		return new ModelAndView(new RedirectView("/employmentCategory/list"));
 	}
-	
+
 	@RequestMapping(value = "/view/{no}", method = RequestMethod.GET)
 	public ModelAndView view(@PathVariable int no, EmploymentCategory category, EmploymentType type) {
 		ModelAndView modelAndView = new ModelAndView("/employmentCategory/view");
-		
+
 		category = employmentCategoryService.view(no);
 		type = this.employmentTypeService.view(category.getEmpTypeNo());
-		
+
 		modelAndView.addObject("category", category);
 		modelAndView.addObject("typeName", type.getName());
-		
+
 		return modelAndView;
 	}
-	
+
 	@RequestMapping(value = "/edit/{no}", method = RequestMethod.GET)
-	public ModelAndView editForm(@PathVariable int no, HttpServletRequest request, EmploymentCategory category, EmploymentType type) throws Exception {
+	public ModelAndView editForm(@PathVariable int no, HttpServletRequest request, EmploymentCategory category,
+			EmploymentType type) throws Exception {
 		ModelAndView modelAndView = new ModelAndView("/employmentCategory/edit");
-		List<String> purposeType = new ArrayList<String>();
-		purposeType.add("type");
-		
-		List<EmploymentType> listType = this.employmentTypeService.find(type, purposeType);
+
+		List<EmploymentType> listType = this.employmentTypeService.find(type);
 		category = employmentCategoryService.view(no);
 		modelAndView.addObject("category", category);
 		modelAndView.addObject("listType", listType);
-		
+
 		return modelAndView;
 	}
-	
+
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
 	public ModelAndView edit(HttpServletRequest request, EmploymentCategory category, EmploymentType type) {
 		ModelAndView modelAndView = null;
 
-		List<String> purpose = new ArrayList<String>();
-		purpose.add("name");
-		purpose.add(category.getName());
-		
-		List<EmploymentCategory> check = this.employmentCategoryService.find(category, purpose);
-		//¿Ø«¸ ∏Ì¿Ã ∫Ûƒ≠¿Œ¡ˆ
-		if("".equals(category.getName().trim())) {
-			String checkName = "ƒ´≈◊∞Ì∏Æ ∏Ì¿ª ¿‘∑¬«ÿ¡÷ººø‰.";
-			List<String> purposeType = new ArrayList<String>();
-			purposeType.add("type");
-			List<EmploymentType> listType = this.employmentTypeService.find(type, purposeType);
+		List<EmploymentCategory> check = this.employmentCategoryService.find(category);
+		// Ïú†Ìòï Î™ÖÏù¥ ÎπàÏπ∏Ïù∏ÏßÄ
+		if ("".equals(category.getName().trim())) {
+			String checkName = "Ïπ¥ÌÖåÍ≥†Î¶¨ Î™ÖÏùÑ ÏûÖÎ†•Ìï¥Ï£ºÏÑ∏Ïöî.";
+			List<EmploymentType> listType = this.employmentTypeService.find(type);
 			modelAndView = new ModelAndView("/employmentCategory/edit");
 			modelAndView.addObject("checkName", checkName);
 			modelAndView.addObject("category", category);
 			modelAndView.addObject("listType", listType);
-			
+
 			return modelAndView;
 		}
-		
-		//¿ÃπÃ µÓ∑œµ«æÓ ¿÷¥¬¡ˆ
-		if(!check.isEmpty() && !((category.getNo()) == check.get(0).getNo())) {
-			String checkName = "¿ÃπÃ µÓ∑œµ» ƒ´≈◊∞Ì∏Æ¿‘¥œ¥Ÿ.";
-			List<String> purposeType = new ArrayList<String>();
-			purposeType.add("type");
-			List<EmploymentType> listType = this.employmentTypeService.find(type, purposeType);
+
+		// Ïù¥ÎØ∏ Îì±Î°ùÎêòÏñ¥ ÏûàÎäîÏßÄ
+		if (!check.isEmpty() && !((category.getNo()) == check.get(0).getNo())) {
+			String checkName = "Ïù¥ÎØ∏ Îì±Î°ùÎêú Ïπ¥ÌÖåÍ≥†Î¶¨ÏûÖÎãàÎã§.";
+			List<EmploymentType> listType = this.employmentTypeService.find(type);
 			modelAndView = new ModelAndView("/employmentCategory/edit");
 			modelAndView.addObject("checkName", checkName);
 			modelAndView.addObject("category", category);
 			modelAndView.addObject("listType", listType);
-			
+
 			return modelAndView;
 		}
-		
-		
+
 		this.employmentCategoryService.edit(category);
-		
+
 		return new ModelAndView(new RedirectView("/employmentCategory/list"));
 	}
-	
+
 	@RequestMapping(value = "remove/{no}", method = RequestMethod.GET)
-	public ModelAndView remove (@PathVariable int no) {
+	public ModelAndView remove(@PathVariable int no) {
 		this.employmentCategoryService.remove(no);
 		return new ModelAndView(new RedirectView("/employmentCategory/list"));
 	}
