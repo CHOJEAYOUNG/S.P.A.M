@@ -5,8 +5,26 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
-<body>
-	등록이 완료 되었습니다.
-	<input type="button" value="닫기" onclick="window.open('', '_self', ''); window.close();"/>
-</body>
+<!--
+	Horizons by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+	<head>
+		<title>학과 업무 관리 시스템</title>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+    	<link rel="stylesheet" href="${pageContext.servletContext.contextPath}/css/style.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="/css/ie/v8.css" /><![endif]-->
+	</head>
+	<body  id="main" class="wrapper style1">
+		<header>
+			<div style="text-align: center;">
+				등록이 완료 되었습니다. <br>
+				<input type="button" value="닫기" onclick="window.open('', '_self', ''); window.close();"/>
+			</div>
+		</header>
+	</body>
 </html>

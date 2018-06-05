@@ -1,5 +1,9 @@
 package com.spam.presentation;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,7 +46,8 @@ public class GraduationController {
 			SpamUser spamuser) throws Exception {
 		HttpSession session = request.getSession(false);
 		ModelAndView modelAndView = new ModelAndView("/graduation/list");
-		List<Graduation> listGr = null;
+		List<Graduation> listGr = new ArrayList<Graduation>();
+		List<SpamUser> listSpamuser = spamUserService.list(spamuser, request);
 		List<GraduationCategory> listCategory = this.graduationCategoryService.find(category);
 
 		if ("S".equals(session.getAttribute("power"))) {
@@ -69,6 +74,7 @@ public class GraduationController {
 		modelAndView.addObject("spamuser", spamuser);
 		modelAndView.addObject("listGr", listGr);
 		modelAndView.addObject("listCategory", listCategory);
+		modelAndView.addObject("listSpamuser", listSpamuser);
 		return modelAndView;
 	}
 	
@@ -86,6 +92,13 @@ public class GraduationController {
 			GraduationCategory category = graduationCategoryService.view(graduation.getGrcNo());
 			modelAndView.addObject("category", category);
 		}
+		String path = graduation.getFilePath();
+		File file = new File(path);
+		
+		if(!file.isFile()) {
+			String notfound = "N";
+			modelAndView.addObject("notfound", notfound);
+		}
 		modelAndView.addObject("graduation", graduation);
 		modelAndView.addObject("spamuser", spamuser);
 		modelAndView.addObject("graduationType", graduationType);
@@ -96,28 +109,30 @@ public class GraduationController {
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public ModelAndView search(HttpServletRequest request, SpamUser spamuser) throws Exception {
 		ModelAndView modelAndView = new ModelAndView("/graduation/search");
-		List<SpamUser> listSpam = spamUserService.list(spamuser, request);
+		List<SpamUser> listSpam = new ArrayList<SpamUser>();
 		String search = request.getParameter("search");
 		String select = request.getParameter("select");
-		
+
 		if ("".equals(search) || search == null) {
+			listSpam = spamUserService.list(spamuser, request);
 			modelAndView.addObject("listSpam", listSpam);
 			return modelAndView;
 		}
+		
 		if ("id".equals(select)) {
-			for (int i = 0; i < listSpam.size(); i++) {
-				if (!search.equals(String.valueOf(listSpam.get(i).getId()))) {
-					listSpam.remove(i);
-					i = 0;
+			for(SpamUser user : spamUserService.list(spamuser, request)) {
+				if(String.valueOf(user.getId()).contains(search)) {
+					listSpam.add(user);
 				}
 			}
 		} else if ("name".equals(select)) {
-			for (int i = 0; i < listSpam.size(); i++) {
-				if (!search.equals(listSpam.get(i).getName())) {
-					listSpam.remove(i);
-					i = 0;
+			for(SpamUser user : spamUserService.list(spamuser, request)) {
+				if(String.valueOf(user.getName()).contains(search)) {
+					listSpam.add(user);
 				}
 			}
+		} else {
+			listSpam = spamUserService.list(spamuser, request);
 		}
 		modelAndView.addObject("listSpam", listSpam);
 		return modelAndView;
@@ -198,12 +213,16 @@ public class GraduationController {
 	}
 	
 	@RequestMapping(value = "/download/{no}", method = RequestMethod.GET)
-	public ModelAndView download(@PathVariable int no, HttpServletResponse response)
-			throws Exception {
+	public ModelAndView download(@PathVariable int no, HttpServletResponse response) throws Exception {
 		Graduation graduation = new Graduation();
 		graduation = graduationService.view(no);
-		graduationService.download(graduation, response);
+		String path = graduation.getFilePath();
+	
+		File file = new File(path);
 		
-		return new ModelAndView("/graduation/view");
+		if (file.isFile()) {
+			graduationService.download(graduation, response);
+		}
+		return new ModelAndView("/graduation/view/");
 	}
 }

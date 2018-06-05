@@ -149,8 +149,10 @@ function setAlpha(obj) {
 								
 										</select> <br>
 										
-										<input type="submit" value="등록" onclick="return checkNull()"/>
-										<a href="/graduationType/list"><input type="button" value="목록" /></a>
+										<div style="text-align: right;">
+											<input type="submit" value="등록" onclick="return checkNull()"/>
+											<a href="/graduationType/list"><input type="button" value="목록" /></a>
+										</div>
 									</form>
 								</header>
 							</section>

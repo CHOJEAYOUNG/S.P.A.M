@@ -9,7 +9,6 @@ power = (String)session.getAttribute("power");
 %>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>취업 점수 목록 조회</title>
 </head>
 <script type="text/javascript">
 function checkNull() {
@@ -104,6 +103,22 @@ function checkNull() {
 											</c:if>
 										</ul>
 									</section>
+									<section>
+			                      		<header class="major">
+			                           		<h2>검색</h2>
+			                      		</header>
+			                        	<form action="/graduationCategory/list" method="GET">
+											<input type="text" id="search" name="search" style="width:200px;"/>
+											<select name="select">
+												<option value="name">카테고리 명</option>
+												<option value="condition">조건</option>
+											</select>
+											<div style="text-align: right;">
+												<a href="/graduationCategory/list"><input type="button" value="전체보기"></a>
+												<input type="submit" value="검색" onclick="return checkNull()">
+											</div>
+										</form>
+		                    		</section>
 								</div>
 							</section>
 						</div>
@@ -113,17 +128,6 @@ function checkNull() {
 							<section>
 								<header class="major">
 								<h3>졸업 카테고리</h3>
-									<form action="/graduationCategory/list" method="GET">
-										<input type="text" id="search" name="search" style="width:200px;"/>
-										<select name="select">
-											<option value="name">카테고리 명</option>
-											<option value="condition">조건</option>
-										</select>
-										<input type="submit" value="검색" onclick="return checkNull()">
-										<a href="/graduationCategory/list"><input type="button" value="전체보기"></a>
-										<br><br><br>
-									</form>
-									
 									<table style="width:100%; text-align: center;" border="1">
 										<thead>
 											<tr>

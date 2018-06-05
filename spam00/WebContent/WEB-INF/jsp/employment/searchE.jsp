@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<% request.setCharacterEncoding("UTF-8"); %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <script type="text/javascript">
@@ -21,17 +22,38 @@ function checkRadio() {
 </script>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>취업 점수 관리</title>
 </head>
-	<h2>학생을 선택하세요.</h2>
-	<form action="/employment/searchE" method="get">
-		검 색 <input type="text" name="search" />
-			<select name="select">
-				<option value="id">학번</option>
-				<option value="name">이름</option>
-			</select>
-	</form>
-	<form action="/employment/selectEmployment" method="post">
+<!--
+	Horizons by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+	<head>
+		<title>학과 업무 관리 시스템</title>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<script src="/js/jquery.min.js"></script>
+		<script src="/js/jquery.dropotron.min.js"></script>
+		<script src="/js/skel.min.js"></script>
+		<script src="/js/skel-layers.min.js"></script>
+		<script src="/js/init.js"></script>
+    	<link rel="stylesheet" href="${pageContext.servletContext.contextPath}/css/style.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="/css/ie/v8.css" /><![endif]-->
+	</head>
+	<body  id="main" class="wrapper style1">
+		<div style="text-align: center;">
+			<h2>학생을 선택하세요.</h2>
+		</div>
+		<form action="/employment/searchE" method="get">
+			검 색 <input type="text" name="search" style="width:150px"/>
+				<select name="select">
+					<option value="id">학번</option>
+					<option value="name">이름</option>
+				</select>
+		</form>
+		<form action="/employment/selectEmployment" method="post">
 		
 		<table style="width:100%" border="1">
 				<thead>
@@ -71,7 +93,9 @@ function checkRadio() {
 				</thead>
 			</table>
 			<br>
-			<input type="submit" value="다음"  onclick="return checkRadio()"/>
+			<div style="text-align: center;">
+				<input type="submit" value="다음"  onclick="return checkRadio()"/>
+			</div>
 		</form>
-</body>
+	</body>
 </html>

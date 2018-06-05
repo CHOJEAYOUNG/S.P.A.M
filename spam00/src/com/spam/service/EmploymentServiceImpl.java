@@ -60,10 +60,10 @@ public class EmploymentServiceImpl implements EmploymentService {
 				dir.mkdirs();
 			}
 			File serverFile = new File(path + File.separator + saveName);
-			path = path + File.separator + saveName; // 경로
+			String realRath = path + File.separator + saveName; // 경로
 			employment.setOriginalName(file.getOriginalFilename());
 			employment.setSaveName(saveName);
-			employment.setFilePath(path);
+			employment.setFilePath(realRath);
 			try {
 				file.transferTo(serverFile);
 			} catch (IllegalStateException | IOException e) {

@@ -104,6 +104,22 @@ function checkNull() {
 											</c:if>
 										</ul>
 									</section>
+									<section>
+			                      		<header class="major">
+			                           		<h2>검색</h2>
+			                      		</header>
+			                        	<form action="/graduationType/list" method="GET">
+											<input type="text" id="search" name="search" style="width:200px;"/>
+											<select name="select">
+												<option value="type">유형</option>
+												<option value="year">연도</option>
+											</select>
+											<div style="text-align: right;">
+												<a href="/graduationType/list"><input type="button" value="전체보기"></a>
+												<input type="submit" value="검색" onclick="return checkNull()"/>
+											</div>
+										</form>
+									</section>
 								</div>
 							</section>
 						</div>
@@ -113,17 +129,6 @@ function checkNull() {
 							<section>
 								<header class="major">
 								<h3>졸업 유형</h3>
-									<form action="/graduationType/list" method="GET">
-										<input type="text" id="search" name="search" style="width:200px;"/>
-										<select name="select">
-											<option value="type">유형</option>
-											<option value="year">연도</option>
-										</select>
-										<input type="submit" value="검색" onclick="return checkNull()"/>
-										<a href="/graduationType/list"><input type="button" value="전체보기"></a>
-										<br><br><br>
-									</form>
-									
 									<table style="width:100%; text-align: center;" border="1" >
 										<thead>
 											<tr>

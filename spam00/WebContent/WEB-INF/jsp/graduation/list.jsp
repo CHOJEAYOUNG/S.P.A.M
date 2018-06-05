@@ -9,7 +9,6 @@ power = (String)session.getAttribute("power");
 %>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>취업 점수 목록 조회</title>
 </head>
 <script type="text/javascript">
 function openWindow() {
@@ -28,10 +27,6 @@ function openWindowS() {
 	 myForm.method="post";
 	 myForm.target="selectGraduation";
 	myForm.submit();
-}	
-function captureReturnKey(e) {
-    if(e.keyCode==13 && e.srcElement.type != 'textarea')
-    return false;
 }
 
 function checkNull() {
@@ -144,6 +139,18 @@ function removeChar(event) {
 											</c:if>
 										</ul>
 									</section>
+									<section>
+	                      				<header class="major">
+	                           				<h2>검색</h2>
+	                      				</header>
+	                        			<form action="/graduation/list" method="get">
+											<c:if test="${power ne 'S' }">
+												<input type="text" name="id" id="id" placeholder="학번" style="width:200px;" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;'/>
+												<input type="submit"value="검색" onclick="return checkNull()"/>
+												<br>
+											</c:if>
+										</form>
+                    				</section>
 								</div>
 							</section>
 						</div>
@@ -153,18 +160,14 @@ function removeChar(event) {
 							<section>
 								<header class="major">
 									<h3>졸업 기준</h3>
-									<form action="/graduation/list" method="get">
-										<c:if test="${power ne 'S' }">
-											검색 <input type="text" name="id" id="id" placeholder="학번" style="width:200px;" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;'/>
-											<input type="submit"value="검색" onclick="return checkNull()"/>
-											<br>
-										</c:if>
-										<br><br><br>
 										 <table style="width:100%; text-align: center;" border="1">
 											<thead>
 												<c:if test="${ !empty listGr}">
 												<tr>
 													<th>번호</th>
+													<c:if test="${power eq 'A'}">
+															<th>이름</th>
+														</c:if>
 													<th>제목</th>
 													<th>조건</th>
 													<th>등록일</th>
@@ -177,6 +180,15 @@ function removeChar(event) {
 																<td style="text-align: center;">
 																	<c:out value="${status.count}"/>
 																</td>
+																<c:if test="${power eq 'A'}">
+																<c:forEach items="${ listSpamuser }" var="spamuser" varStatus="status">
+																	<c:if test="${spamuser.id eq graduation.id}">
+																		<td style="text-align: center;">
+																			<c:out value="${spamuser.name}"/>
+																		</td>
+																	</c:if>
+																</c:forEach>
+															</c:if>
 																<c:forEach items="${ listCategory }" var="category" varStatus="status">
 																	<c:if test="${ graduation.grcNo eq category.no}">
 																		<td style="text-align: center;">
@@ -228,10 +240,8 @@ function removeChar(event) {
 										<c:if test="${power ne 'S' }">
 											<div style="text-align: right; padding-top: 10px;">
 												<a href="javascript:openWindow()"><input type="button" value="등록"></a>
-												<!-- 나는 <label id="baseWindowLabel" > base </label> -->
 											</div>
 										</c:if>
-									</form>
 									<c:if test="${power eq 'S' }">
 										<form action="/graduation/selectGraduation" method="post" name="S">
 											<a href="javascript:openWindowS()"><input type="button" value="등록"> </a>
@@ -240,7 +250,6 @@ function removeChar(event) {
 								</header>
 							</section>
 						</div>
-					
 					</div>
 				</div>
 			</div>

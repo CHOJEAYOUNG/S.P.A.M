@@ -116,14 +116,15 @@ power = (String)session.getAttribute("power");
 										상세정보 <br>
 										<textarea rows="3" cols="50" name="info" style="background-color: #e2e2e2;" readonly="readonly">${category.info}</textarea> <br>
 										
-										<a href="/employmentCategory/remove/${no}"><input type="button" value="삭제"/></a>
-										<a href="/employmentCategory/edit/${no}"><input type="button" value="수정"/></a>
-										<a href="/employmentCategory/list"><input type="button" value="목록"/></a>
+										<div>
+											<a href="/employmentCategory/remove/${no}"><input type="button" value="삭제"/></a>
+											<a href="/employmentCategory/edit/${no}"><input type="button" value="수정"/></a>
+											<a href="/employmentCategory/list"><input type="button" value="목록"/></a>
+										</div>
 									</form>
 								</header>
 							</section>
 						</div>
-					
 					</div>
 				</div>
 			</div>

@@ -141,6 +141,17 @@ function removeChar(event) {
 											</c:if>
 										</ul>
 									</section>
+									<section>
+	                      				<header class="major">
+                           				<h2>검색</h2>
+	                      				</header>
+	                        			<form action="/employment/list" method="get">
+											<c:if test="${power ne 'S' }">
+												<input type="text" name="id" id="id" style=width:200px; placeholder="학번" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;'/>
+												<input type="submit"value="검색" style="text-align:center;" onclick="return checkNull()"/>
+											</c:if>
+										</form>
+                    				</section>
 								</div>
 							</section>
 						</div>
@@ -149,19 +160,16 @@ function removeChar(event) {
 						<div id="content" class="8u skel-cell-important">
 							<section>
 								<header class="major">
-									<form action="/employment/list" method="get">
-										<c:if test="${power ne 'S' }">
-											검색 <input type="text" name="id" id="id" style=width:200px; placeholder="학번" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;'/>
-											<input type="submit"value="검색" style="text-align:center;" onclick="return checkNull()"/>
-											<a href="/employment/list"><input type="button" value="새로고침"></a>
-											<br>
-										</c:if>
+									
 										<br><br><br>
 										<table style="width:100%; text-align: center;" border="1">
 											<thead>
 												<c:if test="${ !empty listEmp}">
 													<tr>
 														<th>번호</th>
+														<c:if test="${power eq 'A'}">
+															<th>이름</th>
+														</c:if>
 														<th>제목</th>
 														<th>점수</th>
 														<th>조건</th>
@@ -174,6 +182,15 @@ function removeChar(event) {
 															<td style="text-align: center;">
 																<c:out value="${status.count}"/>
 															</td>
+															<c:if test="${power eq 'A'}">
+																<c:forEach items="${ listSpamuser }" var="spamuser" varStatus="status">
+																	<c:if test="${spamuser.id eq employment.id}">
+																		<td style="text-align: center;">
+																			<c:out value="${spamuser.name}"/>
+																		</td>
+																	</c:if>
+																</c:forEach>
+															</c:if>
 															<c:if test="${ employment.empcNo ne 0}">
 																<c:forEach items="${ listCategory }" var="category" varStatus="status">
 																	<c:if test="${ employment.empcNo eq category.no}">
@@ -265,7 +282,6 @@ function removeChar(event) {
 												<a href="javascript:openWindow()"><input type="button" value="등록"/></a>
 											</div>
 										</c:if>
-									</form>
 									<c:if test="${power eq 'S' }">
 										<form action="/employment/selectEmployment" method="post" name="S">
 											<a href="javascript:openWindowS()"><input type="button" value="등록"/></a>

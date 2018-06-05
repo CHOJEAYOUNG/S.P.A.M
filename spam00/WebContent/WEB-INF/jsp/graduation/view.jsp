@@ -1,12 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <% request.setCharacterEncoding("UTF-8"); %>
+<%@ page import="java.io.*"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <%
 String power = "";
 power = (String)session.getAttribute("power");
 %>
+
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>취업 점수 목록 조회</title>
@@ -95,10 +97,10 @@ function showDiv( id,check ) {
 								<div class="row half">
 									<section class="8u">
 										<ul class="default">
-											<li><a href="/employment/list">취업 점수</a></li>
+											<li><a href="/graduation/list">졸업 점수</a></li>
 											<c:if test="${power eq 'A' }">
-												<li><a href="/employmentCategory/list">취업 카테고리</a></li>
-												<li><a href="/employmentType/list">취업 유형</a></li>
+												<li><a href="/graduationCategory/list">졸업 카테고리</a></li>
+												<li><a href="/graduationType/list">졸업 유형</a></li>
 											</c:if>
 										</ul>
 									</section>
@@ -126,7 +128,9 @@ function showDiv( id,check ) {
 										등록일<input type="text" name="registration" value="${graduation.registration}" readOnly="readonly" style="width:200px; background-color: #e2e2e2;" />
 										<br>
 										상세 정보  <input type="text" name="info" value="${category.info} " readOnly="readonly" style="background-color: #e2e2e2;" />
-										파일명 <a href="<c:out value = "/graduation/download/${graduation.grlNo}"/>">${graduation.originalName}</a>
+										파일명
+										<c:if test="${ notfound eq 'N'}"><span style="color: red;">파일이 존재하지 않습니다.</span></c:if>
+										 <c:if test="${ notfound ne 'N'}"><a href="<c:out value = "/graduation/download/${graduation.grlNo}"/>">${graduation.originalName}</a></c:if>
 										<br>
 										승인 여부
 										<c:if test="${ graduation.assentNo eq 1}">
@@ -143,7 +147,10 @@ function showDiv( id,check ) {
 												<input type="radio" name="assentNo" value="3" onClick="showDiv( 'cause','s' );"/> 거절
 												<br>
 												<textarea rows="1" cols="15" name="cause" placeholder="거절사유" style="visibility:hidden"></textarea> <br>
-												<input type="submit" value="완료">
+												<div style="text-align: right;">
+													<input type="submit" value="완료">
+													<a href="/graduation/list"><input type="button" value="목록"/></a>
+												</div>
 											</c:if>
 										</c:if>
 										
@@ -154,9 +161,11 @@ function showDiv( id,check ) {
 											<textarea rows="1" cols="15" name="cause" readonly="readonly">${graduation.cause}</textarea> <br>
 										</c:if> <br>
 										<c:if test="${power eq 'S' && graduation.assentNo ne 1}">
-											<a href="/graduation/remove/${graduation.grlNo}"><input type="button" value="삭제"/></a>
+											<div style="text-align: right;">
+												<a href="/graduation/remove/${graduation.grlNo}"><input type="button" value="삭제"/></a>
+												<a href="/graduation/list"><input type="button" value="목록"/></a>
+											</div>
 										</c:if>
-										<a href="/graduation/list"><input type="button" value="목록"/></a>
 									</form>
 								</header>
 							</section>

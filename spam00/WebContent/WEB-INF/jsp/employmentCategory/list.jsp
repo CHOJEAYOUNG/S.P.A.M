@@ -124,6 +124,22 @@ function checkNull() {
 											</c:if>
 										</ul>
 									</section>
+								<section>
+		                      		<header class="major">
+		                           		<h2>검색</h2>
+		                      		</header>
+		                        	<form action="/employmentCategory/list" method="GET">
+										<input type="text" id="search" name="search" style="width:200px;"/>
+										<select name="select">
+											<option value="name">카테고리 명</option>
+											<option value="condition">조건</option>
+										</select>
+										<div style="text-align: right;">
+											<a href="/employmentCategory/list"><input type="button" value="전체보기"></a>
+											<input type="submit" value="검색" onclick="return checkNull()">
+										</div>
+									</form>
+	                    		</section>
 								</div>
 							</section>
 						</div>
@@ -133,18 +149,6 @@ function checkNull() {
 							<section>
 								<header class="major">
 								<h3>취업 카테고리</h3>
-									<form action="/employmentCategory/list" method="GET">
-										<input type="text" id="search" name="search" style=width:200px;/>
-										<select name="select">
-											<option value="name">카테고리 명</option>
-											<option value="condition">조건</option>
-										</select>
-										<input type="submit" value="검색" onclick="return checkNull()">
-										
-										<a href="/employmentCategory/list"><input type="button" value="전체보기"></a>
-										<br><br><br>
-									</form>
-									
 									<table style="width:100%; text-align: center;" border="1">
 										<thead>
 											<tr>
@@ -211,11 +215,9 @@ function checkNull() {
 								</header>
 							</section>
 						</div>
-					
 					</div>
 				</div>
 			</div>
-
 		<!-- Footer -->
 			<div id="footer">
 				<div class="container">

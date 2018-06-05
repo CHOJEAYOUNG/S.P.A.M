@@ -162,8 +162,10 @@ function removeChar(event) {
 									상세정보 <br>
 									<textarea rows="3" cols="50" id="info" name="info">${category.info}</textarea> <br>
 									
-									<input type="submit" value="수정" onclick="return checkNull()"/>
-									<a href="/employmentCategory/view/${category.no}"><input type="button" value="취소"/></a>
+									<div style="text-align: right;">
+										<input type="submit" value="수정" onclick="return checkNull()"/>
+										<a href="/employmentCategory/view/${category.no}"><input type="button" value="취소"/></a>
+									</div>
 								</form>
 								</header>
 							</section>

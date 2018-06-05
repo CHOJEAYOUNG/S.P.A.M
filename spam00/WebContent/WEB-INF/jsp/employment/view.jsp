@@ -153,27 +153,34 @@ function showDiv( id,check ) {
 									<br>
 									<c:if test="${employment.empcNo ne 0}">
 										상세 정보 <input type="text" name="info" value="${category.info} " style="background-color: #e2e2e2;" readOnly="readonly" /><br>
-										파일명 <a href="<c:out value = "/employment/download/${employment.emplNo}"/>">${employment.originalName}</a>
+										파일명 
+										<c:if test="${ notfound eq 'N'}"><span style="color: red;">파일이 존재하지 않습니다.</span></c:if>
+										<c:if test="${ notfound ne 'N'}"><a href="<c:out value = "/employment/download/${employment.emplNo}"/>">${employment.originalName}</a></c:if>
 								 	</c:if> <br><br>
 									승인 여부
 									<c:if test="${ employment.assentNo eq 1}">
 										<span style="color:blue">승인</span>
-										${employment.assentDate}
+										${employment.assentDate} <br>
+										<div style="text-align: right;">
+												<a href="/employment/list"><input type="button" value="목록"/></a>
+											</div>
 									</c:if>
 									
 									<c:if test="${ employment.assentNo eq 2}">
 										<c:if test="${power ne 'A'}">
-											<span style="color:green">대기</span>
+											<span style="color:green">대기</span> <br>
 										</c:if>
 										<c:if test="${power eq 'A' }">
-											<input type="radio" name="assentNo" value="1" ch onClick="showDiv( 'cause','h' );"/> 승인
+											<input type="radio" name="assentNo" value="1" checked="checked" onClick="showDiv( 'cause','h' );"/> 승인
 											<input type="radio" name="assentNo" value="3" onClick="showDiv( 'cause','s' );"/> 거절
 											<br>
 											<textarea rows="1" cols="15" name="cause" placeholder="거절사유" style="visibility:hidden"></textarea> <br>
-											<input type="submit" value="완료">
+											<div style="text-align: right;">
+												<input type="submit" value="완료">
+												<a href="/employment/list"><input type="button" value="목록"/></a>
+											</div>
 										</c:if>
 									</c:if>
-									
 									<c:if test="${ employment.assentNo eq 3}">
 										<span style="color:red">거절</span>
 										${employment.assentDate} <br>
@@ -181,15 +188,12 @@ function showDiv( id,check ) {
 										<textarea rows="1" cols="15" name="cause" readonly="readonly">${employment.cause}</textarea> <br>
 									</c:if> <br>
 									<c:if test="${power eq 'S' && employment.assentNo ne 1}">
-										<a href="/employment/remove/${employment.emplNo}"><input type="button" value="삭제"/></a>
+										<div style="text-align: right;">
+											<a href="/employment/remove/${employment.emplNo}"><input type="button" value="삭제"/></a>
+											<a href="/employment/list"><input type="button" value="목록"/></a>
+										</div>
 									</c:if>
-									<a href="/employment/list"><input type="button" value="목록"/></a>
 								</form>
-									<c:if test="${power eq 'S' }">
-										<form action="/employment/selectEmployment" method="post" name="S">
-											<a href="javascript:openWindowS()"><input type="button" value="등록"/></a>
-										</form>
-									</c:if>
 								</header>
 							</section>
 						</div>

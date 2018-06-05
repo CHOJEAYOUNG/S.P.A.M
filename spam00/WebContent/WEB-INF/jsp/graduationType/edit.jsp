@@ -149,8 +149,10 @@ function setAlpha(obj) {
 											<%String.valueOf(yearResult++); } %>
 								
 										</select> <br>
-										<input type="submit" value="수정" onclick="return checkNull()"/>
-										<a href="/graduationType/list"><input type="button" value="취소" /></a>
+										<div style="text-align: right;">
+											<input type="submit" value="수정" onclick="return checkNull()"/>
+											<a href="/graduationType/list"><input type="button" value="취소" /></a>
+										</div>
 									</form>
 								</header>
 							</section>

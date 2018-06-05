@@ -1,5 +1,6 @@
 package com.spam.presentation;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
+import org.w3c.dom.stylesheets.LinkStyle;
 
 import com.spam.domain.Attendance;
 import com.spam.domain.Employment;
@@ -49,7 +51,8 @@ public class EmploymentController {
 		ModelAndView modelAndView = new ModelAndView("/employment/list");
 		List<Attendance> listAttendance = new ArrayList<Attendance>();
 		listAttendance = attendanceService.list();
-		List<Employment> listEmp = null;
+		List<Employment> listEmp = new ArrayList<Employment>();
+		List<SpamUser> listSpamuser = spamUserService.list(spamuser, request);
 		List<EmploymentCategory> listCategory = this.employmentCategoryService.find(category);
 		
 		if ("S".equals(session.getAttribute("power"))) {
@@ -60,7 +63,7 @@ public class EmploymentController {
 			spamuser = spamUserService.view(spamuser);
 		} else {
 			String id = request.getParameter("id");
-			if (!("".equals(id) || id == null)) { //널이 아니거나 한글이 아닐때
+			if (!("".equals(id) || id == null)) {
 				if(!isStringDouble(id)) {
 					System.out.println(isStringDouble(id));
 					System.out.println(id);
@@ -74,12 +77,14 @@ public class EmploymentController {
 			} else {
 				employment.setAssentNo(2);
 				listEmp = employmentService.find(employment);
+				
 			}
 		}
 		modelAndView.addObject("spamuser", spamuser);
 		modelAndView.addObject("listEmp", listEmp);
 		modelAndView.addObject("listCategory", listCategory);
 		modelAndView.addObject("listAttendance", listAttendance);
+		modelAndView.addObject("listSpamuser", listSpamuser);
 		return modelAndView;
 	}
 
@@ -94,11 +99,18 @@ public class EmploymentController {
 		spamuser.setId(employment.getId());
 		spamuser = spamUserService.view(spamuser);
 		attendance = attendanceService.selectOne(employment.getAttendanceNo());
-		employmentType = employmentTypeService.view(spamuser.getEmpNo()); //제대로 된 값 넣기
+		employmentType = employmentTypeService.view(spamuser.getEmpNo());
 		
 		if (0 != employment.getEmpcNo()) {
 			EmploymentCategory category = employmentCategoryService.view(employment.getEmpcNo());
 			modelAndView.addObject("category", category);
+		}
+		String path = employment.getFilePath();
+		File file = new File(path);
+		
+		if(!file.isFile()) {
+			String notfound = "N";
+			modelAndView.addObject("notfound", notfound);
 		}
 		modelAndView.addObject("employment", employment);
 		modelAndView.addObject("spamuser", spamuser);
@@ -136,28 +148,30 @@ public class EmploymentController {
 	@RequestMapping(value = "/searchA", method = RequestMethod.GET)
 	public ModelAndView searchA(HttpServletRequest request, SpamUser spamuser) throws Exception {
 		ModelAndView modelAndView = new ModelAndView("/employment/searchA");
-		List<SpamUser> listSpam = spamUserService.list(spamuser, request);
+		List<SpamUser> listSpam = new ArrayList<SpamUser>();
 		String search = request.getParameter("search");
 		String select = request.getParameter("select");
 
 		if ("".equals(search) || search == null) {
+			listSpam = spamUserService.list(spamuser, request);
 			modelAndView.addObject("listSpam", listSpam);
 			return modelAndView;
 		}
+		
 		if ("id".equals(select)) {
-			for (int i = 0; i < listSpam.size(); i++) {
-				if (!search.equals(String.valueOf(listSpam.get(i).getId()))) {
-					listSpam.remove(i);
-					i = 0;
+			for(SpamUser user : spamUserService.list(spamuser, request)) {
+				if(String.valueOf(user.getId()).contains(search)) {
+					listSpam.add(user);
 				}
 			}
 		} else if ("name".equals(select)) {
-			for (int i = 0; i < listSpam.size(); i++) {
-				if (!search.equals(listSpam.get(i).getName())) {
-					listSpam.remove(i);
-					i = 0;
+			for(SpamUser user : spamUserService.list(spamuser, request)) {
+				if(String.valueOf(user.getName()).contains(search)) {
+					listSpam.add(user);
 				}
 			}
+		} else {
+			listSpam = spamUserService.list(spamuser, request);
 		}
 		modelAndView.addObject("listSpam", listSpam);
 		return modelAndView;
@@ -166,28 +180,30 @@ public class EmploymentController {
 	@RequestMapping(value = "/searchE", method = RequestMethod.GET)
 	public ModelAndView searchE(HttpServletRequest request, SpamUser spamuser) throws Exception {
 		ModelAndView modelAndView = new ModelAndView("/employment/searchE");
-		List<SpamUser> listSpam = spamUserService.list(spamuser, request);
+		List<SpamUser> listSpam = new ArrayList<SpamUser>();
 		String search = request.getParameter("search");
 		String select = request.getParameter("select");
 
 		if ("".equals(search) || search == null) {
+			listSpam = spamUserService.list(spamuser, request);
 			modelAndView.addObject("listSpam", listSpam);
 			return modelAndView;
 		}
+		
 		if ("id".equals(select)) {
-			for (int i = 0; i < listSpam.size(); i++) {
-				if (!search.equals(String.valueOf(listSpam.get(i).getId()))) {
-					listSpam.remove(i);
-					i = 0;
+			for(SpamUser user : spamUserService.list(spamuser, request)) {
+				if(String.valueOf(user.getId()).contains(search)) {
+					listSpam.add(user);
 				}
 			}
 		} else if ("name".equals(select)) {
-			for (int i = 0; i < listSpam.size(); i++) {
-				if (!search.equals(listSpam.get(i).getName())) {
-					listSpam.remove(i);
-					i = 0;
+			for(SpamUser user : spamUserService.list(spamuser, request)) {
+				if(String.valueOf(user.getName()).contains(search)) {
+					listSpam.add(user);
 				}
 			}
+		} else {
+			listSpam = spamUserService.list(spamuser, request);
 		}
 		modelAndView.addObject("listSpam", listSpam);
 		return modelAndView;
@@ -197,7 +213,7 @@ public class EmploymentController {
 	public ModelAndView selectEmployment(HttpServletRequest request, SpamUser spamuser, EmploymentCategory category,
 			EmploymentType type) throws Exception {
 		HttpSession session = request.getSession(false);
-		List<SpamUser> listSpam = null;
+		List<SpamUser> listSpam = new ArrayList<SpamUser>();
 		SpamUser user = null;
 		if ("A".equals(session.getAttribute("power"))) {
 			String id = request.getParameter("id");
@@ -282,8 +298,13 @@ public class EmploymentController {
 	public ModelAndView download(@PathVariable int no, HttpServletResponse response) throws Exception {
 		Employment employment = new Employment();
 		employment = employmentService.view(no);
-		employmentService.download(employment, response);
-
+		String path = employment.getFilePath();
+		
+		File file = new File(path);
+		
+		if(file.isFile()) {
+			employmentService.download(employment, response);
+		}
 		return new ModelAndView("/employment/view");
 	}
 	
