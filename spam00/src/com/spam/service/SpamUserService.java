@@ -16,4 +16,6 @@ public interface SpamUserService {
 	public List<SpamUser> list(SpamUser spamuser, HttpServletRequest request);
 	public void add(SpamUser spamuser);
 	public List<Enrollment> enrollments();
+	public List<SpamUser> listPop(SpamUser spamuser);
 }
+

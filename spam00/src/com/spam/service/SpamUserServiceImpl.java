@@ -223,4 +223,10 @@ public class SpamUserServiceImpl implements SpamUserService {
 			return 0;
 		}
 	}
+	
+	@Override
+	public List<SpamUser> listPop(SpamUser spamuser) {
+		spamuser.setPower("P");
+		return this.spamUserMapper.listP(spamuser);
+	}
 }

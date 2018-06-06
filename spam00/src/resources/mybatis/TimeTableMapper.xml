@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spam.persistence.TimeTableMapper">
+	<resultMap id="timeTableResultMap" type="timeTable">
+		<id column="PERIOD" property="period"/>
+		<result column="BEGIN_HOUR" property="beginHour"/>
+		<result column="BEGIN_MINUTES" property="beginMinutes"/>
+		<result column="FINISH_HOUR" property="finishHour"/>
+		<result column="FINISH_MINUTES" property="finishMinutes"/>
+	</resultMap>
+
+	<select id="list" parameterType="timeTable" resultMap="timeTableResultMap">
+		SELECT PERIOD
+			  ,BEGIN_HOUR
+			  ,BEGIN_MINUTES
+			  ,FINISH_HOUR
+			  ,FINISH_MINUTES
+			  FROM TIMETABLE2 
+		<where>
+			<if test="period != null and period != ''">
+				AND PERIOD LIKE '%'|| #{period} || '%'
+			</if>
+		</where>
+		ORDER BY PERIOD ASC  
+	</select>
+	
+	<insert id="insert" parameterType="timeTable">
+		INSERT INTO TIMETABLE2
+		(PERIOD,BEGIN_HOUR,BEGIN_MINUTES,FINISH_HOUR,FINISH_MINUTES)
+		VALUES(#{period}, #{beginHour},#{beginMinutes}, #{finishHour},#{finishMinutes})
+	</insert>
+	
+	<select id="select" parameterType="timeTable" resultMap="timeTableResultMap">
+		SELECT PERIOD
+			  ,BEGIN_HOUR
+			  ,BEGIN_MINUTES
+			  ,FINISH_HOUR
+			  ,FINISH_MINUTES
+			  FROM TIMETABLE2 
+		<where>
+			<if test="period > 0">
+				AND PERIOD = #{period}
+			</if>
+		</where>
+	</select>
+	
+	<update id="update" parameterType="timeTable">
+        UPDATE TIMETABLE2
+        <set>
+            <if test="period != null and period != ''">PERIOD = #{period},   </if>
+            <if test="beginHour != null and beginHour != ''">BEGIN_HOUR = #{beginHour},	     </if>
+            <if test="beginMinutes != null and beginMinutes != ''">BEGIN_MINUTES = #{beginMinutes},	     </if>
+            <if test="finishHour != null and finishHour != ''">FINISH_MINUTES = #{finishHour},	     </if>           
+            <if test="finishMinutes != null and finishMinutes != ''" >FINISH = #{finishMinutes}, </if>
+        </set>
+        WHERE  PERIOD = #{period}
+    </update>
+	
+</mapper>

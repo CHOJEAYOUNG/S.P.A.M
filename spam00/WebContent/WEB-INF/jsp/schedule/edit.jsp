@@ -7,6 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	id <input type="text" id="id" name="id" value="#{schedule.id}"/>
+	begin <input type="date" id="begin" name="begin" value="#{schedule.begin}"/>
+	finish <input type="date" id="finish" name="finish" value="#{schedule.finish}"/>
+	mon <input type="text" id="mon" name="mon" value="#{schedule.mon}"/>
 </body>
 </html>

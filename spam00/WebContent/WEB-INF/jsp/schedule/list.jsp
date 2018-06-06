@@ -14,20 +14,20 @@ function viewPopupOpen(v) {
 	window.name = "viewForm";
 
 	var option = "width=500, height=720, resizable=no, scrollbars=no, status=no, toolbar=yes, directories=yes, menubar=yes, location=no;";
-	openWin = window.open("/advice/view/" + v, "childForm", option);
+	openWin = window.open("/schedule/view/" + v, "childForm", option);
 }
 function editPopupOpen(v) {
 	window.name = "editForm";
 
 	var option = "width=500, height=720, resizable=no, scrollbars=no, status=no, toolbar=yes, directories=yes, menubar=yes, location=no;";
-	openWin = window.open("/advice/edit/" + v, "childForm", option);
+	openWin = window.open("/schedule/edit/" + v, "childForm", option);
 }
 
 function stuPopupOpen() {
 	window.name = "ListForm";
 
 	var option = "width=700, height=410, resizable=no, scrollbars=no, status=no, toolbar=yes, directories=yes, menubar=yes, location=no;";
-	openWin = window.open("/advice/searchE", "stuForm", option);
+	openWin = window.open("/schedule/searchE", "stuForm", option);
 }
 </script>
 <head>
@@ -137,10 +137,8 @@ function stuPopupOpen() {
 										<tr bgcolor="#4C4639">
 											<th style="width: 40px; text-align: center;"><font
 												color="#FFFFFF">번호</font></th>
-											<th style="width: 40px; text-align: center;"><font
-												color="#FFFFFF">학생</font></th>
 											<th style="width: 100px; text-align: center;"><font
-												color="#FFFFFF">교수</font></th>
+												color="#FFFFFF">교번</font></th>
 											<th style="width: 100px; text-align: center;"><font
 												color="#FFFFFF">월</font></th>
 											<th style="width: 100px; text-align: center;"><font
@@ -152,70 +150,61 @@ function stuPopupOpen() {
 											<th style="width: 100px; text-align: center;"><font
 												color="#FFFFFF">금</font></th>
 											<th style="width: 100px; text-align: center;"><font
-												color="#FFFFFF">등록 날짜</font></th>
+												color="#FFFFFF">시작 날짜</font></th>
 											<th style="width: 100px; text-align: center;"><font
-												color="#FFFFFF">상담 날짜</font></th>
+												color="#FFFFFF">종료 날짜</font></th>
 											<th style="width: 100px; text-align: center;"><font
-												color="#FFFFFF">승인 여부</font></th>
+												color="#FFFFFF">사유</font></th>
 											<th style="width: 100px; text-align: center;"><font
-												color="#FFFFFF">승인</font></th>
+												color="#FFFFFF">수정</font></th>
 											<th style="width: 100px; text-align: center;"><font
-												color="#FFFFFF">거절</font></th>
-											<th style="width: 100px; text-align: center;"><font
-												color="#FFFFFF">상세 보기</font></th>
+												color="#FFFFFF">삭제</font></th>
 										</tr>
-										<c:if test="${ !empty listAdvice}">
-											<c:forEach items="${listAdvice}" var="advice"
+										<c:if test="${ !empty listSchedule}">
+											<c:forEach items="${listSchedule}" var="schedule"
 												varStatus="status">
 												<tr>
 													<td style="text-align: center; width: 35px;"><c:out
 															value="${ status.count }" /></td>
 													<td style="text-align: center; width: 100px;"><c:out
-															value="${ advice.sId }" /></td>
+															value="${ schedule.id }" /></td>
 													<td style="text-align: center; width: 100px;"><c:out
-															value="${ advice.pId }" /></td>
+															value="${ schedule.mon }" /></td>
 													<td style="text-align: center; width: 100px;"><c:out
-															value="${ advice.mon }" /></td>
+															value="${ schedule.tue }" /></td>
 													<td style="text-align: center; width: 100px;"><c:out
-															value="${ advice.tue }" /></td>
+															value="${ schedule.wed }" /></td>
 													<td style="text-align: center; width: 100px;"><c:out
-															value="${ advice.wed }" /></td>
+															value="${ schedule.thur }" /></td>
 													<td style="text-align: center; width: 100px;"><c:out
-															value="${ advice.thur }" /></td>
+															value="${ schedule.fri }" /></td>
 													<td style="text-align: center; width: 100px;"><c:out
-															value="${ advice.fri }" /></td>
+															value="${ schedule.begin }" /></td>
 													<td style="text-align: center; width: 100px;"><c:out
-															value="${ advice.registration }" /></td>
+															value="${ schedule.finish }" /></td>
 													<td style="text-align: center; width: 100px;"><c:out
-															value="${ advice.adviceDate }" /></td>
-													<td style="text-align: center; width: 100px;"><c:out
-															value="${ advice.state }" /></td>
+															value="${ schedule.reason }" /></td>
 													<td style="text-align: center; width: 100px;">
-													<c:if test="${advice.assentDate == null}">
-														<a
-															href="<c:url value="/advice/assent/${advice.adviceNo}" />">
-															<input type="button" value="승인" />
-														</a>
-													</c:if>
-													<c:if test="${advice.assentDate != null}">
-														<c:out
-															value="${ advice.assentDate }" />
-													</c:if>
+																								
+															<a href="<c:url value="/schedule/remove/${schedule.scheduleNo}"/>">
+															<input type="button" value="삭제" />
+															</a>
 													</td>
 													<td style="text-align: center; width: 100px;">
 													<input type="button" id="button_edit" name="button_edit"
-														onclick="editPopupOpen(${advice.adviceNo})" value="거절" />
-														</td>
-														<td style="text-align: center; width: 100px;">
-													<input type="button" id="button_view" name="button_view"
-														onclick="viewPopupOpen(${advice.adviceNo})" value="상세보기" />
+														onclick="editPopupOpen(${schedule.scheduleNo})" value="거절" />
 													</td>
+													<td style="text-align: center; width: 100px;">
+													<input type="button" id="button_view" name="button_view"
+														onclick="viewPopupOpen(${schedule.scheduleNo})" value="상세보기" />
+													</td>
+													<br />
 											</c:forEach>
 											</c:if>
 									</thead>
 
 								</table>
-								<a href="<c:url value="/advice/add" />"> <input
+								<a href="<c:url value="/schedule/add" />"> <input
 									type="button" id="button_add" name="button_edit" value="등록" />
 								</a>
 							</div>

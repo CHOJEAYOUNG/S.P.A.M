@@ -24,47 +24,20 @@
 		
 	</head>
 	<body class="homepage">
-
+	<c:if test="${sessionScope.isLogin}"> 
+      <div style="text-align: right;">
+         <%@ include file="../jsp/menubar.jsp" %>
+      </div>
+   </c:if>
 			<div id="header">
 				<div class="container">
 						
 					<!-- Logo -->
-						<h1><a href="#" id="logo">S.P.A.M</a></h1>
-					
+						<h1><a href="/main" id="logo">S.P.A.M</a></h1>
+						 
 					<!-- Nav -->
-						<nav id="nav">
-							<ul>
-								<li>
-									<h1><a href="">상담</a></h1>
-									<ul>
-										<li><a href="#">상담 예약</a></li>
-										<li><a href="#">상담 예약 조회</a></li>
-							<!-- 	<li><a href="#">Etiam dolore nisl</a></li>
-										<li>
-											<a href="">Phasellus consequat</a>
-											<ul>
-												<li><a href="#">Lorem ipsum dolor</a></li>
-												<li><a href="#">Phasellus consequat</a></li>
-												<li><a href="#">Magna phasellus</a></li>
-												<li><a href="#">Etiam dolore nisl</a></li>
-												<li><a href="#">Veroeros feugiat</a></li>
-											</ul>
-										</li>
-										<li><a href="#">Veroeros feugiat</a></li>  -->
-									</ul>
-								</li>
-								<li><h1><a href="">취업 점수</a></h1></li>
-								<li><h1><a href="">졸업 점수</a></h1></li>
-								<li>
-									<h1><a href="">내 정보</a></h1>
-									<ul>
-										<li><a href="#">정보 조회</a></li>
-										<li><a href="#">정보 수정</a></li>
-									</ul>
-								</li>
-							</ul>
-						</nav>
-
+						<%@ include file="../jsp/navbar.jsp" %>
+						
 					<!-- Banner -->
 						<div id="banner">
 							<div class="container">
@@ -78,20 +51,16 @@
 									</c:if>
 									<c:if test = "${!sessionScope.isLogin}" >
 										<a href="/login" class="loginbtn alt">로 그 인</a>
-									</c:if> 
+									</c:if>
 									
 								</section>			
 							</div>
 						</div>
 				</div>
 			</div>
-
+			
 		<!-- Footer -->
-			<div id="footer">
-					<!-- Copyright -->
-					<div class="copyright">
-						Tel: 041-530-2212 (선문대학교 컴퓨터공학과 과사무실)
-					</div>
-			</div>
+		<%@ include file="../jsp/footer.jsp" %>
+		
 	</body>
 </html>

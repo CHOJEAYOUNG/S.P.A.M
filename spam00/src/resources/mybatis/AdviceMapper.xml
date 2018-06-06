@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spam.persistence.AdviceMapper">
+	<resultMap id="adviceResultMap" type="advice">
+		<id column="ADVICE_NO" property="adviceNo"/>
+		<result column="S_ID" property="sId"/>
+		<result column="P_ID" property="pId"/>
+		<result column="ASSENT_NO" property="assentNo"/>
+		<result column="CAUSE" property="cause"/>
+		<result column="ASSENT_DATE" property="assentDate"/>
+		<result column="REGISTRATION" property="registration"/>
+		<result column="ADVICE_DATE" property="adviceDate"/>
+		<result column="MON" property="mon"/>
+		<result column="TUE" property="tue"/>		
+		<result column="WED" property="wed"/>
+		<result column="THUR" property="thur"/>
+		<result column="FRI" property="fri"/>
+		<result column="QUARTER" property="quarter"/>
+		<result column="STATE" property="state"/>
+	</resultMap>
+
+	<select id="list" parameterType="advice" resultMap="adviceResultMap">
+		SELECT a.ADVICE_NO 
+			  ,a.S_ID
+			  ,a.P_ID
+			  ,assent.STATE
+			  ,a.CAUSE
+			  ,a.ASSENT_DATE
+			  ,a.REGISTRATION
+			  ,a.ADVICE_DATE
+			  ,a.REASON
+			  ,a.CAUSE
+			  ,a.MON
+			  ,a.TUE
+			  ,a.WED
+			  ,a.THUR
+			  ,a.FRI
+			  ,a.QUARTER
+		FROM ADVICE a
+            INNER JOIN ASSENT assent
+            ON a.ASSENT_NO = assent.ASSENT_NO
+		WHERE a.ADVICE_DATE > SYSDATE-1
+			<if test="quarter>0">
+				AND a.QUARTER > 0
+			</if>
+			<if test="quarter=0">
+				AND a.QUARTER = 0
+			</if>
+			<if test="pId>0">
+				AND P_ID = #{pId}
+			</if>
+			<if test="sId>0">
+				AND S_ID = #{sId}
+			</if>
+			<if test="adviceDate != null and adviceDate != ''">
+				AND ADVICE_DATE = #{adviceDate}
+			</if>
+			<if test="searchDate == 'mon'">
+				AND MON != '0'
+			</if>
+			<if test="searchDate == 'tue'">
+				AND TUE != '0'
+			</if>
+			<if test="searchDate == 'wed'">
+				AND WED != '0'
+			</if>
+			<if test="searchDate == 'thur'">
+				AND THUR != '0'
+			</if>
+			<if test="searchDate == 'fri'">
+				AND FRI != '0'
+			</if>
+			<if test="mon != null and mon != ''">
+				AND MON = #{mon}
+			</if>
+			<if test="tue != null and tue != ''">
+				AND TUE = #{tue}
+			</if>
+			<if test="wed != null and wed != ''">
+				AND WED = #{wed}
+			</if>
+			<if test="thur != null and thur != ''">
+				AND THUR = #{thur}
+			</if>
+			<if test="fri != null and fri != ''">
+				AND FRI = #{fri}
+			</if>
+		ORDER BY ADVICE_DATE ASC
+	</select>
+	 
+	<insert id="insert" parameterType="advice">
+		<selectKey keyColumn="ADVICE_NO" keyProperty="adviceNo" resultType="int" order="BEFORE">
+			SELECT ADVICE_SEQ.NEXTVAL
+			FROM DUAL
+		</selectKey> 
+		INSERT INTO ADVICE
+			(ADVICE_NO,S_ID,P_ID,ASSENT_NO,REGISTRATION,ADVICE_DATE,REASON,MON,TUE,WED,THUR,FRI,QUARTER)
+		VALUES
+			(#{adviceNo}, #{sId}, #{pId},#{assentNo},#{registration},#{adviceDate},#{reason}, #{mon}, #{tue}, #{wed}, #{thur}, #{fri}, #{quarter})
+	</insert>
+	
+	<select id="select" parameterType="advice" resultMap="adviceResultMap">
+		SELECT a.ADVICE_NO 
+			  ,a.S_ID
+			  ,a.P_ID
+			  ,assent.STATE
+			  ,a.CAUSE
+			  ,a.ASSENT_DATE
+			  ,a.REGISTRATION
+			  ,a.ADVICE_DATE
+			  ,a.REASON
+			  ,a.MON
+			  ,a.TUE
+			  ,a.WED
+			  ,a.THUR
+			  ,a.FRI
+			  ,a.QUARTER
+		FROM ADVICE a
+            INNER JOIN ASSENT assent
+            ON a.ASSENT_NO = assent.ASSENT_NO
+		WHERE ADVICE_NO = #{adviceNo}			
+			<where>
+				<if test="quarter > 0">
+					AND QUARTER = #{quarter}
+				</if>
+				<if test="mon != null and mon != ''">
+					AND MON = #{mon}
+				</if>
+				<if test="tue != null and tue != ''">
+					AND TUE = #{tue}
+				</if>
+				<if test="wed != null and wed != ''">
+					AND WED = #{wed}
+				</if>
+				<if test="thur != null and thur != ''">
+					AND THUR = #{thur}
+				</if>
+				<if test="fri != null and fri != ''">
+					AND FRI = #{fri}
+				</if> 
+			</where>
+	</select>
+	
+	<update id="update" parameterType="advice">
+        UPDATE ADVICE
+        <set>
+          <if test="assentNo != 0">ASSENT_NO = #{assentNo},   </if>
+          <if test="cause != null and cause != ''">CAUSE = #{cause},	  </if>
+          <if test="assentDate != null and assentDate != ''">ASSENT_DATE = #{assentDate} </if>
+        </set>
+        
+        WHERE  ADVICE_NO = #{adviceNo}
+    </update>
+    
+ 
+    
+	<delete id="delete" parameterType="schedule">
+		DELETE FROM ADVICE
+        WHERE ADVICE_NO = #{adviceNo}
+	</delete>
+</mapper>

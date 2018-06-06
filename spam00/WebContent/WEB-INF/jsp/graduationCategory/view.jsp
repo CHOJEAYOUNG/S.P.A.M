@@ -18,18 +18,11 @@ power = (String)session.getAttribute("power");
 -->
 <html>
 	<head>
-		<title>학과 업무 관리 시스템</title>
-		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<meta name="description" content="" />
-		<meta name="keywords" content="" />
-		<script src="/js/jquery.min.js"></script>
-		<script src="/js/jquery.dropotron.min.js"></script>
-		<script src="/js/skel.min.js"></script>
-		<script src="/js/skel-layers.min.js"></script>
-		<script src="/js/init.js"></script>
-		<link rel="stylesheet" href="${pageContext.servletContext.contextPath}/css/skel.css" />
-    	<link rel="stylesheet" href="${pageContext.servletContext.contextPath}/css/style.css" />
-		<!--[if lte IE 8]><link rel="stylesheet" href="/css/ie/v8.css" /><![endif]-->
+		<c:if test="${sessionScope.isLogin}"> 
+		      <div style="text-align: right;">
+		         <%@ include file="/WEB-INF/jsp/menubar.jsp" %>
+		      </div>
+		 </c:if>
 	</head>
 	<body class="left-sidebar">
 
@@ -38,36 +31,10 @@ power = (String)session.getAttribute("power");
 				<div class="container">
 						
 					<!-- Logo -->
-						<h1><a href="#" id="logo">Untitled</a></h1>
+						<h1><a href="/main" id="logo">S.P.A.M</a></h1>
 					
 					<!-- Nav -->
-						<nav id="nav">
-							<ul>
-								<li><a href="index.html">Home</a></li>
-								<li>
-									<a href="">Dropdown</a>
-									<ul>
-										<li><a href="#">Lorem ipsum dolor</a></li>
-										<li><a href="#">Magna phasellus</a></li>
-										<li><a href="#">Etiam dolore nisl</a></li>
-										<li>
-											<a href="">Phasellus consequat</a>
-											<ul>
-												<li><a href="#">Lorem ipsum dolor</a></li>
-												<li><a href="#">Phasellus consequat</a></li>
-												<li><a href="#">Magna phasellus</a></li>
-												<li><a href="#">Etiam dolore nisl</a></li>
-												<li><a href="#">Veroeros feugiat</a></li>
-											</ul>
-										</li>
-										<li><a href="#">Veroeros feugiat</a></li>
-									</ul>
-								</li>
-								<li><a href="/employment/list">취업 점수</a></li>
-								<li><a href="/graduation/list">졸업 기준</a></li>
-								<li><a href="no-sidebar.html">No Sidebar</a></li>
-							</ul>
-						</nav>
+						<%@ include file="/WEB-INF/jsp/navbar.jsp" %>
 
 				</div>
 			</div>
@@ -129,66 +96,7 @@ power = (String)session.getAttribute("power");
 			</div>
 
 		<!-- Footer -->
-			<div id="footer">
-				<div class="container">
-
-					<!-- Lists -->
-						<div class="row">
-							<div class="8u">
-								<section>
-									<header class="major">
-										<h2>Donec dictum metus</h2>
-										<span class="byline">Quisque semper augue mattis wisi maecenas ligula</span>
-									</header>
-									<div class="row">
-										<section class="6u">
-											<ul class="default">
-												<li><a href="#">Pellentesque elit non gravida blandit.</a></li>
-												<li><a href="#">Lorem ipsum dolor consectetuer elit.</a></li>
-												<li><a href="#">Phasellus nibh pellentesque congue.</a></li>
-												<li><a href="#">Cras vitae metus aliquam  pharetra.</a></li>
-											</ul>
-										</section>
-										<section class="6u">
-											<ul class="default">
-												<li><a href="#">Pellentesque elit non gravida blandit.</a></li>
-												<li><a href="#">Lorem ipsum dolor consectetuer elit.</a></li>
-												<li><a href="#">Phasellus nibh pellentesque congue.</a></li>
-												<li><a href="#">Cras vitae metus aliquam  pharetra.</a></li>
-											</ul>
-										</section>
-									</div>
-								</section>
-							</div>
-							<div class="4u">
-								<section>
-									<header class="major">
-										<h2>Donec dictum metus</h2>
-										<span class="byline">Mattis wisi maecenas ligula</span>
-									</header>
-									<ul class="contact">
-										<li>
-											<span class="address">Address</span>
-											<span>1234 Somewhere Road #4285 <br />Nashville, TN 00000</span>
-										</li>
-										<li>
-											<span class="mail">Mail</span>
-											<span><a href="#">someone@untitled.tld</a></span>
-										</li>
-										<li>
-											<span class="phone">Phone</span>
-											<span>(000) 000-0000</span>
-										</li>
-									</ul>	
-								</section>
-							</div>
-						</div>
-
-					<!-- Copyright -->
-						<div class="copyright">
-							Design: <a href="http://templated.co">TEMPLATED</a> Images: <a href="http://unsplash.com">Unsplash</a> (<a href="http://unsplash.com/cc0">CC0</a>)
-						</div>
-				</div>
-			</div>
+			<%@ include file="/WEB-INF/jsp/footer.jsp" %>
+			
 	</body>
 </html>

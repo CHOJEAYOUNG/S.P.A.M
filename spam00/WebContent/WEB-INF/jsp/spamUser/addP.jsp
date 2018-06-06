@@ -86,21 +86,11 @@
 			event.target.value = event.target.value.replace(/[^0-9]/g, "");
 	}
 </script>
-<title>교수 개별 등록</title>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<meta name="description" content="" />
-<meta name="keywords" content="" />
-<script src="/js/jquery.min.js"></script>
-<script src="/js/jquery.dropotron.min.js"></script>
-<script src="/js/skel.min.js"></script>
-<script src="/js/skel-layers.min.js"></script>
-<script src="/js/init.js"></script>
-<link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/css/skel.css" />
-<link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/css/style.css" />
-<!--[if lte IE 8]><link rel="stylesheet" href="/css/ie/v8.css" /><![endif]-->
-<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
+		<c:if test="${sessionScope.isLogin}"> 
+		      <div style="text-align: right;">
+		         <%@ include file="/WEB-INF/jsp/menubar.jsp" %>
+		      </div>
+		 </c:if>
 </head>
 <body class="left-sidebar">
 	<form action="/spamUser/list" method="POST">
@@ -108,33 +98,10 @@
 		<div id="header">
 			<div class="container">
 				<!-- Logo -->
-				<h1>
-					<a href="#" id="logo">Untitled</a>
-				</h1>
-				<!-- Nav -->
-				<nav id="nav">
-					<ul>
-						<li><a href="index.html">Home</a></li>
-						<li><a href="">Dropdown</a>
-							<ul>
-								<li><a href="#">Lorem ipsum dolor</a></li>
-								<li><a href="#">Magna phasellus</a></li>
-								<li><a href="#">Etiam dolore nisl</a></li>
-								<li><a href="">Phasellus consequat</a>
-									<ul>
-										<li><a href="#">Lorem ipsum dolor</a></li>
-										<li><a href="#">Phasellus consequat</a></li>
-										<li><a href="#">Magna phasellus</a></li>
-										<li><a href="#">Etiam dolore nisl</a></li>
-										<li><a href="#">Veroeros feugiat</a></li>
-									</ul></li>
-								<li><a href="#">Veroeros feugiat</a></li>
-							</ul></li>
-						<li><a href="left-sidebar.html">Left Sidebar</a></li>
-						<li><a href="right-sidebar.html">Right Sidebar</a></li>
-						<li><a href="no-sidebar.html">No Sidebar</a></li>
-					</ul>
-				</nav>
+						<h1><a href="/main" id="logo">S.P.A.M</a></h1>
+					
+					<!-- Nav -->
+						<%@ include file="/WEB-INF/jsp/navbar.jsp" %>
 			</div>
 		</div>
 		<!-- Main -->
@@ -251,10 +218,8 @@
 			</div>
 		</div>
 		<!-- Footer -->
-		<div id="footer">
-			<!-- Copyright -->
-			<div class="copyright">Tel: 041-530-2212 (선문대학교 컴퓨터공학과 과사무실)</div>
-		</div>
+			<%@ include file="/WEB-INF/jsp/footer.jsp" %>
+			
 	</form>
 </body>
 </html>

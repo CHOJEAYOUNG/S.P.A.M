@@ -18,31 +18,34 @@ public class LoginServiceImpl implements LoginService {
 	private LoginMapper loginMapper;
 
 	@Override
-	public boolean login(SpamUser spamuser, HttpServletRequest request) {
-		HttpSession session = request.getSession(true);
-		SpamUser spamuserTwo;
-		spamuserTwo = loginMapper.select(spamuser);
-		
-		if(spamuserTwo != null) {
-			if("A".equals(spamuserTwo.getPower())) {
-				session.setAttribute("isLogin", true);
-				session.setAttribute("id", spamuser.getId());
-				session.setAttribute("power", "A");
-			}else if("P".equals(spamuserTwo.getPower())) {
-				session.setAttribute("isLogin", true);
-				session.setAttribute("id", spamuser.getId());
-				session.setAttribute("power", "P");
-			} else if("S".equals(spamuserTwo.getPower())) {
-				session.setAttribute("isLogin", true);
-				session.setAttribute("id", spamuser.getId());
-				session.setAttribute("power", "S");
-			} else {
-				return false;
-		}
-			return true;
-		}
-		return false;
-	}
+	   public boolean login(SpamUser spamuser, HttpServletRequest request) {
+	      HttpSession session = request.getSession(true);
+	      SpamUser spamuserTwo;
+	      spamuserTwo = loginMapper.select(spamuser);
+	      
+	      if(spamuserTwo != null) {
+	         if("A".equals(spamuserTwo.getPower())) {
+	            session.setAttribute("isLogin", true);
+	            session.setAttribute("id", spamuser.getId());
+	            session.setAttribute("power", "A");
+	            session.setAttribute("name", spamuserTwo.getName());
+	         }else if("P".equals(spamuserTwo.getPower())) {
+	            session.setAttribute("isLogin", true);
+	            session.setAttribute("id", spamuser.getId());
+	            session.setAttribute("power", "P");
+	            session.setAttribute("name", spamuserTwo.getName());
+	         } else if("S".equals(spamuserTwo.getPower())) {
+	            session.setAttribute("isLogin", true);
+	            session.setAttribute("id", spamuser.getId());
+	            session.setAttribute("power", "S");
+	            session.setAttribute("name", spamuserTwo.getName());
+	         } else {
+	            return false;
+	      }
+	         return true;
+	      }
+	      return false;
+	   }
 
 	@Override
 	public List<SpamUser> list(HttpServletRequest request,SpamUser spamuser) {

@@ -26,33 +26,9 @@
 			<div class="container">
 				<!-- Logo -->
 				<h1>
-					<a href="#" id="logo">Horizons</a>
+					<a href="/main" id="logo">S.P.A.M</a>
 				</h1>
 
-				<!-- Nav -->
-				<nav id="nav">
-				<ul>
-					<li><a href="index.html">Home</a></li>
-					<li><a href="">Dropdown</a>
-						<ul>
-							<li><a href="#">Lorem ipsum dolor</a></li>
-							<li><a href="#">Magna phasellus</a></li>
-							<li><a href="#">Etiam dolore nisl</a></li>
-							<li><a href="">Phasellus consequat</a>
-								<ul>
-									<li><a href="#">Lorem ipsum dolor</a></li>
-									<li><a href="#">Phasellus consequat</a></li>
-									<li><a href="#">Magna phasellus</a></li>
-									<li><a href="#">Etiam dolore nisl</a></li>
-									<li><a href="#">Veroeros feugiat</a></li>
-								</ul></li>
-							<li><a href="#">Veroeros feugiat</a></li>
-						</ul></li>
-					<li><a href="left-sidebar.html">Left Sidebar</a></li>
-					<li><a href="right-sidebar.html">Right Sidebar</a></li>
-					<li><a href="no-sidebar.html">No Sidebar</a></li>
-				</ul>
-				</nav>
 			</div>
 		</div>
 		<div id="main" class="wrapper style1">
@@ -88,11 +64,6 @@
 		</div>
 	</form>
 	<!-- Footer -->
-         <div id="footer">
-               <!-- Copyright -->
-               <div class="copyright">
-                  Tel: 041-530-2212 (선문대학교 컴퓨터공학과 과사무실)
-               </div>
-         </div>
+		<%@ include file="../jsp/footer.jsp" %>
 </body>
 </html>

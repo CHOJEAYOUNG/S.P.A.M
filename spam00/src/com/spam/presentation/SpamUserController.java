@@ -244,37 +244,53 @@ public class SpamUserController {
 	
 	@RequestMapping(value = "/oneAddS", method = RequestMethod.GET)
 	public ModelAndView oneAddS(SpamUser spamuser, HttpServletRequest request) {
+//		ModelAndView modelAndView = new ModelAndView("/spamUser/addS");
+//		
+//		EmploymentCategory category = new EmploymentCategory();
+//		List<EmploymentCategory> empCategory = employmentCategoryService.find(category);
+//		modelAndView.addObject("empCategory",empCategory);
+//		
+//		Employment employment = new Employment();
+//		employment.setId(spamuser.getId());
+//		employment.setAssentNo(1);
+//		List<Employment> employmentP = employmentService.find(employment);
+//		modelAndView.addObject("listEmp",employmentP);
+//		
+//		EmploymentType employmentType = new EmploymentType();
+//		List<EmploymentType> employmentTypeP = employmentTypeService.find(employmentType);
+//		modelAndView.addObject("listEmpType", employmentTypeP);
+//		
+//		GraduationCategory category2 = new GraduationCategory();
+//		List<GraduationCategory> grCategory = graduationCategoryService.find(category2);
+//		modelAndView.addObject("grCategory",grCategory);
+//		
+//		Graduation graduation = new Graduation();
+//		graduation.setId(spamuser.getId());
+//		graduation.setAssentNo(1);
+//		List<Graduation> graduationP = graduationService.find(graduation);
+//		modelAndView.addObject("listGr",graduationP);
+//		
+//		GraduationType graduationType = new GraduationType();
+//		List<GraduationType> graduationTypeP = graduationTypeService.find(graduationType);
+//		modelAndView.addObject("listGrType", graduationTypeP);
+//		
+//		return modelAndView;
+		
 		ModelAndView modelAndView = new ModelAndView("/spamUser/addS");
 		
-		EmploymentCategory category = new EmploymentCategory();
-		List<EmploymentCategory> empCategory = employmentCategoryService.find(category);
-		modelAndView.addObject("empCategory",empCategory);
+		EmploymentType type = new EmploymentType();
+		List<EmploymentType> listEmp = new ArrayList<EmploymentType>();
+		listEmp = employmentTypeService.find(type);
+		modelAndView.addObject("listEmp",listEmp);
 		
-		Employment employment = new Employment();
-		employment.setId(spamuser.getId());
-		employment.setAssentNo(1);
-		List<Employment> employmentP = employmentService.find(employment);
-		modelAndView.addObject("listEmp",employmentP);
 		
-		EmploymentType employmentType = new EmploymentType();
-		List<EmploymentType> employmentTypeP = employmentTypeService.find(employmentType);
-		modelAndView.addObject("listEmpType", employmentTypeP);
-		
-		GraduationCategory category2 = new GraduationCategory();
-		List<GraduationCategory> grCategory = graduationCategoryService.find(category2);
-		modelAndView.addObject("grCategory",grCategory);
-		
-		Graduation graduation = new Graduation();
-		graduation.setId(spamuser.getId());
-		graduation.setAssentNo(1);
-		List<Graduation> graduationP = graduationService.find(graduation);
-		modelAndView.addObject("listGr",graduationP);
-		
-		GraduationType graduationType = new GraduationType();
-		List<GraduationType> graduationTypeP = graduationTypeService.find(graduationType);
-		modelAndView.addObject("listGrType", graduationTypeP);
+		GraduationType type2 = new GraduationType();
+		List<GraduationType> listGr = new ArrayList<GraduationType>();
+		listGr = graduationTypeService.find(type2);
+		modelAndView.addObject("listGr",listGr);
 		
 		return modelAndView;
+
 	}
 	
 	@RequestMapping(value = "/oneAdd", method = RequestMethod.POST)

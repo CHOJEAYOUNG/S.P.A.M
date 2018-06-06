@@ -190,4 +190,34 @@
 			   ,#{enrollment}
 		)
 	</insert>
+	
+	<select id="listP" resultMap="spamuserResultMap" parameterType="spamuser">
+		SELECT 	  ID
+				, PASSWORD 
+				, POWER 
+				, NAME 
+				, GRADE 
+				, MAJOR 
+				, PHONE_NO 
+				, BIRTH_DATE 
+				, OFFICE 
+				, EMP_NO 
+				, GR_NO 
+				, CARD_NO 
+				, ENROLLMENT 
+				FROM SPAM_USER 
+
+				<where>
+
+					<if test="power != null and power != ''"> 
+						AND POWER = #{power} 
+					</if>
+
+					<if test="name != null and name != ''"> 
+						NAME LIKE '%' || #{name} || '%',
+					</if>
+
+				</where>
+
+			</select>
 </mapper>
