@@ -49,47 +49,48 @@ function checkRadio() {
 		<form action="/employment/addAttendance" method="post">
 			<input type="hidden" name="id" value="${user.id}"/>
 			<input type="hidden" name="name" value="${user.name}"/>
-						
-			<table style="width:100%" border="1">
-				<thead>
-					<tr>
-						<th>선택</th>
-						<th>비교과 명</th>
-						<th>강의날짜</th>
-						<th>강의장소</th>
-						<th>점수</th>
-					</tr>
-					
-	 				<c:if test="${ !empty listAttendance}">
-						<c:forEach items="${ listAttendance }" var="attendance" varStatus="status">
-								<tr>
-									<td style="text-align: center;">
-											<input type="radio" name="attendanceNo" value="${ attendance.attendanceNo }"> 
-										</td>
-									<td style="text-align: center;">
-										<c:out value="${ attendance.title }"/>
-									</td>
-									<td style="text-align: center;">
-										<c:out value="${attendance.registrationDate}"/>
-									</td>
-									<td style="text-align: center;">
-										<c:out value="${attendance.location}"/>
-									</td>
-									<td style="text-align: center;">
-										<c:out value="${ attendance.score }"/>
-									</td>
-								</tr>
-						</c:forEach>
-					</c:if>
-					<c:if test="${empty listAttendance}">
+			<div style="overflow: scroll;height:210px;">			
+				<table style="width:100%" border="1">
+					<thead>
 						<tr>
-							<td style="text-align: center;" colspan="7">
-								목록이 존재하지 않습니다.
-							</td>
+							<th>선택</th>
+							<th>비교과 명</th>
+							<th>강의날짜</th>
+							<th>강의장소</th>
+							<th>점수</th>
 						</tr>
-					</c:if>
-				</thead>
-			</table>
+						
+		 				<c:if test="${ !empty listAttendance}">
+							<c:forEach items="${ listAttendance }" var="attendance" varStatus="status">
+									<tr>
+										<td style="text-align: center;">
+												<input type="radio" name="attendanceNo" value="${ attendance.attendanceNo }"> 
+											</td>
+										<td style="text-align: center;">
+											<c:out value="${ attendance.title }"/>
+										</td>
+										<td style="text-align: center;">
+											<c:out value="${attendance.registrationDate}"/>
+										</td>
+										<td style="text-align: center;">
+											<c:out value="${attendance.location}"/>
+										</td>
+										<td style="text-align: center;">
+											<c:out value="${ attendance.score }"/>
+										</td>
+									</tr>
+							</c:forEach>
+						</c:if>
+						<c:if test="${empty listAttendance}">
+							<tr>
+								<td style="text-align: center;" colspan="7">
+									목록이 존재하지 않습니다.
+								</td>
+							</tr>
+						</c:if>
+					</thead>
+				</table>
+			</div>
 			<div style="text-align: center;">
 				<input type="submit" value="완료" onclick="return checkRadio()"/>
 			</div>

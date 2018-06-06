@@ -129,60 +129,62 @@ function checkNull() {
 							<section>
 								<header class="major">
 								<h3>취업 유형</h3>
-								<table style="width:100%; text-align: center;" border="1">
-									<thead>
-										<tr>
-											<th>번호</th>
-											<th>유형</th>
-											<th>필수점수</th>
-											<th>선택점수</th>
-											<th>연도</th>
-											<th>수정</th>
-											<th>삭제</th>
-										</tr>
-										
-										<c:if test="${ !empty listType}">
-											<c:forEach items="${ listType }" var="employmentType" varStatus="status">
-												<c:if test="${ employmentType.state eq 'Y'}">	
-													<tr>
-														<td style="text-align: center;">
-															<c:out value="${ status.count }"/>
-														</td>
-														<td style="text-align: center;">
-															<c:out value="${ employmentType.name }"/>
-														</td>
-														<td style="text-align: center;">
-															<c:out value="${ employmentType.required }"/>
-														</td>
-														<td style="text-align: center;">
-															<c:out value="${ employmentType.choice }"/>
-														</td>
-														<td style="text-align: center;">
-															<c:out value="${ employmentType.year }"/>
-														</td>
-														<td style="text-align: center;">
-															<a href="<c:url value="/employmentType/edit/${employmentType.no}" />">
-																<input type="button" value="수정"> 
-															</a>
-														</td>
-														<td style="text-align: center;">
-															<a href="<c:url value="/employmentType/remove/${employmentType.no}" />">
-																<input type="button" value="삭제"> 
-															</a>
-														</td>
-													</tr>
-												</c:if>
-											</c:forEach>
-										</c:if>
-										<c:if test="${empty listType}">
+								<div style="overflow: scroll;height:300px;">
+									<table style="width:100%; text-align: center;" border="1">
+										<thead>
 											<tr>
-												<td style="text-align: center;" colspan="7">
-													목록이 존재하지 않습니다.
-												</td>
+												<th>번호</th>
+												<th>유형</th>
+												<th>필수점수</th>
+												<th>선택점수</th>
+												<th>연도</th>
+												<th>수정</th>
+												<th>삭제</th>
 											</tr>
-										</c:if>
-									</thead>
-								</table>
+											
+											<c:if test="${ !empty listType}">
+												<c:forEach items="${ listType }" var="employmentType" varStatus="status">
+													<c:if test="${ employmentType.state eq 'Y'}">	
+														<tr>
+															<td style="text-align: center;">
+																<c:out value="${ status.count }"/>
+															</td>
+															<td style="text-align: center;">
+																<c:out value="${ employmentType.name }"/>
+															</td>
+															<td style="text-align: center;">
+																<c:out value="${ employmentType.required }"/>
+															</td>
+															<td style="text-align: center;">
+																<c:out value="${ employmentType.choice }"/>
+															</td>
+															<td style="text-align: center;">
+																<c:out value="${ employmentType.year }"/>
+															</td>
+															<td style="text-align: center;">
+																<a href="<c:url value="/employmentType/edit/${employmentType.no}" />">
+																	<input type="button" value="수정"> 
+																</a>
+															</td>
+															<td style="text-align: center;">
+																<a href="<c:url value="/employmentType/remove/${employmentType.no}" />">
+																	<input type="button" value="삭제"> 
+																</a>
+															</td>
+														</tr>
+													</c:if>
+												</c:forEach>
+											</c:if>
+											<c:if test="${empty listType}">
+												<tr>
+													<td style="text-align: center;" colspan="7">
+														목록이 존재하지 않습니다.
+													</td>
+												</tr>
+											</c:if>
+										</thead>
+									</table>
+								</div>
 								<br><br><br>
 								<div style="text-align: right; padding-top: 10px;"> 
 									<a href="<c:url value="/employmentType/add" />">

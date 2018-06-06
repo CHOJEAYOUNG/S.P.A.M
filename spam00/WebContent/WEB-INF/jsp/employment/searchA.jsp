@@ -54,43 +54,45 @@ function checkRadio() {
 				</select>
 		</form>
 		<form action="/employment/selectAttendance" method="post">
-			<table style="width:100%" border="1">
-				<thead>
-					<tr>
-						<th>선택</th>
-						<th>학번</th>
-						<th>이름</th>
-						<th>학년</th>
-					</tr>
-					<c:if test="${ !empty listSpam}">
-						<c:forEach items="${ listSpam }" var="spamUser" varStatus="status">
-							<c:if test="${ spamUser.power eq 'S'}">	
-								<tr>
-									<td style="text-align: center;">
-										<input type="radio" name="id" value="${ spamUser.id }"> 
-									</td>
-									<td style="text-align: center;">
-										<c:out value="${ spamUser.id }"/>
-									</td>
-									<td style="text-align: center;">
-										<c:out value="${ spamUser.name }"/>
-									</td>
-									<td style="text-align: center;">
-										<c:out value="${ spamUser.grade }"/>
-									</td>
-								</tr>
-							</c:if>
-						</c:forEach>
-					</c:if>
-					<c:if test="${empty listSpam}">
+			<div style="overflow: scroll;height:210px;">
+				<table style="width:100%" border="1">
+					<thead>
 						<tr>
-							<td style="text-align: center;" colspan="7">
-								목록이 존재하지 않습니다.
-							</td>
+							<th>선택</th>
+							<th>학번</th>
+							<th>이름</th>
+							<th>학년</th>
 						</tr>
-					</c:if>
-				</thead>
-			</table>
+						<c:if test="${ !empty listSpam}">
+							<c:forEach items="${ listSpam }" var="spamUser" varStatus="status">
+								<c:if test="${ spamUser.power eq 'S'}">	
+									<tr>
+										<td style="text-align: center;">
+											<input type="radio" name="id" value="${ spamUser.id }"> 
+										</td>
+										<td style="text-align: center;">
+											<c:out value="${ spamUser.id }"/>
+										</td>
+										<td style="text-align: center;">
+											<c:out value="${ spamUser.name }"/>
+										</td>
+										<td style="text-align: center;">
+											<c:out value="${ spamUser.grade }"/>
+										</td>
+									</tr>
+								</c:if>
+							</c:forEach>
+						</c:if>
+						<c:if test="${empty listSpam}">
+							<tr>
+								<td style="text-align: center;" colspan="7">
+									목록이 존재하지 않습니다.
+								</td>
+							</tr>
+						</c:if>
+					</thead>
+				</table>
+			</div>
 			<br>
 			<input type="submit" value="다음"  onclick="return checkRadio()"/>
 		</form>

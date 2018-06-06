@@ -160,122 +160,123 @@ function removeChar(event) {
 						<div id="content" class="8u skel-cell-important">
 							<section>
 								<header class="major">
-									
-										<br><br><br>
-										<table style="width:100%; text-align: center;" border="1">
-											<thead>
-												<c:if test="${ !empty listEmp}">
-													<tr>
-														<th>번호</th>
-														<c:if test="${power eq 'A'}">
-															<th>이름</th>
-														</c:if>
-														<th>제목</th>
-														<th>점수</th>
-														<th>조건</th>
-														<th>등록일</th>
-														<th>승인여부</th>
-														<th>상세보기</th>
-													</tr>
-													<c:forEach items="${ listEmp }" var="employment" varStatus="status">
+										<h3>취업점수</h3>
+										<div style="overflow: scroll;height:300px;">
+											<table style="width:100%; text-align: center;" border="1">
+												<thead>
+													<c:if test="${ !empty listEmp}">
 														<tr>
-															<td style="text-align: center;">
-																<c:out value="${status.count}"/>
-															</td>
+															<th>번호</th>
 															<c:if test="${power eq 'A'}">
-																<c:forEach items="${ listSpamuser }" var="spamuser" varStatus="status">
-																	<c:if test="${spamuser.id eq employment.id}">
-																		<td style="text-align: center;">
-																			<c:out value="${spamuser.name}"/>
-																		</td>
-																	</c:if>
-																</c:forEach>
+																<th>이름</th>
 															</c:if>
-															<c:if test="${ employment.empcNo ne 0}">
-																<c:forEach items="${ listCategory }" var="category" varStatus="status">
-																	<c:if test="${ employment.empcNo eq category.no}">
-																		<td style="text-align: center;">
-																			<c:out value="${category.name}"/>
-																		</td>
-																		<td style="text-align: center;">
-																			<c:out value="${category.score}"/>
-																		</td>
-																		<td style="text-align: center;">
-																			<c:if test="${ category.conditionSqeNo eq 1}">
-																				<c:out value="필수"/>										
-																			</c:if>
-																			<c:if test="${ category.conditionSqeNo eq 2}">
-																				<c:out value="선택"/>										
-																			</c:if>
-																		</td>
-																	</c:if>
-																</c:forEach>				
-																<td style="text-align: center;">
-																	<c:out value="${ employment.registration }"/>
-																</td>
-																<td style="text-align: center;">
-																	<c:if test="${ employment.assentNo eq 1}">
-																		<span style="color:blue">승인</span>
-																	</c:if>
-																	<c:if test="${ employment.assentNo eq 2}">
-																		<span style="color:green">대기</span>
-																	</c:if>
-																	<c:if test="${ employment.assentNo eq 3}">
-																		<span style="color:red">거절</span>
-																	</c:if>
-																</td>
-																<td style="text-align: center;">
-																	<a href="<c:url value="/employment/view/${employment.emplNo}"/>">
-																		<input type="button" value="상세보기"> 
-																	</a>
-																</td>
-															</c:if>
-															<c:if test="${ employment.empcNo eq 0}">
-																<c:forEach items="${ listAttendance }" var="attendance" varStatus="status">
-																	<c:if test="${ employment.attendanceNo eq attendance.attendanceNo}">
-																		<td style="text-align: center;">
-																			<c:out value="${attendance.title}"/>
-																		</td>
-																		<td style="text-align: center;">
-																			<c:out value="${attendance.score}"/>
-																		</td>
-																		<td style="text-align: center;">
-																				<c:out value="비교과"/>										
-																		</td>
-																	</c:if>
-																</c:forEach>				
-																<td style="text-align: center;">
-																	<c:out value="${ employment.registration }"/>
-																</td>
-																<td style="text-align: center;">
-																	<c:if test="${ employment.assentNo eq 1}">
-																		<span style="color:blue">승인</span>
-																	</c:if>
-																	<c:if test="${ employment.assentNo eq 2}">
-																		<span style="color:green">대기</span>
-																	</c:if>
-																	<c:if test="${ employment.assentNo eq 3}">
-																		<span style="color:red">거절</span>
-																	</c:if>
-																</td>
-																<td style="text-align: center;">
-																	<a href="<c:url value="/employment/view/${employment.emplNo}"/>">
-																		<input type="button" value="상세보기"> 
-																	</a>
-																</td>
-															</c:if>
+															<th>제목</th>
+															<th>점수</th>
+															<th>조건</th>
+															<th>등록일</th>
+															<th>승인여부</th>
+															<th>상세보기</th>
 														</tr>
-													</c:forEach>
-												</c:if>
-												<c:if test="${empty listEmp}">
-													<tr>
-														<td style="text-align: center;" colspan="7">
-															학생을 검색해주세요.
-														</td>
-													</tr>
-												</c:if>
-											</thead>
-										</table>
+														<c:forEach items="${ listEmp }" var="employment" varStatus="status">
+															<tr>
+																<td style="text-align: center;">
+																	<c:out value="${status.count}"/>
+																</td>
+																<c:if test="${power eq 'A'}">
+																	<c:forEach items="${ listSpamuser }" var="spamuser" varStatus="status">
+																		<c:if test="${spamuser.id eq employment.id}">
+																			<td style="text-align: center;">
+																				<c:out value="${spamuser.name}"/>
+																			</td>
+																		</c:if>
+																	</c:forEach>
+																</c:if>
+																<c:if test="${ employment.empcNo ne 0}">
+																	<c:forEach items="${ listCategory }" var="category" varStatus="status">
+																		<c:if test="${ employment.empcNo eq category.no}">
+																			<td style="text-align: center;">
+																				<c:out value="${category.name}"/>
+																			</td>
+																			<td style="text-align: center;">
+																				<c:out value="${category.score}"/>
+																			</td>
+																			<td style="text-align: center;">
+																				<c:if test="${ category.conditionSqeNo eq 1}">
+																					<c:out value="필수"/>										
+																				</c:if>
+																				<c:if test="${ category.conditionSqeNo eq 2}">
+																					<c:out value="선택"/>										
+																				</c:if>
+																			</td>
+																		</c:if>
+																	</c:forEach>				
+																	<td style="text-align: center;">
+																		<c:out value="${ employment.registration }"/>
+																	</td>
+																	<td style="text-align: center;">
+																		<c:if test="${ employment.assentNo eq 1}">
+																			<span style="color:blue">승인</span>
+																		</c:if>
+																		<c:if test="${ employment.assentNo eq 2}">
+																			<span style="color:green">대기</span>
+																		</c:if>
+																		<c:if test="${ employment.assentNo eq 3}">
+																			<span style="color:red">거절</span>
+																		</c:if>
+																	</td>
+																	<td style="text-align: center;">
+																		<a href="<c:url value="/employment/view/${employment.emplNo}"/>">
+																			<input type="button" value="상세보기"> 
+																		</a>
+																	</td>
+																</c:if>
+																<c:if test="${ employment.empcNo eq 0}">
+																	<c:forEach items="${ listAttendance }" var="attendance" varStatus="status">
+																		<c:if test="${ employment.attendanceNo eq attendance.attendanceNo}">
+																			<td style="text-align: center;">
+																				<c:out value="${attendance.title}"/>
+																			</td>
+																			<td style="text-align: center;">
+																				<c:out value="${attendance.score}"/>
+																			</td>
+																			<td style="text-align: center;">
+																					<c:out value="비교과"/>										
+																			</td>
+																		</c:if>
+																	</c:forEach>				
+																	<td style="text-align: center;">
+																		<c:out value="${ employment.registration }"/>
+																	</td>
+																	<td style="text-align: center;">
+																		<c:if test="${ employment.assentNo eq 1}">
+																			<span style="color:blue">승인</span>
+																		</c:if>
+																		<c:if test="${ employment.assentNo eq 2}">
+																			<span style="color:green">대기</span>
+																		</c:if>
+																		<c:if test="${ employment.assentNo eq 3}">
+																			<span style="color:red">거절</span>
+																		</c:if>
+																	</td>
+																	<td style="text-align: center;">
+																		<a href="<c:url value="/employment/view/${employment.emplNo}"/>">
+																			<input type="button" value="상세보기"> 
+																		</a>
+																	</td>
+																</c:if>
+															</tr>
+														</c:forEach>
+													</c:if>
+													<c:if test="${empty listEmp}">
+														<tr>
+															<td style="text-align: center;" colspan="7">
+																학생을 검색해주세요.
+															</td>
+														</tr>
+													</c:if>
+												</thead>
+											</table>
+										</div>
 										<br><br><br>
 										<c:if test="${power ne 'S' }">
 											<div style="text-align: right; padding-top: 10px;">

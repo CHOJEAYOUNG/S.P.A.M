@@ -160,6 +160,7 @@ function removeChar(event) {
 							<section>
 								<header class="major">
 									<h3>졸업 기준</h3>
+									<div style="overflow: scroll;height:300px;">	
 										 <table style="width:100%; text-align: center;" border="1">
 											<thead>
 												<c:if test="${ !empty listGr}">
@@ -236,12 +237,13 @@ function removeChar(event) {
 												</c:if>
 											</thead>
 										</table>
-										<br><br><br>
-										<c:if test="${power ne 'S' }">
-											<div style="text-align: right; padding-top: 10px;">
-												<a href="javascript:openWindow()"><input type="button" value="등록"></a>
-											</div>
-										</c:if>
+									</div>
+									<br><br><br>
+									<c:if test="${power ne 'S' }">
+										<div style="text-align: right; padding-top: 10px;">
+											<a href="javascript:openWindow()"><input type="button" value="등록"></a>
+										</div>
+									</c:if>
 									<c:if test="${power eq 'S' }">
 										<form action="/graduation/selectGraduation" method="post" name="S">
 											<a href="javascript:openWindowS()"><input type="button" value="등록"> </a>

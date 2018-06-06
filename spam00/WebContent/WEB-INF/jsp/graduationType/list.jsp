@@ -128,53 +128,55 @@ function checkNull() {
 						<div id="content" class="8u skel-cell-important">
 							<section>
 								<header class="major">
-								<h3>졸업 유형</h3>
-									<table style="width:100%; text-align: center;" border="1" >
-										<thead>
-											<tr>
-												<th>번호</th>
-												<th>유형</th>
-												<th>연도</th>
-												<th>수정</th>
-												<th>삭제</th>
-											</tr>
-											
-											<c:if test="${ !empty listType}">
-												<c:forEach items="${ listType }" var="graduationType" varStatus="status">
-													<c:if test="${ graduationType.state eq 'Y'}">	
-														<tr>
-															<td style="text-align: center;">
-																<c:out value="${ status.count }"/>
-															</td>
-															<td style="text-align: center;">
-																<c:out value="${ graduationType.name }"/>
-															</td>
-															<td style="text-align: center;">
-																<c:out value="${ graduationType.year }"/>
-															</td>
-															<td style="text-align: center;">
-																<a href="<c:url value="/graduationType/edit/${graduationType.no}" />">
-																	<input type="button" value="수정"> 
-																</a>
-															</td>
-															<td style="text-align: center;">
-																<a href="<c:url value="/graduationType/remove/${graduationType.no}" />">
-																	<input type="button" value="삭제"> 
-																</a>
-															</td>
-														</tr>
-													</c:if>
-												</c:forEach>
-											</c:if>
-											<c:if test="${empty listType}">
+									<h3>졸업 유형</h3>
+									<div style="overflow: scroll;height:300px;">
+										<table style="width:100%; text-align: center;" border="1" >
+											<thead>
 												<tr>
-													<td style="text-align: center;" colspan="7">
-														목록이 존재하지 않습니다.
-													</td>
+													<th>번호</th>
+													<th>유형</th>
+													<th>연도</th>
+													<th>수정</th>
+													<th>삭제</th>
 												</tr>
-											</c:if>
-										</thead>
-									</table>
+												
+												<c:if test="${ !empty listType}">
+													<c:forEach items="${ listType }" var="graduationType" varStatus="status">
+														<c:if test="${ graduationType.state eq 'Y'}">	
+															<tr>
+																<td style="text-align: center;">
+																	<c:out value="${ status.count }"/>
+																</td>
+																<td style="text-align: center;">
+																	<c:out value="${ graduationType.name }"/>
+																</td>
+																<td style="text-align: center;">
+																	<c:out value="${ graduationType.year }"/>
+																</td>
+																<td style="text-align: center;">
+																	<a href="<c:url value="/graduationType/edit/${graduationType.no}" />">
+																		<input type="button" value="수정"> 
+																	</a>
+																</td>
+																<td style="text-align: center;">
+																	<a href="<c:url value="/graduationType/remove/${graduationType.no}" />">
+																		<input type="button" value="삭제"> 
+																	</a>
+																</td>
+															</tr>
+														</c:if>
+													</c:forEach>
+												</c:if>
+												<c:if test="${empty listType}">
+													<tr>
+														<td style="text-align: center;" colspan="7">
+															목록이 존재하지 않습니다.
+														</td>
+													</tr>
+												</c:if>
+											</thead>
+										</table>
+									</div>
 									<br><br><br>
 									<div style="text-align: right; padding-top: 10px;"> 
 										<a href="<c:url value="/graduationType/add" />">

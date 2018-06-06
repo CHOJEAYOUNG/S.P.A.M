@@ -61,53 +61,55 @@ function fileCheck() {
 		<form action="/graduation/add" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="id" value="${user.id}"/>
 			<input type="hidden" name="name" value="${user.name}"/>
-			<table style="width:100%" border="1">
-				<thead>
-					<tr>
-						<th>선택</th>
-						<th>카테고리 명</th>
-						<th>유형</th>
-						<th>조건</th>
-					</tr>
-					
-	 				<c:if test="${ !empty listCategory}">
-						<c:forEach items="${ listCategory }" var="graduationCategory" varStatus="status">
-							<c:if test="${graduationCategory.state eq 'Y'}">
-								<tr>
-									<td style="text-align: center;">
-											<input type="radio" name="grcNo" value="${ graduationCategory.no }"> 
-										</td>
-									<td style="text-align: center;">
-										<c:out value="${graduationCategory.name }"/>
-									</td>
-									<td style="text-align: center;">
-										<c:forEach items="${ listType }" var="graduationType" varStatus="status">
-											<c:if test="${graduationType.no eq graduationCategory.grTypeNo}">
-												<c:out value="${graduationType.name}"/>
-											</c:if>
-										</c:forEach>
-									</td>
-									<td style="text-align: center;">
-										<c:if test="${graduationCategory.conditionSqeNo eq 1}">
-											<c:out value="필수"/>
-										</c:if>
-										<c:if test="${graduationCategory.conditionSqeNo eq 2}">
-											<c:out value="선택"/>
-										</c:if>
-									</td>
-								</tr>
-							</c:if>
-						</c:forEach>
-					</c:if>
-					<c:if test="${empty listCategory}">
+			<div style="overflow: scroll;height:210px;">
+				<table style="width:100%" border="1">
+					<thead>
 						<tr>
-							<td style="text-align: center;" colspan="7">
-								목록이 존재하지 않습니다.
-							</td>
+							<th>선택</th>
+							<th>카테고리 명</th>
+							<th>유형</th>
+							<th>조건</th>
 						</tr>
-					</c:if>
-				</thead>
-			</table>
+						
+		 				<c:if test="${ !empty listCategory}">
+							<c:forEach items="${ listCategory }" var="graduationCategory" varStatus="status">
+								<c:if test="${graduationCategory.state eq 'Y'}">
+									<tr>
+										<td style="text-align: center;">
+												<input type="radio" name="grcNo" value="${ graduationCategory.no }"> 
+											</td>
+										<td style="text-align: center;">
+											<c:out value="${graduationCategory.name }"/>
+										</td>
+										<td style="text-align: center;">
+											<c:forEach items="${ listType }" var="graduationType" varStatus="status">
+												<c:if test="${graduationType.no eq graduationCategory.grTypeNo}">
+													<c:out value="${graduationType.name}"/>
+												</c:if>
+											</c:forEach>
+										</td>
+										<td style="text-align: center;">
+											<c:if test="${graduationCategory.conditionSqeNo eq 1}">
+												<c:out value="필수"/>
+											</c:if>
+											<c:if test="${graduationCategory.conditionSqeNo eq 2}">
+												<c:out value="선택"/>
+											</c:if>
+										</td>
+									</tr>
+								</c:if>
+							</c:forEach>
+						</c:if>
+						<c:if test="${empty listCategory}">
+							<tr>
+								<td style="text-align: center;" colspan="7">
+									목록이 존재하지 않습니다.
+								</td>
+							</tr>
+						</c:if>
+					</thead>
+				</table>
+			</div>
 			<h2>파일 업로드</h2>
 			<input type="file" id="file" name="file" />
 			<input type="submit" value="전송" onclick="return fileCheck()"/>

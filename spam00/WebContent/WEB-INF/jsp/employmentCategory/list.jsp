@@ -148,64 +148,66 @@ function checkNull() {
 						<div id="content" class="8u skel-cell-important">
 							<section>
 								<header class="major">
-								<h3>취업 카테고리</h3>
-									<table style="width:100%; text-align: center;" border="1">
-										<thead>
-											<tr>
-												<th>번호</th>
-												<th>카테고리 명</th>
-												<th>유형</th>
-												<th>조건</th>
-												<th>점수</th>
-												<th>상세보기</th>
-											</tr>
-											
-											<c:if test="${ !empty listCategory}">
-												<c:forEach items="${ listCategory }" var="employmentCategory" varStatus="status">
-													<c:if test="${employmentCategory.state eq 'Y'}">
-														<tr>
-															<td style="text-align: center;">
-																<c:out value="${status.count}"/>
-															</td>
-															<td style="text-align: center;">
-																<c:out value="${ employmentCategory.name }"/>
-															</td>
-															<td style="text-align: center;">
-																<c:forEach items="${ listType }" var="employmentType" varStatus="status">
-																	<c:if test="${employmentType.no eq employmentCategory.empTypeNo}">
-																		<c:out value="${employmentType.name}"/>
-																	</c:if>
-																</c:forEach>
-															</td>
-															<td style="text-align: center;">
-																<c:if test="${employmentCategory.conditionSqeNo eq 1}">
-																	<c:out value="필수"/>
-																</c:if>
-																<c:if test="${employmentCategory.conditionSqeNo eq 2}">
-																	<c:out value="선택"/>
-																</c:if>
-															</td>
-															<td style="text-align: center;">
-																<c:out value="${ employmentCategory.score }"/>
-															</td>
-															<td style="text-align: center;">
-																<a href="<c:url value="/employmentCategory/view/${employmentCategory.no}"/>">
-																	<input type="button" value="상세보기"> 
-																</a>
-															</td>
-														</tr>
-													</c:if>
-												</c:forEach>
-											</c:if>
-											<c:if test="${empty listCategory}">
+									<h3>취업 카테고리</h3>
+									<div style="overflow: scroll;height:300px;">
+										<table style="width:100%; text-align: center;" border="1">
+											<thead>
 												<tr>
-													<td style="text-align: center;" colspan="7">
-														목록이 존재하지 않습니다.
-													</td>
+													<th>번호</th>
+													<th>카테고리 명</th>
+													<th>유형</th>
+													<th>조건</th>
+													<th>점수</th>
+													<th>상세보기</th>
 												</tr>
-											</c:if>
-										</thead>
-									</table>
+												
+												<c:if test="${ !empty listCategory}">
+													<c:forEach items="${ listCategory }" var="employmentCategory" varStatus="status">
+														<c:if test="${employmentCategory.state eq 'Y'}">
+															<tr>
+																<td style="text-align: center;">
+																	<c:out value="${status.count}"/>
+																</td>
+																<td style="text-align: center;">
+																	<c:out value="${ employmentCategory.name }"/>
+																</td>
+																<td style="text-align: center;">
+																	<c:forEach items="${ listType }" var="employmentType" varStatus="status">
+																		<c:if test="${employmentType.no eq employmentCategory.empTypeNo}">
+																			<c:out value="${employmentType.name}"/>
+																		</c:if>
+																	</c:forEach>
+																</td>
+																<td style="text-align: center;">
+																	<c:if test="${employmentCategory.conditionSqeNo eq 1}">
+																		<c:out value="필수"/>
+																	</c:if>
+																	<c:if test="${employmentCategory.conditionSqeNo eq 2}">
+																		<c:out value="선택"/>
+																	</c:if>
+																</td>
+																<td style="text-align: center;">
+																	<c:out value="${ employmentCategory.score }"/>
+																</td>
+																<td style="text-align: center;">
+																	<a href="<c:url value="/employmentCategory/view/${employmentCategory.no}"/>">
+																		<input type="button" value="상세보기"> 
+																	</a>
+																</td>
+															</tr>
+														</c:if>
+													</c:forEach>
+												</c:if>
+												<c:if test="${empty listCategory}">
+													<tr>
+														<td style="text-align: center;" colspan="7">
+															목록이 존재하지 않습니다.
+														</td>
+													</tr>
+												</c:if>
+											</thead>
+										</table>
+									</div>
 									<br><br><br>
 									<div style="text-align: right; padding-top: 10px;"> 
 										<a href="<c:url value="/employmentCategory/add" />">

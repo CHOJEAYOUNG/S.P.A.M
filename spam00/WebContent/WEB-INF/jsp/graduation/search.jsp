@@ -52,8 +52,8 @@ function checkRadio() {
 				</select>
 		</form>
 		<form action="/graduation/selectGraduation" method="post">
-		
-		<table style="width:100%" border="1">
+		<div style="overflow: scroll;height:210px;">
+			<table style="width:100%" border="1">
 				<thead>
 					<tr>
 						<th>선택</th>
@@ -90,10 +90,11 @@ function checkRadio() {
 					</c:if>
 				</thead>
 			</table>
-			<br>
-			<div style="text-align: right;">
-				<input type="submit" value="다음" onclick="return checkRadio()"/>
-			</div>
+		</div>
+		<br>
+		<div style="text-align: right;">
+			<input type="submit" value="다음" onclick="return checkRadio()"/>
+		</div>
 		</form>
 	</body>
 </html>

@@ -23,7 +23,7 @@ function openEmploymentA() {
 	);
 }
 function openEmploymentS() {
-	 var myForm = document.S;
+	 var myForm = "";
 	 var url = "/employment/selectEmployment";
 
 	window.open(
