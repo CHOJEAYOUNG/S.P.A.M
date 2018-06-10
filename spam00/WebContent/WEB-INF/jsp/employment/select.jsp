@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <%
@@ -7,17 +7,9 @@ String power = "";
 power = (String)session.getAttribute("power");
 %>
 <script type="text/javascript">
-
-function dataSend(){
-
-	opener.document.getElementById("baseWindowLabel").innerText="new";
-
-	window.close();
-
-}
 function openAttendance() {
 	window.open(
-		"selectAttendance", 
+		"searchA", 
 		"open the window",
 		"toolbar=no, width=500, height=500, top=150, left=150"
 	);
@@ -47,13 +39,14 @@ function openEmploymentS() {
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <body>
-	<h2>¼±ÅÃ</h2>
-	<a href="javascript:openAttendance()">ºñ±³°ú</a>
-	<a href="javascript:openEmploymentA()">Ãë¾÷A</a>
-	<form name="S">
-		<a href="javascript:openEmploymentS()">Ãë¾÷S</a>
-	</form>
-	<!-- <a href="javascript:dataSend()">Àü¼Û</a> -->
-
+	<h2>ì„ íƒ</h2>
+	<c:if test="${power eq 'A' }">
+		<a href="javascript:openAttendance()">ë¹„êµê³¼</a>
+		<a href="javascript:openEmploymentA()">ì·¨ì—…</a>
+	</c:if>
+	<c:if test="${power eq 'S' }">
+		<a href="javascript:openEmploymentS()">ì·¨ì—…</a>
+	</c:if>
+	<input type="button" value="ë‹«ê¸°" onclick="window.open('', '_self', ''); window.close();"/>
 </body>
 </html>

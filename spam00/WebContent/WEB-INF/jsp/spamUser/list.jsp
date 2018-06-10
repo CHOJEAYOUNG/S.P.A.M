@@ -109,6 +109,7 @@
 							<header class="major">
 								<h2>학생 정보 보기</h2>
 							</header>
+							
 							<div style="overflow: auto; width: 100%; height: 1000px;">
 								<table style="width: 100%" border="1">
 									<thead>
@@ -129,8 +130,11 @@
 												color="#FFFFFF">상태</font></th>
 											<th style="width: 100px; text-align: center;"><font
 												color="#FFFFFF">보기</font></th>
-											<th style="width: 100px; text-align: center;"><font
-												color="#FFFFFF">수정</font></th>
+											<c:if test= "${ sessionScope.power eq 'A'}">
+												<th style="width: 100px; text-align: center;"><font
+													color="#FFFFFF">수정</font>
+												</th>
+											</c:if>
 										</tr>
 										<c:if test="${ !empty listSpam}">
 											<c:forEach items="${ listSpam }" var="spamuser"
@@ -172,18 +176,7 @@
 														href="<c:url value="/spamUser/viewPA/${spamuser.id}" /> ">
 															<input type="button" value="상세보기" />
 													</a></td>
-													<c:if test="${ !(spamuser.power eq 'P') }">
-														<c:if test="${ sessionScope.power eq 'A' }">
-															<td style="text-align: center;"><a
-																href="<c:url value="/spamUser/edit/${spamuser.id}" /> ">
-																	<input type="button" value="수정" />
-															</a></td>
-														</c:if>
-														<c:if test="${ !(sessionScope.power eq 'A') }">
-															<td>수정권한 없음</td>
-														</c:if>
-													</c:if>
-													<c:if test="${ spamuser.power eq 'P' }">
+													<c:if test="${ sessionScope.power eq 'A' }">
 														<td style="text-align: center;"><a
 															href="<c:url value="/spamUser/edit/${spamuser.id}" /> ">
 																<input type="button" value="수정" />

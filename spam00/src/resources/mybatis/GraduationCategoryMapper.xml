@@ -22,6 +22,15 @@
 			   , INFO
 			   , STATE 
 		FROM GRC
+		<where>
+			STATE = 'Y'
+			<if test="name != null and name !=''">
+				AND GRC_NAME = #{name}
+			</if>
+			<if test="conditionSqeNo != 0 and conditionSqeNo != null">
+				AND CONDITION_NO = #{conditionSqeNo}
+			</if>
+		</where>
 		ORDER BY GRC_NAME
 	</select>
 	

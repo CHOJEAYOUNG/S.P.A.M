@@ -182,10 +182,18 @@
 												</c:if>
 												<c:if test="${ spamuser.power eq 'S' }">
 													<td style="text-align: left; width: 100px; text-align: center;">
-														<c:out value="${ spamuser.empNo }"/>
+														<c:forEach items="${ listEmpType }" var="empType" varStatus="status">
+															<c:if test='${ spamuser.empNo eq empType.no}'>
+																<c:out value="${empType.name}" />
+															</c:if>
+														</c:forEach>
 													</td>
 													<td style="text-align: left; width: 100px; text-align: center;">
-														<c:out value="${ spamuser.grNo }"/>
+														<c:forEach items="${ listGrType }" var="listGrType" varStatus="status">
+															<c:if test='${ spamuser.grNo eq listGrType.no}'>
+																<c:out value="${listGrType.name}" />
+															</c:if>
+														</c:forEach>
 													</td>
 												</c:if>
 												<c:forEach items="${ enrollment }" var="enrollment" varStatus="status">
@@ -253,6 +261,10 @@
 														</c:if>
 													</tr>
 											</c:forEach>
+												<tr bgcolor="#4C4639" > 
+													<td colspan="2" align="center" ><font color="#FFFFFF"> 필수 점수 :<c:out value="${vlftnemp}" />/<c:out value="${f}" /></font></td>
+													<td colspan="2" align="center" ><font color="#FFFFFF"> 선택 점수 :<c:out value="${tjsxoremp}" />/<c:out value="${s}" /></font></td>
+												</tr>
 											</thead>
 										</table>
 									</div>

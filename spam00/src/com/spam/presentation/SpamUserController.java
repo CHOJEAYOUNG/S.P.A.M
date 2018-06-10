@@ -65,11 +65,10 @@ public class SpamUserController {
 	@RequestMapping(value = "/viewS", method = RequestMethod.GET)
 	public ModelAndView viewS(SpamUser spamuser, HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView("/spamUser/view");
-		EmploymentCategory category = new EmploymentCategory();
-		GraduationCategory category2 = new GraduationCategory();
-		String id = request.getParameter("id");
-		int intId = Integer.parseInt(id);
-		spamuser.setId(intId);
+		spamuser.setId(spamuser.getId());
+		int chdemp = 0;
+		int vlftnemp = 0;
+		int tjsxoremp=0;
 		
 		spamuser = spamUserService.view(spamuser);
 		modelAndView.addObject("spamuser", spamuser);
@@ -77,11 +76,69 @@ public class SpamUserController {
 		List<Enrollment> enrollment = spamUserService.enrollments();
 		modelAndView.addObject("enrollment",enrollment);
 		
+		EmploymentCategory category = new EmploymentCategory();
 		List<EmploymentCategory> empCategory = employmentCategoryService.find(category);
 		modelAndView.addObject("empCategory",empCategory);
 		
+		Employment employment = new Employment();
+		employment.setId(spamuser.getId());
+		employment.setAssentNo(1);
+		List<Employment> employmentP = employmentService.find(employment);
+		modelAndView.addObject("listEmp",employmentP);
+		
+		EmploymentType employmentType = new EmploymentType();
+		List<EmploymentType> employmentTypeP = employmentTypeService.find(employmentType);
+		modelAndView.addObject("listEmpType", employmentTypeP);
+		
+		for(int i =0; i<employmentTypeP.size(); i++ ) {
+			if(spamuser.getEmpNo() == employmentTypeP.get(i).getNo()) {
+				int f = employmentTypeP.get(i).getRequired();
+				int s = employmentTypeP.get(i).getChoice();
+				modelAndView.addObject("f",f);
+				modelAndView.addObject("s",s);
+				break;
+			}
+		}
+		
+		GraduationCategory category2 = new GraduationCategory();
 		List<GraduationCategory> grCategory = graduationCategoryService.find(category2);
 		modelAndView.addObject("grCategory",grCategory);
+		
+		Graduation graduation = new Graduation();
+		graduation.setId(spamuser.getId());
+		graduation.setAssentNo(1);
+		List<Graduation> graduationP = graduationService.find(graduation);
+		modelAndView.addObject("listGr",graduationP);
+		
+		GraduationType graduationType = new GraduationType();
+		List<GraduationType> graduationTypeP = graduationTypeService.find(graduationType);
+		modelAndView.addObject("listGrType", graduationTypeP);
+		
+		List<Attendance> listAttendance = new ArrayList<Attendance>();
+		listAttendance = attendanceService.list();
+		modelAndView.addObject("listAttendance", listAttendance);
+		
+		for(int i=0; i < employmentP.size(); i++) {
+			if(employmentP.get(i).getEmpcNo() != 0) {
+				for(int j = 0; j < empCategory.size(); j++) {
+					if(employmentP.get(i).getEmpcNo() == empCategory.get(j).getNo()) {
+						if(empCategory.get(j).getConditionSqeNo() == 1) {
+							vlftnemp += empCategory.get(j).getScore();
+						} else {
+							tjsxoremp += empCategory.get(j).getScore();
+						}
+					}
+				}
+			} else if(employmentP.get(i).getAttendanceNo() != 0) {
+				for(int j = 0; j < listAttendance.size(); j++) {
+					if(employmentP.get(i).getAttendanceNo() == listAttendance.get(j).getAttendanceNo()) {
+						tjsxoremp += listAttendance.get(j).getScore();
+					}
+				}
+			}
+		}
+		modelAndView.addObject("vlftnemp", vlftnemp);
+		modelAndView.addObject("tjsxoremp", tjsxoremp);
 		
 		return modelAndView;
 	}
@@ -91,6 +148,9 @@ public class SpamUserController {
 		ModelAndView modelAndView = new ModelAndView("/spamUser/view");
 		SpamUser spamuser = new SpamUser();
 		int intId = Integer.parseInt(id);
+		int chdemp = 0;
+		int vlftnemp = 0;
+		int tjsxoremp=0;
 		spamuser.setId(intId);
 		
 		spamuser = spamUserService.view(spamuser);
@@ -113,6 +173,16 @@ public class SpamUserController {
 		List<EmploymentType> employmentTypeP = employmentTypeService.find(employmentType);
 		modelAndView.addObject("listEmpType", employmentTypeP);
 		
+		for(int i =0; i<employmentTypeP.size(); i++ ) {
+			if(spamuser.getEmpNo() == employmentTypeP.get(i).getNo()) {
+				int f = employmentTypeP.get(i).getRequired();
+				int s = employmentTypeP.get(i).getChoice();
+				modelAndView.addObject("f",f);
+				modelAndView.addObject("s",s);
+				break;
+			}
+		}
+		
 		GraduationCategory category2 = new GraduationCategory();
 		List<GraduationCategory> grCategory = graduationCategoryService.find(category2);
 		modelAndView.addObject("grCategory",grCategory);
@@ -131,6 +201,27 @@ public class SpamUserController {
 		listAttendance = attendanceService.list();
 		modelAndView.addObject("listAttendance", listAttendance);
 		
+		for(int i=0; i < employmentP.size(); i++) {
+			if(employmentP.get(i).getEmpcNo() != 0) {
+				for(int j = 0; j < empCategory.size(); j++) {
+					if(employmentP.get(i).getEmpcNo() == empCategory.get(j).getNo()) {
+						if(empCategory.get(j).getConditionSqeNo() == 1) {
+							vlftnemp += empCategory.get(j).getScore();
+						} else {
+							tjsxoremp += empCategory.get(j).getScore();
+						}
+					}
+				}
+			} else if(employmentP.get(i).getAttendanceNo() != 0) {
+				for(int j = 0; j < listAttendance.size(); j++) {
+					if(employmentP.get(i).getAttendanceNo() == listAttendance.get(j).getAttendanceNo()) {
+						tjsxoremp += listAttendance.get(j).getScore();
+					}
+				}
+			}
+		}
+		modelAndView.addObject("vlftnemp", vlftnemp);
+		modelAndView.addObject("tjsxoremp", tjsxoremp);
 		return modelAndView;
 	}
 	

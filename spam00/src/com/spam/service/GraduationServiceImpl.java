@@ -45,10 +45,10 @@ public class GraduationServiceImpl implements GraduationService {
 		graduation.setCause("");
 
 		if ("A".equals(session.getAttribute("power"))) {
-			graduation.setAssentNo(1); // Â½Ã‚Ã€ÃŽ
+			graduation.setAssentNo(1); // ½ÂÀÎ
 			graduation.setAssentDate(str);
 		} else {
-			graduation.setAssentNo(2); // Â´Ã«Â±Ã¢
+			graduation.setAssentNo(2); // ´ë±â
 			str = "0001-01-01 00:00:00";
 			graduation.setAssentDate(str);
 		}
@@ -60,7 +60,7 @@ public class GraduationServiceImpl implements GraduationService {
 		}
 		
 		File serverFile = new File(path + File.separator + saveName);
-		String localPath = path + File.separator + saveName; // Â°Ã¦Â·ÃŽ
+		String localPath = path + File.separator + saveName; // °æ·Î
 		graduation.setOriginalName(file.getOriginalFilename());
 		graduation.setSaveName(saveName);
 		graduation.setFilePath(localPath);

@@ -4,30 +4,50 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.spam.persistence.AttendMapper">
-	<resultMap id="attendResultMap" type="attend">
-		<id column="ATTEND_NO" property="attendNo" />
-		<result column="ID" property="id" />
-		<result column="ATTENDANCE_NO" property="attendanceNo" />
-	</resultMap>
-	 
-	<insert id="insertAttend" parameterType="attend"
-		useGeneratedKeys="true" keyProperty="attendNo" keyColumn="attendNo">
-		<selectKey keyColumn="ATTEND_NO" keyProperty="attendNo"
-			resultType="int" order="BEFORE">
-				SELECT ATTEND_NO_SEQ.NEXTVAL
-				FROM DUAL
-		</selectKey>
-		
-		INSERT INTO ATTEND
-		(ATTEND_NO,
-		ATTENDANCE_NO, 
-		ID 
-		)
-		
-		VALUES
-		(#{attendNo},
-		#{attendanceNo},
-		#{id})
-	</insert>
+   <resultMap id="attendResultMap" type="attend">
+      <id column="ATTEND_NO" property="attendNo" />
+      <result column="ID" property="id" />
+      <result column="ATTENDANCE_NO" property="attendanceNo" />
+   </resultMap>
+    
+   <insert id="insertAttend" parameterType="attend"
+      useGeneratedKeys="true" keyProperty="attendNo" keyColumn="attendNo">
+      <selectKey keyColumn="ATTEND_NO" keyProperty="attendNo"
+         resultType="int" order="BEFORE">
+            SELECT ATTEND_NO_SEQ.NEXTVAL
+            FROM DUAL
+      </selectKey>
+      
+      INSERT INTO ATTEND
+      (ATTEND_NO,
+      ATTENDANCE_NO, 
+      ID 
+      )
+      
+      VALUES
+      (#{attendNo},
+      #{attendanceNo},
+      #{id})
+   </insert>
 
+   <select id = "list" parameterType="attend"  resultMap="attendResultMap">
+   SELECT 
+      ID,
+      ATTENDANCE_NO
+   FROM ATTEND
+   <where>
+      <if test="id != null and id !=''">
+         AND ID = #{id}
+      </if>
+      <if test="attendanceNo != null and attendanceNo != ''" >
+         AND ATTENDANCE_NO = #{attendanceNo}
+      </if>
+   </where>
+   </select>
+   
+   <delete id="delete" parameterType="int">
+      DELETE FROM ATTEND 
+      WHERE ATTENDANCE_NO = #{attendanceNo}
+   </delete>
+   
 </mapper>

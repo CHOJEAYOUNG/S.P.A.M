@@ -11,4 +11,5 @@ public interface SpamUserMapper {
 	public List<SpamUser> list(SpamUser spamuser);
 	public void insertS(SpamUser spamuser);
 	public void insertP(SpamUser spamuser);
+	public void listInsertS(SpamUser spamuser);
 }

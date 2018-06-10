@@ -116,6 +116,7 @@
 				AND ENROLLMENT = #{enrollment}
 			</if>
 		</where>
+		ORDER BY ID ASC
 	</select>
 	<update id="update" parameterType="spamuser" >
 		UPDATE SPAM_USER 
@@ -170,8 +171,23 @@
 			   ,#{birthDate}
 			   ,#{empNo}
 			   ,#{grNo}
-			   ,<if test="cardNo == 0">0</if> 
-			   <if test="cardNo != 0">#{cardNo} </if>
+			   ,#{cradNo}
+			   ,#{enrollment}
+		)
+	</insert>
+	<insert id="listInsertS" parameterType="spamuser">
+		INSERT INTO SPAM_USER 
+		(ID, PASSWORD, POWER, NAME, GRADE, MAJOR, PHONE_NO, BIRTH_DATE, EMP_NO, GR_NO,ENROLLMENT)
+		VALUES (#{id}
+			   ,#{passWord}
+			   ,#{power}
+			   ,#{name}
+			   ,#{grade}
+			   ,#{major}
+			   ,#{phoneNo}
+			   ,#{birthDate}
+			   ,#{empNo}
+			   ,#{grNo}
 			   ,#{enrollment}
 		)
 	</insert>

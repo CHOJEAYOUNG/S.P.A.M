@@ -38,9 +38,9 @@ public class EmploymentCategoryController {
 		if ("name".equals(select)) {
 			category.setName(search);
 		} else if ("condition".equals(select)) {
-			if ("í•„ìˆ˜".equals(search)) {
+			if ("ÇÊ¼ö".equals(search)) {
 				category.setConditionSqeNo(1);
-			} else if ("ì„ íƒ".equals(search)) {
+			} else if ("¼±ÅÃ".equals(search)) {
 				category.setConditionSqeNo(2);
 			}
 		}
@@ -67,19 +67,19 @@ public class EmploymentCategoryController {
 		ModelAndView modelAndView = new ModelAndView("/employmentCategory/add");
 		List<EmploymentCategory> check = new ArrayList<EmploymentCategory>();
 		check = this.employmentCategoryService.find(category);
-		// ì´ë¦„ ë¹”
+		// ÀÌ¸§ ºö
 		if ("".equals(category.getName().trim())) {
 			List<EmploymentType> listType = this.employmentTypeService.find(type);
-			String checkName = "ì¹´í…Œê³ ë¦¬ ëª…ì´ ë¹„ì–´ìˆìŠµë‹ˆë‹¤.";
+			String checkName = "Ä«Å×°í¸® ¸íÀÌ ºñ¾îÀÖ½À´Ï´Ù.";
 			modelAndView.addObject("checkName", checkName);
 			modelAndView.addObject("listType", listType);
 
 			return modelAndView;
 		}
-		// ì´ë¦„ ì¤‘ë³µ
+		// ÀÌ¸§ Áßº¹
 		if (!check.isEmpty()) {
 			List<EmploymentType> listType = this.employmentTypeService.find(type);
-			String checkName = "ì´ë¯¸ ë“±ë¡ëœ ì¹´í…Œê³ ë¦¬ì…ë‹ˆë‹¤.";
+			String checkName = "ÀÌ¹Ì µî·ÏµÈ Ä«Å×°í¸®ÀÔ´Ï´Ù.";
 			modelAndView.addObject("checkName", checkName);
 			modelAndView.addObject("listType", listType);
 
@@ -121,9 +121,9 @@ public class EmploymentCategoryController {
 		ModelAndView modelAndView = null;
 
 		List<EmploymentCategory> check = this.employmentCategoryService.find(category);
-		// ìœ í˜• ëª…ì´ ë¹ˆì¹¸ì¸ì§€
+		// À¯Çü ¸íÀÌ ºóÄ­ÀÎÁö
 		if ("".equals(category.getName().trim())) {
-			String checkName = "ì¹´í…Œê³ ë¦¬ ëª…ì„ ì…ë ¥í•´ì£¼ì„¸ìš”.";
+			String checkName = "Ä«Å×°í¸® ¸íÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä.";
 			List<EmploymentType> listType = this.employmentTypeService.find(type);
 			modelAndView = new ModelAndView("/employmentCategory/edit");
 			modelAndView.addObject("checkName", checkName);
@@ -133,9 +133,9 @@ public class EmploymentCategoryController {
 			return modelAndView;
 		}
 
-		// ì´ë¯¸ ë“±ë¡ë˜ì–´ ìˆëŠ”ì§€
+		// ÀÌ¹Ì µî·ÏµÇ¾î ÀÖ´ÂÁö
 		if (!check.isEmpty() && !((category.getNo()) == check.get(0).getNo())) {
-			String checkName = "ì´ë¯¸ ë“±ë¡ëœ ì¹´í…Œê³ ë¦¬ì…ë‹ˆë‹¤.";
+			String checkName = "ÀÌ¹Ì µî·ÏµÈ Ä«Å×°í¸®ÀÔ´Ï´Ù.";
 			List<EmploymentType> listType = this.employmentTypeService.find(type);
 			modelAndView = new ModelAndView("/employmentCategory/edit");
 			modelAndView.addObject("checkName", checkName);

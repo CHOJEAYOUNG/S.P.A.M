@@ -44,14 +44,14 @@ public class EmploymentServiceImpl implements EmploymentService {
 		employment.setRegistration(str);
 		employment.setCause("");
 
-		// ì·¨ì—… ë“±ë¡
+		// Ãë¾÷ µî·Ï
 		if (file.getSize() != 0) {
 			employment.setAttendanceNo(0);
 			if ("A".equals(session.getAttribute("power"))) {
-				employment.setAssentNo(1); // ìŠ¹ì¸
+				employment.setAssentNo(1); // ½ÂÀÎ
 				employment.setAssentDate(str);
 			} else {
-				employment.setAssentNo(2); // ëŒ€ê¸°
+				employment.setAssentNo(2); // ´ë±â
 				str = "0001-01-01 00:00:00";
 				employment.setAssentDate(str);
 			}
@@ -61,7 +61,7 @@ public class EmploymentServiceImpl implements EmploymentService {
 				dir.mkdirs();
 			}
 			File serverFile = new File(path + File.separator + saveName);
-			path = path + File.separator + saveName; // ê²½ë¡œ
+			path = path + File.separator + saveName; // °æ·Î
 			employment.setOriginalName(file.getOriginalFilename());
 			employment.setSaveName(saveName);
 			employment.setFilePath(path);
@@ -72,9 +72,9 @@ public class EmploymentServiceImpl implements EmploymentService {
 				e.printStackTrace();
 			}
 		}
-		// ë¹„êµê³¼ ë“±ë¡
+		// ºñ±³°ú µî·Ï
 		else {
-			employment.setAssentNo(1); // ìŠ¹ì¸
+			employment.setAssentNo(1); // ½ÂÀÎ
 			employment.setAssentDate(str);
 			employment.setEmpcNo(0);
 		}

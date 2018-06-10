@@ -25,7 +25,11 @@
 		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
 	</head>
 	<body class="homepage">
-
+	<c:if test="${sessionScope.isLogin}"> 
+		<div style="text-align: right;">
+			<%@ include file="../jsp/menubar.jsp" %>
+		</div>
+	</c:if>
 		<!-- Header -->
 			<div id="header">
 				<div class="container">

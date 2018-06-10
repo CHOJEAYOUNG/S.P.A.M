@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 public class EmploymentCategory implements Serializable {
 	private int no;
-	
 	private String name;
 	private int empTypeNo;
 	private int conditionSqeNo;
@@ -82,11 +81,6 @@ public class EmploymentCategory implements Serializable {
 
 	public void setState(String state) {
 		this.state = state;
-	}
-	@Override
-	public String toString() {
-		return "EmploymentCategory [no=" + no + ", name=" + name + ", empTypeNo=" + empTypeNo + ", conditionSqeNo="
-				+ conditionSqeNo + ", score=" + score + ", info=" + info + ", state=" + state + "]";
 	}
 
 }
