@@ -64,7 +64,7 @@ function removeChar(event) {
 	templated.co @templatedco
 	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
 -->
-<html>
+
 	<head>
 		<c:if test="${sessionScope.isLogin}"> 
 		      <div style="text-align: right;">
@@ -94,54 +94,63 @@ function removeChar(event) {
 						<!-- Sidebar -->
 						<div id="sidebar" class="4u sidebar">
 							<section>
-								<header class="major">
-									<h2>취업 점수</h2>
-								</header>
-								<div class="row half">
-									<section class="8u">
-										<ul class="default">
+							<header class="major">
+								<h2>목록</h2>
+							</header>
+							<div class="row half">
+								<section class="6u">
+									<ul class="default">
+										<c:if test = "${sessionScope.power eq 'A' }" > 
 											<li><a href="/employment/list">취업 점수</a></li>
-											<c:if test="${power eq 'A' }">
-												<li><a href="/employmentCategory/list">취업 카테고리</a></li>
-												<li><a href="/employmentType/list">취업 유형</a></li>
-											</c:if>
-										</ul>
-									</section>
-									<section>
-	                      				<header class="major">
-                           				<h2>검색</h2>
-	                      				</header>
-	                        			<form action="/employment/list" method="get">
-											<c:if test="${power ne 'S' }">
-												<input type="text" name="id" id="id" style=width:200px; placeholder="학번" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;'/>
-												<input type="submit"value="검색" style="text-align:center;" onclick="return checkNull()"/>
-											</c:if>
-										</form>
-                    				</section>
-								</div>
-							</section>
+											<li><a href="/employmentCategory/list">취업 카테고리</a></li>
+											<li><a href="/employmentType/list">취업 유형</a></li>
+											<li><a href="/attendance/upload">비교과 출석 등록</a></li>
+											<li><a href="/attendance/list">비교과 출석 목록 조회</a></li>
+										</c:if>
+										<c:if test = "${sessionScope.power eq 'S' }" > 
+											<li><a href="/employment/list">취업 점수</a></li>
+										</c:if>
+									</ul>
+								</section>
+							</div>
+						</section>
 						</div>
 						
 						<!-- Content -->
 						<div id="content" class="8u skel-cell-important">
 							<section>
 								<header class="major">
-									
+									<h2>취업 점수 조회</h2>
+	                        			<form action="/employment/list" method="get">
+											<c:if test="${power ne 'S' }">
+												<input type="text" name="id" id="id" placeholder="학번" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style="width:200px; ime-mode:disabled; display:inline;"/>
+												<input type="submit"value="검색" style="text-align:center;  display:inline;" onclick="return checkNull()"/>
+											</c:if>
+										</form>
+										
 										<br><br><br>
 										<table style="width:100%; text-align: center;" border="1">
 											<thead>
 												<c:if test="${ !empty listEmp}">
-													<tr>
-														<th>번호</th>
+													<tr bgcolor="#4C4639">
+														<th style="width: 40px; text-align: center;"><font
+												color="#FFFFFF">번호</font></th>
 														<c:if test="${power eq 'A'}">
-															<th>이름</th>
+															<th style="width: 40px; text-align: center;"><font
+												color="#FFFFFF">이름</font></th>
 														</c:if>
-														<th>제목</th>
-														<th>점수</th>
-														<th>조건</th>
-														<th>등록일</th>
-														<th>승인여부</th>
-														<th>상세보기</th>
+														<th style="width: 40px; text-align: center;"><font
+												color="#FFFFFF">제목</font></th>
+														<th style="width: 40px; text-align: center;"><font
+												color="#FFFFFF">점수</font></th>
+														<th style="width: 40px; text-align: center;"><font
+												color="#FFFFFF">조건</font></th>
+														<th style="width: 40px; text-align: center;"><font
+												color="#FFFFFF">등록일</font></th>
+														<th style="width: 40px; text-align: center;"><font
+												color="#FFFFFF">승인여부</font></th>
+														<th style="width: 40px; text-align: center;"><font
+												color="#FFFFFF">상세보기</font></th>
 													</tr>
 													<c:forEach items="${ listEmp }" var="employment" varStatus="status">
 														<tr>
@@ -234,17 +243,27 @@ function removeChar(event) {
 													</c:forEach>
 												</c:if>
 												<c:if test="${empty listEmp}">
-													<tr>
-														<td style="text-align: center;" colspan="7">
-															학생을 검색해주세요.
-														</td>
-													</tr>
+													<c:if test="${power eq 'S' }">
+														<tr>
+															<td style="text-align: center;" colspan="7">
+																등록한 내용이 없습니다.
+															</td>
+														</tr>
+													</c:if>
+													
+													<c:if test="${power eq 'A' }">
+														<tr>
+															<td style="text-align: center;" colspan="7">
+																해당 학생을 검색해주세요.
+															</td>
+														</tr>
+													</c:if>
+													
 												</c:if>
 											</thead>
 										</table>
-										<br><br><br>
 										<c:if test="${power ne 'S' }">
-											<div style="text-align: right; padding-top: 10px;">
+											<div style="text-align: center; padding-top: 10px;">
 												<a href="javascript:openWindow()"><input type="button" value="등록"/></a>
 											</div>
 										</c:if>

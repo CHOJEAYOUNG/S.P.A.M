@@ -1,13 +1,28 @@
 package com.spam.domain;
 
-import java.util.Date;
-
 public class TimeTable{
 	private int period;
 	private String beginHour;
 	private String beginMinutes;
 	private String finishHour;
 	private String finishMinutes;
+	private String beginTime;
+	private String finishTime;
+	
+	
+	
+	public String getBeginTime() {
+		return beginTime;
+	}
+	public void setBeginTime(String beginTime) {
+		this.beginTime = beginTime;
+	}
+	public String getFinishTime() {
+		return finishTime;
+	}
+	public void setFinishTime(String finishTime) {
+		this.finishTime = finishTime;
+	}
 	public int getPeriod() {
 		return period;
 	}

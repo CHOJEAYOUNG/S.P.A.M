@@ -27,7 +27,7 @@ function checkNull() {
 	templated.co @templatedco
 	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
 -->
-<html>
+
 	<head>
 		<c:if test="${sessionScope.isLogin}"> 
 		      <div style="text-align: right;">
@@ -58,20 +58,26 @@ function checkNull() {
 						<!-- Sidebar -->
 						<div id="sidebar" class="4u sidebar">
 							<section>
-								<header class="major">
-									<h2>목록</h2>
-								</header>
-								<div class="row half">
-									<section class="8u">
-										<ul class="default">
+							<section>
+							<header class="major">
+								<h2>목록</h2>
+							</header>
+							<div class="row half">
+								<section class="6u">
+									<ul class="default">
+										<c:if test = "${sessionScope.power eq 'A' }" > 
 											<li><a href="/employment/list">취업 점수</a></li>
-											<c:if test="${power eq 'A' }">
-												<li><a href="/employmentCategory/list">취업 카테고리</a></li>
-												<li><a href="/employmentType/list">취업 유형</a></li>
-											</c:if>
-										</ul>
-									</section>
-								<section>
+											<li><a href="/employmentCategory/list">취업 카테고리</a></li>
+											<li><a href="/employmentType/list">취업 유형</a></li>
+											<li><a href="/attendance/upload">비교과 출석 등록</a></li>
+											<li><a href="/attendance/list">비교과 출석 목록 조회</a></li>
+										</c:if>
+										<c:if test = "${sessionScope.power eq 'S' }" > 
+											<li><a href="/employment/list">취업 점수</a></li>
+										</c:if>
+									</ul>
+								</section>
+							</div><br>
 		                      		<header class="major">
 		                           		<h2>검색</h2>
 		                      		</header>
@@ -87,7 +93,7 @@ function checkNull() {
 										</div>
 									</form>
 	                    		</section>
-								</div>
+								
 							</section>
 						</div>
 						
@@ -95,17 +101,24 @@ function checkNull() {
 						<div id="content" class="8u skel-cell-important">
 							<section>
 								<header class="major">
-								<h3>취업 유형</h3>
+								<h2>취업 유형</h2>
 								<table style="width:100%; text-align: center;" border="1">
 									<thead>
-										<tr>
-											<th>번호</th>
-											<th>유형</th>
-											<th>필수점수</th>
-											<th>선택점수</th>
-											<th>연도</th>
-											<th>수정</th>
-											<th>삭제</th>
+										<tr bgcolor="#4C4639">
+											<th style="width: 40px; text-align: center;"><font
+												color="#FFFFFF">번호</font></th>
+											<th style="width: 40px; text-align: center;"><font
+												color="#FFFFFF">유형</font></th>
+											<th style="width: 40px; text-align: center;"><font
+												color="#FFFFFF">필수점수</font></th>
+											<th style="width: 40px; text-align: center;"><font
+												color="#FFFFFF">선택점수</font></th>
+											<th style="width: 40px; text-align: center;"><font
+												color="#FFFFFF">연도</font></th>
+											<th style="width: 40px; text-align: center;"><font
+												color="#FFFFFF">수정</font></th>
+											<th style="width: 40px; text-align: center;"><font
+												color="#FFFFFF">삭제</font></th>
 										</tr>
 										
 										<c:if test="${ !empty listType}">

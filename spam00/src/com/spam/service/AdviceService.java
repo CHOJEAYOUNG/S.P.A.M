@@ -6,7 +6,9 @@ import com.spam.domain.Advice;
 
 public interface AdviceService {
 	public List<Advice> list(Advice advice);
-
+	
+	public List<Advice> listS(Advice advice);
+	
 	public void add(Advice advice);
 
 	public Advice view(Advice advice);

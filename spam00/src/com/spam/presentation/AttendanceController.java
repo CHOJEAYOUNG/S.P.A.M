@@ -46,7 +46,8 @@ public class AttendanceController {
 			attendanceService.excelxlsxRead(excelFile);
 		}
 		
-		//자바 스크립트로 확장자 확인 필요
+		attendance.setLectureTime(attendance.getLectureTime_hour()+ ":" + attendance.getLectureTime_min());
+		System.out.println("====="+attendance.getLectureTime());
 		attendanceService.attendanceInfo(attendance, excelFile.getOriginalFilename());
 		
 		return new ModelAndView(new RedirectView("/attendance/view/"+attendance.getAttendanceNo())); //using error control

@@ -2,11 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE HTML>
-<!--
-	Horizons by TEMPLATED
-	templated.co @templatedco
-	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
--->
+
 <html>
 <head>
 		<c:if test="${sessionScope.isLogin}"> 
@@ -36,18 +32,28 @@
 					<div id="sidebar" class="4u sidebar">
 						<section>
 							<header class="major">
-								<h2>학생 정보</h2>
+								<h2>목록</h2>
 							</header>
 							<div class="row half">
 								<section class="6u">
 									<ul class="default">
 										<c:if test = "${sessionScope.power eq 'A' }" > 
-											<li><a href="/spamUser/listAdd">일괄 등록</a></li>
+											<li><a href="/spamUser/list">사용자 목록 조회</a></li>
+											<li><a href="/spamUser/listAdd">학생 일괄 등록</a></li>
 											<li><a href="/spamUser/oneAddS">학생 개별 등록</a></li>
 											<li><a href="/spamUser/oneAddP">교수 개별 등록</a></li>
-											<li><a href="/spamUser/list">학생 목록</a></li>
+											<li><a href="/spamUser/viewPA/${spamuser.id}">내 정보 보기</a></li>
+											<li><a href="/spamUser/edit/${spamuser.id}">내 정보 수정</a></li>
 										</c:if>
-										<li><a href="/logout">로그 아웃</a></li>
+										<c:if test = "${sessionScope.power eq 'S' }" > 
+											<li><a href="/spamUser/viewPA/${spamuser.id}">내 정보 조회</a></li>
+											<li><a href="/spamUser/edit/${spamuser.id}">내 정보 수정</a></li>
+										</c:if>
+										<c:if test = "${sessionScope.power eq 'P' }" > 
+											<li><a href="/spamUser/list">사용자 조회</a></li>
+											<li><a href="/spamUser/viewPA/${sessionScope.id}">내 정보 조회</a></li>
+											<li><a href="/spamUser/edit/${sessionScope.id}">내 정보 수정</a></li>
+										</c:if>
 									</ul>
 								</section>
 							</div>
@@ -73,9 +79,22 @@
 					<!-- Content -->
 					<div id="content" class="8u skel-cell-important">
 						<section>
-							<header class="major">
-								<h2>학생 정보 보기</h2>
-							</header>
+							<c:if test="${ sessionScope.power eq 'A'}">
+								<header class="major">
+									<h2>조교 정보 보기</h2>
+								</header>
+							</c:if>
+							<c:if test="${ sessionScope.power eq 'P'}">
+								<header class="major">
+									<h2>교수 정보 보기</h2>
+								</header>
+							</c:if>
+							<c:if test="${ sessionScope.power eq 'S'}">
+								<header class="major">
+									<h2>학생 정보 보기</h2>
+								</header>
+							</c:if>
+							
 							<div style="overflow:auto; width:102%; height:100%; padding-bottom:5%; ">
 								<table style="width: 100%" border="1">
 									<thead>
@@ -149,10 +168,18 @@
 												</c:if>
 												<c:if test="${ spamuser.power eq 'S' }">
 													<td style="text-align: left; width: 100px; text-align: center;">
-														<c:out value="${ spamuser.empNo }"/>
+														<c:forEach items="${ listEmpType }" var="empType" varStatus="status">
+															<c:if test='${ spamuser.empNo eq empType.no}'>
+																<c:out value="${empType.name}" />
+															</c:if>
+														</c:forEach>
 													</td>
 													<td style="text-align: left; width: 100px; text-align: center;">
-														<c:out value="${ spamuser.grNo }"/>
+														<c:forEach items="${ listGrType }" var="listGrType" varStatus="status">
+															<c:if test='${ spamuser.grNo eq listGrType.no}'>
+																<c:out value="${listGrType.name}" />
+															</c:if>
+														</c:forEach>
 													</td>
 												</c:if>
 												<c:forEach items="${ enrollment }" var="enrollment" varStatus="status">
@@ -220,6 +247,10 @@
 														</c:if>
 													</tr>
 											</c:forEach>
+												<tr bgcolor="#4C4639" > 
+													<td colspan="2" align="center" ><font color="#FFFFFF"> 필수 점수 :<c:out value="${vlftnemp}" />/<c:out value="${f}" /></font></td>
+													<td colspan="2" align="center" ><font color="#FFFFFF"> 선택 점수 :<c:out value="${tjsxoremp}" />/<c:out value="${s}" /></font></td>
+												</tr>
 											</thead>
 										</table>
 									</div>

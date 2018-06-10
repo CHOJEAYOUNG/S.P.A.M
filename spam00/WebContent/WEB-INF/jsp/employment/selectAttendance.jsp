@@ -22,14 +22,7 @@ function checkRadio() {
 </script>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-</head>
-<!--
-	Horizons by TEMPLATED
-	templated.co @templatedco
-	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
--->
-<html>
-	<head>
+
 		<title>학과 업무 관리 시스템</title>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 		<meta name="description" content="" />
@@ -52,12 +45,17 @@ function checkRadio() {
 						
 			<table style="width:100%" border="1">
 				<thead>
-					<tr>
-						<th>선택</th>
-						<th>비교과 명</th>
-						<th>강의날짜</th>
-						<th>강의장소</th>
-						<th>점수</th>
+					<tr bgcolor="#4C4639">
+						<th style="width: 40px; text-align: center;"><font
+												color="#FFFFFF">선택</font></th>
+						<th style="width: 40px; text-align: center;"><font
+												color="#FFFFFF">비교과 명</font></th>
+						<th style="width: 40px; text-align: center;"><font
+												color="#FFFFFF">강의날짜</font></th>
+						<th style="width: 40px; text-align: center;"><font
+												color="#FFFFFF">강의장소</font></th>
+						<th style="width: 40px; text-align: center;"><font
+												color="#FFFFFF">점수</font></th>
 					</tr>
 					
 	 				<c:if test="${ !empty listAttendance}">

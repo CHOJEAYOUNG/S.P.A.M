@@ -38,4 +38,5 @@ public class TimeTableServiceImpl implements TimeTableService{
 		public void edit(TimeTable timeTable) {
 			this.timeTableMapper.update(timeTable);
 		}
+
 }

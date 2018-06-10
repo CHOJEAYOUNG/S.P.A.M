@@ -30,205 +30,182 @@ function stuPopupOpen() {
 	openWin = window.open("/advice/searchE", "stuForm", option);
 }
 </script>
+
 <head>
-<title>Left Sidebar - Horizons by TEMPLATED</title>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<meta name="description" content="" />
-<meta name="keywords" content="" />
-<script src="/js/jquery.min.js"></script>
-<script src="/js/jquery.dropotron.min.js"></script>
-<script src="/js/skel.min.js"></script>
-<script src="/js/skel-layers.min.js"></script>
-<script src="/js/init.js"></script>
-<link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/css/skel.css" />
-<link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/css/style.css" />
-<!--[if lte IE 8]><link rel="stylesheet" href="/css/ie/v8.css" /><![endif]-->
-<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
+         <c:if test="${sessionScope.isLogin}"> 
+		      <div style="text-align: right;">
+		         <%@ include file="/WEB-INF/jsp/menubar.jsp" %>
+		      </div>
+		 </c:if>
+	
 </head>
 <body class="left-sidebar">
-	<form action="/spamUser/list" method="POST">
-		<!-- Header -->
-		<div id="header">
-			<div class="container">
-				<!-- Logo -->
-				<h1>
-					<a href="#" id="logo">Untitled</a>
-				</h1>
-				<!-- Nav -->
-				<nav id="nav">
-					<ul>
-						<li><a href="index.html">Home</a></li>
-						<li><a href="">Dropdown</a>
-							<ul>
-								<li><a href="#">Lorem ipsum dolor</a></li>
-								<li><a href="#">Magna phasellus</a></li>
-								<li><a href="#">Etiam dolore nisl</a></li>
-								<li><a href="">Phasellus consequat</a>
-									<ul>
-										<li><a href="#">Lorem ipsum dolor</a></li>
-										<li><a href="#">Phasellus consequat</a></li>
-										<li><a href="#">Magna phasellus</a></li>
-										<li><a href="#">Etiam dolore nisl</a></li>
-										<li><a href="#">Veroeros feugiat</a></li>
-									</ul></li>
-								<li><a href="#">Veroeros feugiat</a></li>
-							</ul></li>
-						<li><a href="left-sidebar.html">Left Sidebar</a></li>
-						<li><a href="right-sidebar.html">Right Sidebar</a></li>
-						<li><a href="no-sidebar.html">No Sidebar</a></li>
-					</ul>
-				</nav>
-			</div>
+	<!-- Header -->
+	<div id="header">
+		<div class="container">
+			<!-- Logo -->
+						<h1><a href="/main" id="logo">S.P.A.M</a></h1>
+					
+			<!-- Nav -->
+						<%@ include file="/WEB-INF/jsp/navbar.jsp" %>
 		</div>
-		<!-- Main -->
-		<div id="main" class="wrapper style1">
-			<div class="container">
-				<div class="row">
+	</div>
+	<!-- Main -->
+	<div id="main" class="wrapper style1">
+		<div class="container">
+			<div class="row">
 
-					<!-- Sidebar -->
-					<div id="sidebar" class="4u sidebar">
-						<section>
-							<header class="major">
-								<h2>학생 정보</h2>
-							</header>
-							<div class="row half">
-								<section class="6u">
-									<ul class="default">
-										<c:if test="${sessionScope.power eq 'A' }">
-											<li><a href="/spamUser/listAdd">일괄 등록</a></li>
-											<li><a href="/spamUser/oneAddS">학생 개별 등록</a></li>
-											<li><a href="/spamUser/oneAddP">교수 개별 등록</a></li>
-											<li><a href="/spamUser/list">학생 목록</a></li>
-										</c:if>
-										<li><a href="/logout">로그 아웃</a></li>
-									</ul>
-								</section>
-							</div>
-						</section>
-						<c:if test="${sessionScope.power eq 'A' }">
-							<section>
-								<header class="major">
-									<h2>학생 검색</h2>
-								</header>
+				<!-- Sidebar -->
+				<div id="sidebar" class="4u sidebar">
+					<section>
+						<header class="major">
+							<h2>목록</h2>
+						</header>
+						<div class="row half">
+							<section class="6u">
 								<ul class="default">
-									<select name="select">
-										<option value="1">학번</option>
-										<option value="2">이름</option>
-										<option value="3">신분</option>
-									</select>
-									<input type="text" name="search" />
-									<input type="submit" value="검색" style="margin-left: 86%;" />
+									 <c:if test = "${sessionScope.power eq 'S' }" > 
+			                           <li><a href="/advice/add">상담 신청</a></li>
+			                           <li><a href="/advice/list">상담 신청 내용 조회</a></li>
+			                         </c:if>
+			                          <c:if test = "${sessionScope.power eq 'P' }" > 
+			                           <li><a href="/advice/list">상담 예약 조회</a></li>
+			                         </c:if>
 								</ul>
 							</section>
-						</c:if>
-					</div>
+						</div>
+					</section>
+					
+				</div>
 
-					<!-- Content -->
-					<div id="content" class="8u skel-cell-important">
-						<section>
-							<header class="major">
-								<h2>상담 정보 보기</h2>
-							</header>
-							<div style="overflow: auto; width: 100%; height: 1000px;">
-								<table style="width: 100%" border="1">
-									<thead>
-										<tr bgcolor="#4C4639">
-											<th style="width: 40px; text-align: center;"><font
-												color="#FFFFFF">번호</font></th>
-											<th style="width: 40px; text-align: center;"><font
-												color="#FFFFFF">학생</font></th>
-											<th style="width: 100px; text-align: center;"><font
-												color="#FFFFFF">교수</font></th>
-											<th style="width: 100px; text-align: center;"><font
-												color="#FFFFFF">월</font></th>
-											<th style="width: 100px; text-align: center;"><font
-												color="#FFFFFF">화</font></th>
-											<th style="width: 120px; text-align: center;"><font
-												color="#FFFFFF">수</font></th>
-											<th style="width: 100px; text-align: center;"><font
-												color="#FFFFFF">목</font></th>
-											<th style="width: 100px; text-align: center;"><font
-												color="#FFFFFF">금</font></th>
-											<th style="width: 100px; text-align: center;"><font
-												color="#FFFFFF">등록 날짜</font></th>
-											<th style="width: 100px; text-align: center;"><font
-												color="#FFFFFF">상담 날짜</font></th>
-											<th style="width: 100px; text-align: center;"><font
-												color="#FFFFFF">승인 여부</font></th>
-											<th style="width: 100px; text-align: center;"><font
-												color="#FFFFFF">승인</font></th>
-											<th style="width: 100px; text-align: center;"><font
-												color="#FFFFFF">거절</font></th>
-											<th style="width: 100px; text-align: center;"><font
-												color="#FFFFFF">상세 보기</font></th>
-										</tr>
-										<c:if test="${ !empty listAdvice}">
-											<c:forEach items="${listAdvice}" var="advice"
-												varStatus="status">
-												<tr>
-													<td style="text-align: center; width: 35px;"><c:out
-															value="${ status.count }" /></td>
-													<td style="text-align: center; width: 100px;"><c:out
-															value="${ advice.sId }" /></td>
-													<td style="text-align: center; width: 100px;"><c:out
-															value="${ advice.pId }" /></td>
-													<td style="text-align: center; width: 100px;"><c:out
-															value="${ advice.mon }" /></td>
-													<td style="text-align: center; width: 100px;"><c:out
-															value="${ advice.tue }" /></td>
-													<td style="text-align: center; width: 100px;"><c:out
-															value="${ advice.wed }" /></td>
-													<td style="text-align: center; width: 100px;"><c:out
-															value="${ advice.thur }" /></td>
-													<td style="text-align: center; width: 100px;"><c:out
-															value="${ advice.fri }" /></td>
-													<td style="text-align: center; width: 100px;"><c:out
-															value="${ advice.registration }" /></td>
-													<td style="text-align: center; width: 100px;"><c:out
-															value="${ advice.adviceDate }" /></td>
-													<td style="text-align: center; width: 100px;"><c:out
-															value="${ advice.state }" /></td>
-													<td style="text-align: center; width: 100px;">
-													<c:if test="${advice.assentDate == null}">
+				<!-- Content -->
+				<div id="content" class="8u skel-cell-important">
+					<section>
+						<header class="major">
+							<h2>상담 정보 보기</h2>
+							<form action="/advice/list" method="get">
+								<table style="border_color: white; align: center;">
+									<tr>
+										<td>상태</td>
+										<td><select id="assentNo" name="assentNo">
+												<option value="0" selected>전부</option>
+												<option value="1">승인완료</option>
+												<option value="2">승인대기</option>
+												<option value="3">승인거절</option>
+												<option value="4">상담완료</option>
+										</select></td>
+										<td>날짜</td>
+										<td><input type="date" id="searchDate" name="searchDate" /></td>
+										<td><input type="submit" value="검색" /></td>
+									</tr>
+								</table>
+							</form>
+							<font color="RED"> ※ 1분기 는 해당 교시의 시작시간부터 25분 2분기는 1분기 종료후
+								25분 입니다.</font><br />
+						</header>
+						<div style="overflow: auto; width: 100%; height: 1000px;">
+							<table style="width: 100%" border="1">
+								<thead>
+									<tr bgcolor="#4C4639">
+										<th style="width: 50px; text-align: center;"><font
+											color="#FFFFFF">번호</font></th>
+										<th style="width: 40px; text-align: center;"><font
+											color="#FFFFFF">학생</font></th>
+										<th style="width: 100px; text-align: center;"><font
+											color="#FFFFFF">교시</font></th>
+										<th style="width: 50px; text-align: center;"><font
+											color="#FFFFFF">분기</font></th>
+										<th style="width: 100px; text-align: center;"><font
+											color="#FFFFFF">등록날짜</font></th>
+										<th style="width: 100px; text-align: center;"><font
+											color="#FFFFFF">상담날짜</font></th>
+										<th style="width: 100px; text-align: center;"><font
+											color="#FFFFFF">승인여부</font></th>
+										<th style="width: 50px; text-align: center;"><font
+											color="#FFFFFF">승인</font></th>
+										<th style="width: 50px; text-align: center;"><font
+											color="#FFFFFF">거절</font></th>
+										<th style="width: 100px; text-align: center;"><font
+											color="#FFFFFF">상세 보기</font></th>
+									</tr>
+									<c:if test="${ !empty listAdvice}">
+										<c:forEach items="${listAdvice}" var="advice"
+											varStatus="status">
+											<tr>
+												<td style="text-align: center; width: 40px;"><c:out
+														value="${ status.count }" /></td>
+												<td style="text-align: center; width: 100px;"><c:out
+														value="${ advice.name }" /></td>
+												<td style="text-align: center; width: 100px;"><c:choose>
+														<c:when test="${advice.mon ne 0}">
+															월요일 <c:out value="${advice.mon}"></c:out>
+														</c:when>
+														<c:when test="${advice.tue ne 0}">
+															화요일 <c:out value="${advice.tue}"></c:out>
+														</c:when>
+														<c:when test="${advice.wed ne 0}">
+															수요일 <c:out value="${advice.wed}"></c:out>
+														</c:when>
+														<c:when test="${advice.thur ne 0}">
+															목요일 <c:out value="${advice.thur}"></c:out>
+														</c:when>
+														<c:when test="${advice.fri ne 0}">
+															금요일 <c:out value="${advice.fri}"></c:out>
+														</c:when>
+													</c:choose>
+												<td style="text-align: center; width: 100px;"><c:out
+														value="${ advice.quarter }" /></td>
+												<td style="text-align: center; width: 100px;"><c:out
+														value="${ advice.registration }" /></td>
+												<td style="text-align: center; width: 100px;"><c:out
+														value="${ advice.adviceDate }" /></td>
+												<td style="text-align: center; width: 100px;"><c:out
+														value="${ advice.state }" /></td>
+												<td style="text-align: center; width: 100px;"><c:if
+														test="${advice.assentDate == null}">
 														<a
 															href="<c:url value="/advice/assent/${advice.adviceNo}" />">
 															<input type="button" value="승인" />
 														</a>
-													</c:if>
-													<c:if test="${advice.assentDate != null}">
-														<c:out
-															value="${ advice.assentDate }" />
-													</c:if>
-													</td>
-													<td style="text-align: center; width: 100px;">
-													<input type="button" id="button_edit" name="button_edit"
-														onclick="editPopupOpen(${advice.adviceNo})" value="거절" />
-														</td>
-														<td style="text-align: center; width: 100px;">
-													<input type="button" id="button_view" name="button_view"
-														onclick="viewPopupOpen(${advice.adviceNo})" value="상세보기" />
-													</td>
-											</c:forEach>
-											</c:if>
-									</thead>
+													</c:if> <c:if test="${advice.assentDate != null}">
+														<c:out value="${ advice.assentDate }" />
+													</c:if></td>
+												<td style="text-align: center; width: 100px;"><c:if
+														test="${advice.assentNo != 4} ">
+														<input type="button" id="button_edit" name="button_edit"
+															onclick="editPopupOpen(${advice.adviceNo})" value="거절" />
+													</c:if> <c:if test="${advice.assentNo == 4 }">
+														<c:out value="상담이 완료된 예약입니다" />
+													</c:if></td>
 
-								</table>
-								<a href="<c:url value="/advice/add" />"> <input
-									type="button" id="button_add" name="button_edit" value="등록" />
-								</a>
-							</div>
-						</section>
-					</div>
+												<td style="text-align: center; width: 100px;"><input
+													type="button" id="button_view" name="button_view"
+													onclick="viewPopupOpen(${advice.adviceNo})" value="상세보기" />
+												</td>
+												<td style="text-align: center; width: 100px;"><c:if
+														test="${advice.assentNo == 1}">
+
+														<a
+															href="<c:url value="/advice/assent/${advice.adviceNo}" />">
+															<input type="button" value="상담 완료" />
+														</a>
+													</c:if></td>
+										</c:forEach>
+									</c:if>
+								</thead>
+
+							</table>
+
+						</div>
+					</section>
 				</div>
 			</div>
 		</div>
-		<!-- Footer -->
-		<div id="footer">
-			<!-- Copyright -->
-			<div class="copyright">Tel: 041-530-2212 (선문대학교 컴퓨터공학과 과사무실)</div>
-		</div>
-	</form>
+	</div>
+	<!-- Footer -->
+	<div id="footer">
+		<!-- Copyright -->
+		<div class="copyright">Tel: 041-530-2212 (선문대학교 컴퓨터공학과 과사무실)</div>
+	</div>
 </body>
 </html>

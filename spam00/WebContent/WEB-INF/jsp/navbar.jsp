@@ -17,6 +17,10 @@
 <script src="/js/init.js"></script>
 <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/css/skel.css" />
 <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/css/style.css" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <!--[if lte IE 8]><link rel="stylesheet" href="/css/ie/v8.css" /><![endif]-->
 </head>
 <body class="homepage">
@@ -24,10 +28,20 @@
 					<nav id="nav">
 							<ul>
 								<li>
-									<h1><a href="">-조교-상담</a></h1>
+									<h1><a href="">일정 관리</a></h1>
 									<ul>
-										<li><a href="">상담 예약 조회</a></li>
-										<li><a href="">교수님 시간표 등록</a></li>
+										<li><a href="">교수 일정 관리</a>
+											<ul>
+												<li><a href="/schedule/list">일정 조회</a></li>
+												<li><a href="/schedule/add">일정 등록</a></li>
+											</ul>
+										</li>
+										<li><a href="">시간표 관리</a>
+											<ul>
+												<li><a href="/timeTable/list">시간표 조회</a></li>
+												<li><a href="/timeTable/add">시간표 등록</a></li>
+											</ul>
+										</li>
 									</ul>
 								</li>
 								<li><h1><a href="">취업 점수</a></h1>
@@ -53,15 +67,22 @@
 								<li>
 									<h1><a href="">사용자 정보</a></h1>
 									<ul>
-										<li><a href="">등록</a>
+										<li><a href="/spamUser/list">사용자 목록 조회</a></li>
+										<li><a href="">사용자 등록</a>
 											<ul>
 												<li><a href="/spamUser/listAdd">학생 일괄 등록</a></li>
-												<li><a href="/spamUser/oneAddP">학생 개별 등록</a></li>
+												<li><a href="/spamUser/oneAddS">학생 개별 등록</a></li>
 												<li><a href="/spamUser/oneAddP">교수 개별 등록</a></li>
 											</ul>
 										</li>
-										<li><a href="/spamUser/list">학생 목록 조회</a></li>
-										<li><a href="">시간표 관리</a></li>
+										<li>
+											<a href="">내 정보</a>
+											<ul>
+												<li><a href="/spamUser/viewPA/${spamuser.id}">내 정보 보기</a></li>
+												<li><a href="/spamUser/edit/${spamuser.id}">내 정보 수정</a></li>
+											</ul>
+											
+										</li>
 									</ul>
 								</li>
 							</ul>
@@ -71,15 +92,22 @@
 					<nav id="nav">
 							<ul>
 								<li>
-									<h1><a href="">-학생-상담</a></h1>
+									<h1><a href="">상담</a></h1>
 									<ul>
-										<li><a href="">상담 예약</a></li>
-										<li><a href="">상담 예약 조회</a></li>
+										<li><a href="/advice/add">상담 신청</a></li>
+										<li><a href="/advice/list">상담 신청 내용 조회</a></li>
 									</ul>
 								</li>
-								<li><h1><a href="">취업 점수</a></h1></li>
-								<li><h1><a href="">졸업 점수</a></h1></li>
-								<li><h1><a href="/spamUser/viewPA/${spamuser.id}">내 정보</a></h1></li>
+								<li><h1><a href="/employment/list">취업 점수</a></h1></li>
+								<li><h1><a href="/graduation/list">졸업 점수</a></h1></li>
+								<li>
+									<h1><a href="">내 정보</a></h1>
+									<ul>
+										<li><a href="/spamUser/viewPA/${spamuser.id}">내 정보 조회</a></li>
+										<li><a href="/spamUser/edit/${spamuser.id}">내 정보 수정</a></li>
+									</ul>
+									
+								</li>
 							</ul>
 						</nav>
 					</c:if>
@@ -87,21 +115,23 @@
 					<nav id="nav">
 							<ul>
 								<li>
-									<h1><a href="">-교수-상담</a></h1>
+									<h1><a href="">일정 관리</a></h1>
 									<ul>
-										<li><a href=""></a></li>
-										<li><a href="">상담 예약 조회</a></li>
+										<li><a href="/schedule/list">일정 조회</a></li>
+										<li><a href="/schedule/add">일정 등록</a></li>
 									</ul>
+								</li>
+								<li>
+									<h1><a href="/advice/list">상담 예약 조회</a></h1>
 								</li>
 								<li>
 									<h1><a href="">사용자 정보</a></h1>
 									<ul>
-										<li><a href="">학생 조회</a></li>
-										<li><a href="/spamUser/viewPA/${sessionScope.id}">내 정보 조회</a></li>
-										<li><a href="">일정표</a>
+										<li><a href="/spamUser/list">사용자 조회</a></li>
+										<li><a href="">내 정보</a>
 											<ul>
-												<li><a href="">등록</a></li>
-												<li><a href="">수정</a></li>
+												<li><a href="/spamUser/viewPA/${sessionScope.id}">내 정보 조회</a></li>
+												<li><a href="/spamUser/edit/${sessionScope.id}">내 정보 수정</a></li>
 											</ul>
 										</li>
 									</ul>

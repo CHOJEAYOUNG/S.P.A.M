@@ -3,11 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE HTML>
-<!--
-	Horizons by TEMPLATED
-	templated.co @templatedco
-	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
--->
+
 <html>
 <head>
 		<c:if test="${sessionScope.isLogin}"> 
@@ -37,18 +33,28 @@
 					<div id="sidebar" class="4u sidebar">
 						<section>
 							<header class="major">
-								<h2>학생 정보</h2>
+								<h2>목록</h2>
 							</header>
 							<div class="row half">
 								<section class="6u">
 									<ul class="default">
 										<c:if test = "${sessionScope.power eq 'A' }" > 
-											<li><a href="/spamUser/listAdd">일괄 등록</a></li>
+											<li><a href="/spamUser/list">사용자 목록 조회</a></li>
+											<li><a href="/spamUser/listAdd">학생 일괄 등록</a></li>
 											<li><a href="/spamUser/oneAddS">학생 개별 등록</a></li>
 											<li><a href="/spamUser/oneAddP">교수 개별 등록</a></li>
-											<li><a href="/spamUser/list">학생 목록</a></li>
+											<li><a href="/spamUser/viewPA/${spamuser.id}">내 정보 보기</a></li>
+											<li><a href="/spamUser/edit/${spamuser.id}">내 정보 수정</a></li>
 										</c:if>
-										<li><a href="/logout">로그 아웃</a></li>
+										<c:if test = "${sessionScope.power eq 'S' }" > 
+											<li><a href="/spamUser/viewPA/${spamuser.id}">내 정보 조회</a></li>
+											<li><a href="/spamUser/edit/${spamuser.id}">내 정보 수정</a></li>
+										</c:if>
+										<c:if test = "${sessionScope.power eq 'P' }" > 
+											<li><a href="/spamUser/list">사용자 조회</a></li>
+											<li><a href="/spamUser/viewPA/${sessionScope.id}">내 정보 조회</a></li>
+											<li><a href="/spamUser/edit/${sessionScope.id}">내 정보 수정</a></li>
+										</c:if>
 									</ul>
 								</section>
 							</div>
@@ -78,21 +84,28 @@
 								<h2>학생 일괄 등록</h2>
 							</header>
 							<form action="/spamUser/listAdd" method="post" enctype="multipart/form-data">
-								<div style="text-align: center; padding-top: 15%;">
-									<table border="1" width="300" align="center" height="250">
-										<tr>
-											<td>파일 업로드</td>
-											<td>
-												<input type="file" name="uploadfile" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
-											</td>
-										</tr>
-										</table>
-									<input type="submit" value="일괄등록" />
-								</div>
+								
+									
+										<table style="margin-left:15%;" >
+											<thead>
+												 <tr>
+									                   <th style="width: 100px; text-align: center; background-color:#4C4639">
+									                  	<font color="#FFFFFF">파일 업로드</font>
+									                  </th>
+									                  <td>
+									                  	<input type="file" name="uploadfile" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+														</td>
+									              </tr>
+									             </thead>
+									            </table>
+										
+									<input type="submit" value="일괄등록" style="margin-left:40%;" />
+								
 							</form>
 					</section>
 				</div>
 			</div>
+		</div>
 		</div>
 		<!-- Footer -->
 			<%@ include file="/WEB-INF/jsp/footer.jsp" %>

@@ -55,7 +55,7 @@ function removeChar(event) {
 	templated.co @templatedco
 	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
 -->
-<html>
+
 	<head>
 		<c:if test="${sessionScope.isLogin}"> 
 		      <div style="text-align: right;">
@@ -85,50 +85,96 @@ function removeChar(event) {
 						<!-- Sidebar -->
 						<div id="sidebar" class="4u sidebar">
 							<section>
-								<header class="major">
-									<h2>목록</h2>
-								</header>
-								<div class="row half">
-									<section class="8u">
-										<ul class="default">
+							<header class="major">
+								<h2>목록</h2>
+							</header>
+							<div class="row half">
+								<section class="6u">
+									<ul class="default">
+										<c:if test = "${sessionScope.power eq 'A' }" > 
 											<li><a href="/employment/list">취업 점수</a></li>
-											<c:if test="${power eq 'A' }">
-												<li><a href="/employmentCategory/list">취업 카테고리</a></li>
-												<li><a href="/employmentType/list">취업 유형</a></li>
-											</c:if>
-										</ul>
-									</section>
-								</div>
-							</section>
+											<li><a href="/employmentCategory/list">취업 카테고리</a></li>
+											<li><a href="/employmentType/list">취업 유형</a></li>
+											<li><a href="/attendance/upload">비교과 출석 등록</a></li>
+											<li><a href="/attendance/list">비교과 출석 목록 조회</a></li>
+										</c:if>
+										<c:if test = "${sessionScope.power eq 'S' }" > 
+											<li><a href="/employment/list">취업 점수</a></li>
+										</c:if>
+									</ul>
+								</section>
+							</div>
+						</section>
 						</div>
-						
 						<!-- Content -->
 						<div id="content" class="8u skel-cell-important">
 							<section>
 								<header class="major">
+								<h2>취업 카테고리 수정</h2>
 									<form action="/employmentCategory/edit" method="POST">
 									<input type="hidden" name="no" value="${category.no}">
-									카테고리 명 <input type="text" id="name" name="name" value="${category.name}" style="width:300px;"/>${checkName}<br>
-									유  형  <select name="empTypeNo" style="width:50px;">
-											<c:forEach items="${listType}" var="type"  varStatus="status">
-												<option value="${type.no}">${type.name}</option>
-											</c:forEach>
-										 </select>
-										 <br>
-									<c:if test="${category.conditionSqeNo eq 1}">
-										조  건	<input type="radio"	name="conditionSqeNo" value="1" checked="checked"> 필수
-										    <input type="radio"	name="conditionSqeNo" value="2"> 선택
-									</c:if>			
-									<c:if test="${category.conditionSqeNo eq 2}">
-										조  건	<input type="radio"	name="conditionSqeNo" value="1"> 필수
-											<input type="radio"	name="conditionSqeNo" value="2" checked="checked"> 선택
-									</c:if>	<br>
-									점  수 <input type="text" id="score" name="score" value="${category.score}" style="width:300px;" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;'> <br>
-									
-									상세정보 <br>
-									<textarea rows="3" cols="50" id="info" name="info">${category.info}</textarea> <br>
-									
-									<div style="text-align: right;">
+									<table style="margin-left:15%;" >
+										<thead>
+											<tr>
+								                <th style=" text-align: center; background-color:#4C4639">
+								                  	<font color="#FFFFFF">카테고리 명</font>
+								                 </th>
+								                 <td>
+								                 	<input type="text" id="name" name="name" value="${category.name}" style="width:300px;"/>${checkName}
+								                 </td>
+								            </tr>
+								            <tr>
+								                <th style=" text-align: center; background-color:#4C4639">
+								                  	<font color="#FFFFFF">유  형</font>
+								                 </th>
+								                 <td>
+								                 	<select name="empTypeNo" style="width:50px;">
+														<c:forEach items="${listType}" var="type"  varStatus="status">
+															<option value="${type.no}">${type.name}</option>
+														</c:forEach>
+													</select>
+								                 </td>
+								            </tr>
+								            <tr>
+								                <th style=" text-align: center; background-color:#4C4639">
+								                  	<font color="#FFFFFF">조  건</font>
+								                 </th>
+								                 <td>
+								                 	<c:if test="${category.conditionSqeNo eq 1}">
+														<input type="radio"	name="conditionSqeNo" value="1" checked="checked"> 필수
+													    <input type="radio"	name="conditionSqeNo" value="2"> 선택
+													</c:if>			
+													<c:if test="${category.conditionSqeNo eq 2}">
+														<input type="radio"	name="conditionSqeNo" value="1"> 필수
+														<input type="radio"	name="conditionSqeNo" value="2" checked="checked"> 선택
+													</c:if>
+								                 </td>
+								            </tr>
+								            <tr>
+								                <th style=" text-align: center; background-color:#4C4639">
+								                  	<font color="#FFFFFF">점  수</font>
+								                 </th>
+								                 <td>
+								                 	<c:if test="${category.conditionSqeNo eq 1}">
+														<input type="radio"	name="conditionSqeNo" value="1" checked="checked"> 필수
+													    <input type="radio"	name="conditionSqeNo" value="2"> 선택
+													</c:if>			
+													<c:if test="${category.conditionSqeNo eq 2}">
+														<input type="text" id="score" name="score" value="${category.score}" style="width:300px;" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;'>
+													</c:if>
+								                 </td>
+								            </tr>
+								            <tr>
+								                <th style=" text-align: center; background-color:#4C4639">
+								                  	<font color="#FFFFFF">상세정보</font>
+								                 </th>
+								                 <td>
+								                 	<textarea rows="3" cols="50" id="info" name="info" style="width: 300px;">${category.info}</textarea>
+								                 </td>
+								            </tr>
+								     	</thead>
+								     </table>
+									<div style="text-align: center;">
 										<input type="submit" value="수정" onclick="return checkNull()"/>
 										<a href="/employmentCategory/view/${category.no}"><input type="button" value="취소"/></a>
 									</div>
@@ -136,7 +182,6 @@ function removeChar(event) {
 								</header>
 							</section>
 						</div>
-					
 					</div>
 				</div>
 			</div>

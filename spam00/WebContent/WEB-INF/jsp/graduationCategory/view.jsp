@@ -47,41 +47,75 @@ power = (String)session.getAttribute("power");
 						<!-- Sidebar -->
 						<div id="sidebar" class="4u sidebar">
 							<section>
-								<header class="major">
-									<h2>목록</h2>
-								</header>
-								<div class="row half">
-									<section class="8u">
-										<ul class="default">
+							<header class="major">
+								<h2>목록</h2>
+							</header>
+							<div class="row half">
+								<section class="6u">
+									<ul class="default">
+										<c:if test = "${sessionScope.power eq 'A' }" > 
 											<li><a href="/graduation/list">졸업 점수</a></li>
-											<c:if test="${power eq 'A' }">
-												<li><a href="/graduationCategory/list">졸업 카테고리</a></li>
-												<li><a href="/graduationType/list">졸업 유형</a></li>
-											</c:if>
-										</ul>
-									</section>
-								</div>
-							</section>
+											<li><a href="/graduationCategory/list">졸업 카테고리</a></li>
+											<li><a href="/graduationType/list">졸업 유형</a></li>
+										</c:if>
+										<c:if test = "${sessionScope.power eq 'S' }" > 
+											<li><a href="/graduation/list">졸업 점수</a></li>
+										</c:if>
+									</ul>
+								</section>
+							</div>
+						</section>
 						</div>
 						
 						<!-- Content -->
 						<div id="content" class="8u skel-cell-important">
 							<section>
 								<header class="major">
+								<h2>졸업 카테고리 수정</h2>
 								<form action="/graduationCategory/add" method="POST">
 									<input type="hidden" name="no" value="${category.no}">
-									카테고리 명 <input type="text" name="name" value="${category.name}" readonly="readonly" style="background-color: #e2e2e2"/> <br>
-									유  형 <input type="text" name="grTypeNo" value="${typeName}" readonly="readonly" style="background-color: #e2e2e2"/> <br>
-									<c:if test="${category.conditionSqeNo eq 1}">
-										조  건	<input type="text"	name="conditionSqeNo" value="필수" readonly="readonly" style="background-color: #e2e2e2">
-									</c:if>			
-									<c:if test="${category.conditionSqeNo eq 2}">
-										조  건	<input type="text"	name="conditionSqeNo" value="선택" readonly="readonly" style="background-color: #e2e2e2">
-									</c:if>	<br>
-									상세정보 <br>
-									<textarea rows="3" cols="50" name="info" readonly="readonly" style="background-color: #e2e2e2">${category.info}</textarea> <br>
-									
-									<div style="text-align: right;">
+									<table style="margin-left:15%;" >
+										<thead>
+											<tr>
+								                <th style=" text-align: center; background-color:#4C4639">
+								                  	<font color="#FFFFFF">카테고리 명</font>
+								                 </th>
+								                 <td>
+								                 	<input type="text" name="name" value="${category.name}" readonly="readonly" style="background-color: #e2e2e2; width: 300px;"/>
+								                 </td>
+								            </tr>
+								            <tr>
+								                <th style=" text-align: center; background-color:#4C4639">
+								                  	<font color="#FFFFFF">유  형</font>
+								                 </th>
+								                 <td>
+								                 	<input type="text" name="grTypeNo" value="${typeName}" readonly="readonly" style="background-color: #e2e2e2; width: 300px;"/>
+								                 </td>
+								            </tr>
+								            <tr>
+								                <th style=" text-align: center; background-color:#4C4639">
+								                  	<font color="#FFFFFF">조  건</font>
+								                 </th>
+								                 <td>
+								                 	<c:if test="${category.conditionSqeNo eq 1}">
+															<input type="text"	name="conditionSqeNo" value="필수" readonly="readonly" style="background-color: #e2e2e2; width: 300px;">
+													</c:if>			
+													<c:if test="${category.conditionSqeNo eq 2}">
+															<input type="text"	name="conditionSqeNo" value="선택" readonly="readonly" style="background-color: #e2e2e2; width: 300px;">
+													</c:if>
+								                 </td>
+								            </tr>
+								            <tr>
+								                <th style=" text-align: center; background-color:#4C4639">
+								                  	<font color="#FFFFFF">상세정보</font>
+								                 </th>
+								                 <td>
+								                 	<textarea rows="3" cols="50" name="info" readonly="readonly" style="background-color: #e2e2e2; width: 300px; height: 200px;">${category.info}</textarea>
+								                 </td>
+								            </tr>
+								        </thead>
+								     </table>
+									<div style="text-align: center;">
 										<a href="/graduationCategory/remove/${no}"><input type="button" value="삭제"/></a>
 										<a href="/graduationCategory/edit/${no}"><input type="button" value="수정"/></a>
 										<a href="/graduationCategory/list"><input type="button" value="목록"/></a>

@@ -117,18 +117,28 @@
 					<div id="sidebar" class="4u sidebar">
 						<section>
 							<header class="major">
-								<h2>학생 정보</h2>
+								<h2>목록</h2>
 							</header>
 							<div class="row half">
 								<section class="6u">
 									<ul class="default">
 										<c:if test = "${sessionScope.power eq 'A' }" > 
-											<li><a href="/spamUser/listAdd">일괄 등록</a></li>
+											<li><a href="/spamUser/list">사용자 목록 조회</a></li>
+											<li><a href="/spamUser/listAdd">학생 일괄 등록</a></li>
 											<li><a href="/spamUser/oneAddS">학생 개별 등록</a></li>
 											<li><a href="/spamUser/oneAddP">교수 개별 등록</a></li>
-											<li><a href="/spamUser/list">학생 목록</a></li>
+											<li><a href="/spamUser/viewPA/${spamuser.id}">내 정보 보기</a></li>
+											<li><a href="/spamUser/edit/${spamuser.id}">내 정보 수정</a></li>
 										</c:if>
-										<li><a href="/logout">로그 아웃</a></li>
+										<c:if test = "${sessionScope.power eq 'S' }" > 
+											<li><a href="/spamUser/viewPA/${spamuser.id}">내 정보 조회</a></li>
+											<li><a href="/spamUser/edit/${spamuser.id}">내 정보 수정</a></li>
+										</c:if>
+										<c:if test = "${sessionScope.power eq 'P' }" > 
+											<li><a href="/spamUser/list">사용자 조회</a></li>
+											<li><a href="/spamUser/viewPA/${sessionScope.id}">내 정보 조회</a></li>
+											<li><a href="/spamUser/edit/${sessionScope.id}">내 정보 수정</a></li>
+										</c:if>
 									</ul>
 								</section>
 							</div>
@@ -158,87 +168,118 @@
 								<h2>학생 개별 등록</h2>
 							</header>
 							<form id="form" action="/spamUser/oneAdd" method="post" style="padding-top: 3%; padding-bottom: 3%;">
-								<table border="1" width="300" align="center" height="250" >
-									<tr>
-										<td>학번</td>
-										<td>
-											<input type="text" id="id" name="id" maxlength="10" onkeydown="return showKeyCode(event)" onkeyup='removeChar(event)' style="ime-mode:disabled;" />
-										</td>
-									</tr>
-									<tr>
-										<td>생년월일</td>
-										<td>
-											<input type="text" size="30" name="birthDate" maxlength="6" id="birthDate" onkeydown="return showKeyCode(event)" onkeyup='removeChar(event)' style="ime-mode:disabled;" />
-										</td>
-									</tr>
-									<tr>
-										<td>이름</td>
-										<td>
-											<input type="text" name="name" id="name"/>
-										</td>
-									</tr>
-									<tr>
-										<td>학년</td>
-										<td>
-											<input type="text" name="grade" id="grade" maxlength="1" onkeydown="return showKeyCode2(event)" onkeyup='removeChar(event)' style="ime-mode:disabled;"/>
-										</td>
-									</tr>
-									<tr>
-										<td>학과</td>
-										<td>
-											<input type="text" name="major" id="major"/>
-										</td>
-									</tr>
-									<tr>
-										<td>전화번호</td>
-										<td>
-											<select name="phoneNo1" style="width: 10%;">
-												<option value="010">010</option>
-												<option value="016">016</option>
-												<option value="011">011</option>
-												<option value="070">070</option>
-												<option value="041">041</option>
-												<option value="02">02</option>
-												<option value="031">031</option>
-												<option value="05">05</option>
-											</select>
-											-
-											<input type="text"  id="phoneNo2" size="6" name="phoneNo2" maxlength="4" onkeydown="return showKeyCode(event)" onkeyup='removeChar(event)' style="ime-mode:disabled; width: 42%" /> - 
-											<input type="text" id="phoneNo3" size="6" name="phoneNo3" maxlength="4" onkeydown="return showKeyCode(event)" onkeyup='removeChar(event)' style="ime-mode:disabled; width: 42%" />
-										</td>
-									</tr>
-				<tr>
-					<td>취업 유형</td>
-					<td>
-						<select name="empNo">
-							<c:forEach items="${ listEmp }" var="employmentType" varStatus="status">
-									<option value="${ employmentType.no }">${ employmentType.name }</option>
-							</c:forEach>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>졸업 유형</td>
-					<td>
-						<select name="grNo">
-							<c:forEach items="${ listGr }" var="grType" varStatus="status">
-									<option value="${ grType.no }"  >${ grType.name }</option>
-							</c:forEach>
-						</select>
-					</td>
-				</tr>
-									<c:if test="${(sessionScope.power eq 'A')}" >
+								<table style="margin-left:15%;" >
+									<thead>
+										<tr>
+							                <th style="width: 100px; text-align: center; background-color:#4C4639">
+							                  	<font color="#FFFFFF">학번</font>
+							                 </th>
+							                 <td>
+							                 	<input type="text" id="id" name="id" maxlength="10" onkeydown="return showKeyCode(event)" onkeyup='removeChar(event)'  size="10" style="ime-mode:disabled; width:50%; border: 2;" />
+								            
+							                  </td>
+							            </tr>
+							            
+							            <tr>
+							                <th style="width: 100px; text-align: center; background-color:#4C4639">
+							                  	<font color="#FFFFFF">생년월일</font>
+							                 </th>
+							                 <td>
+								                <input type="text" size="30" name="birthDate" maxlength="6" id="birthDate" onkeydown="return showKeyCode(event)" onkeyup='removeChar(event)'  size="10" style="ime-mode:disabled; width:50%; border: 2;" />
+							                  </td>
+							            </tr>
+							            
+							            <tr>
+							                <th style="width: 100px; text-align: center; background-color:#4C4639">
+							                  	<font color="#FFFFFF">이름</font>
+							                 </th>
+							                 <td>
+								                <input type="text" name="name" id="name"  size="10" style="ime-mode:disabled; width:50%; border: 2;"/>
+							                 </td>
+							            </tr>
+							            
+							            <tr>
+							                <th style="width: 100px; text-align: center; background-color:#4C4639">
+							                  	<font color="#FFFFFF">학년</font>
+							                 </th>
+							                 <td>
+								                <input type="text" name="grade" id="grade" maxlength="1" onkeydown="return showKeyCode2(event)" onkeyup='removeChar(event)'  size="10" style="ime-mode:disabled; width:50%; border: 2;"/>
+							                 </td>
+							            </tr>
+							            
+							            <tr>
+							                <th style="width: 100px; text-align: center; background-color:#4C4639">
+							                  	<font color="#FFFFFF">학과</font>
+							                 </th>
+							                 <td>
+								                <input type="text" name="major" id="major"  size="10" style="ime-mode:disabled; width:50%; border: 2;"/>
+							                 </td>
+							            </tr>
+							             <tr>
+							                   <th style="width: 100px; text-align: center; background-color:#4C4639">
+							                  	<font color="#FFFFFF">전화번호</font>
+							                  </th>
+							                  <td>
+							                  	
+							                  	 <select name="phoneNo1" style="width: 10%;">
+													<option value="010">010</option>
+													<option value="016">016</option>
+													<option value="011">011</option>
+													<option value="070">070</option>
+													<option value="041">041</option>
+													<option value="02">02</option>
+													<option value="031">031</option>
+													<option value="05">05</option>
+												</select>-
+												<input type="text"  id="phoneNo2" size="4" name="phoneNo2" maxlength="4" onkeydown="return showKeyCode(event)" onkeyup='removeChar(event)' style="ime-mode:disabled; display:inline; width: 18%"/> - 
+												<input type="text"  id="phoneNo3" size="4" name="phoneNo3" maxlength="4" onkeydown="return showKeyCode(event)" onkeyup='removeChar(event)' style="ime-mode:disabled; display:inline; width: 18%"/>
+							                </td>
+							              </tr>
+							              
+							              
+							             <tr>
+							                <th style="width: 100px; text-align: center; background-color:#4C4639">
+							                  	<font color="#FFFFFF">취업 유형</font>
+							                 </th>
+							                 <td>
+								                <select name="empNo" style="width:50%; border: 2;">
+													<c:forEach items="${ listEmp }" var="employmentType" varStatus="status">
+															<option value="${ employmentType.no }">${ employmentType.name }</option>
+													</c:forEach>
+												</select>
+							                 </td>
+							            </tr>
+							            
+							             <tr>
+							                <th style="width: 100px; text-align: center; background-color:#4C4639">
+							                  	<font color="#FFFFFF">졸업 유형</font>
+							                 </th>
+							                 <td>
+								                <select name="grNo" style="width:50%; border: 2;">
+													<c:forEach items="${ listGr }" var="grType" varStatus="status">
+															<option value="${ grType.no }"  >${ grType.name }</option>
+													</c:forEach>
+												</select>
+							                 </td>
+							            </tr>
+							            
+							            <c:if test="${(sessionScope.power eq 'A')}" >
 											<tr>
-												<td>카드 번호</td>
-												<td>
-													<input type="text" name="cardNo" maxlength="60" value = "${spamuser.cardNo}" />
-												</td>
+												<th style="width: 100px; text-align: center; background-color:#4C4639">
+							                  	<font color="#FFFFFF">카드 번호</font>
+							                 </th>
+							                 <td>
+								                <input type="text" name="cardNo" maxlength="60" value = "${spamuser.cardNo}"  size="10" style="ime-mode:disabled; width:50%; border: 2;" />
+							                 </td>
 											</tr>
 										</c:if>
-								</table>
-								<div style="text-align: center; padding-top: 10px; padding-left: 255px; ">
-									<input type="button" value="등록" onclick="formOnClick()"/>
-								</div>
+							            <tr>
+							                
+							        </thead>
+							  </table>
+							  
+									<input type="button" value="등록" onclick="formOnClick()" style="margin-left:40%;"/>
+							
 									<div style="text-align: center; padding-top: 10px; padding-left: 10px; ">
 										<c:out  value="학생의 최초 비밀번호는 생년월일입니다. ex) 941004"/><br>
 										<c:out  value="학생의 카드번호는 안적어도 됩니다. 카드번호는 학생증의 고유한 일련번호입니다."/><br>

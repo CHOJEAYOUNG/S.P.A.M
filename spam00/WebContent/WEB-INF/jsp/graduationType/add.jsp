@@ -81,42 +81,59 @@ function setAlpha(obj) {
 						<!-- Sidebar -->
 						<div id="sidebar" class="4u sidebar">
 							<section>
-								<header class="major">
-									<h2>목록</h2>
-								</header>
-								<div class="row half">
-									<section class="8u">
-										<ul class="default">
+							<header class="major">
+								<h2>목록</h2>
+							</header>
+							<div class="row half">
+								<section class="6u">
+									<ul class="default">
+										<c:if test = "${sessionScope.power eq 'A' }" > 
 											<li><a href="/graduation/list">졸업 점수</a></li>
-											<c:if test="${power eq 'A' }">
-												<li><a href="/graduationCategory/list">졸업 카테고리</a></li>
-												<li><a href="/graduationType/list">졸업 유형</a></li>
-											</c:if>
-										</ul>
-									</section>
-								</div>
-							</section>
+											<li><a href="/graduationCategory/list">졸업 카테고리</a></li>
+											<li><a href="/graduationType/list">졸업 유형</a></li>
+										</c:if>
+										<c:if test = "${sessionScope.power eq 'S' }" > 
+											<li><a href="/graduation/list">졸업 점수</a></li>
+										</c:if>
+									</ul>
+								</section>
+							</div>
+						</section>
 						</div>
 						
 						<!-- Content -->
 						<div id="content" class="8u skel-cell-important">
 							<section>
 								<header class="major">
+								<h2>졸업 유형 등록</h2>
 									<form action="/graduationType/add" method="POST">
-										유  형 <input type="text" id="name" name="name" maxlength="1" style="width:300px;" onkeyup='setAlpha(this)'  style="ime-mode:disabled;" placeholder="       영어 한글자"/>${checkName}<br>
-										연  도 <select name="year">
-										<%-- // 연도선택을 위한 연도출력을 동적으로 변경 --%>
-											<%yearResult = yearMin;
-								
-											for(int i=0; yearResult<=yearMax; i++) { %>
-								
-											<option value=<%=yearResult%> <% if(year == yearResult){%>selected="selected"<%} %> ><%=yearResult%></option>
-								
-											<%String.valueOf(yearResult++); } %>
-								
-										</select> <br>
-										
-										<div style="text-align: right;">
+									<table style="margin-left:15%;" >
+										<thead>
+											<tr>
+								                <th style=" text-align: center; background-color:#4C4639">
+								                  	<font color="#FFFFFF">유  형</font>
+								                 </th>
+								                 <td>
+								                 	<input type="text" id="name" name="name" maxlength="1" style="width:300px;" onkeyup='setAlpha(this)'  style="ime-mode:disabled;" placeholder="       영어 한글자"/>${checkName}
+								                 </td>
+								            </tr>
+								            <tr>
+								                <th style=" text-align: center; background-color:#4C4639">
+								                  	<font color="#FFFFFF">연  도</font>
+								                 </th>
+								                 <td>
+								                 	<select name="year">
+													<%-- // 연도선택을 위한 연도출력을 동적으로 변경 --%>
+														<%yearResult = yearMin;
+														for(int i=0; yearResult<=yearMax; i++) { %>
+														<option value=<%=yearResult%> <% if(year == yearResult){%>selected="selected"<%} %> ><%=yearResult%></option>
+														<%String.valueOf(yearResult++); } %>
+													</select>
+								                 </td>
+								            </tr>
+								        </thead>
+								    </table>
+										<div style="text-align: center;">
 											<input type="submit" value="등록" onclick="return checkNull()"/>
 											<a href="/graduationType/list"><input type="button" value="목록" /></a>
 										</div>

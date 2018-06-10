@@ -15,7 +15,7 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
 		
 		if(!isLogin) {
 			System.out.println("난 세션인터");
-			response.sendRedirect(request.getContextPath() + "/main");
+			response.sendRedirect(request.getContextPath() + "/login");
 			return false;
 		}
 		return super.preHandle(request, response, handler);

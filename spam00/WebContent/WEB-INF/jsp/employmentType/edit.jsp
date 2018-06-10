@@ -4,7 +4,7 @@
 
 <% request.setCharacterEncoding("UTF-8"); %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+
 <%
 	int year, yearMin, yearMax;
 	int yearResult, yearCount;
@@ -67,12 +67,7 @@ function removeChar(event) {
 		event.target.value = event.target.value.replace(/[^0-9]/g, "");
 }
 </script>
-<!--
-	Horizons by TEMPLATED
-	templated.co @templatedco
-	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
--->
-<html>
+
 	<head>
 		<c:if test="${sessionScope.isLogin}"> 
 		      <div style="text-align: right;">
@@ -103,44 +98,77 @@ function removeChar(event) {
 						<!-- Sidebar -->
 						<div id="sidebar" class="4u sidebar">
 							<section>
-								<header class="major">
-									<h2>목록</h2>
-								</header>
-								<div class="row half">
-									<section class="8u">
-										<ul class="default">
+							<header class="major">
+								<h2>목록</h2>
+							</header>
+							<div class="row half">
+								<section class="6u">
+									<ul class="default">
+										<c:if test = "${sessionScope.power eq 'A' }" > 
 											<li><a href="/employment/list">취업 점수</a></li>
-											<c:if test="${power eq 'A' }">
-												<li><a href="/employmentCategory/list">취업 카테고리</a></li>
-												<li><a href="/employmentType/list">취업 유형</a></li>
-											</c:if>
-										</ul>
-									</section>
-								</div>
-							</section>
+											<li><a href="/employmentCategory/list">취업 카테고리</a></li>
+											<li><a href="/employmentType/list">취업 유형</a></li>
+											<li><a href="/attendance/upload">비교과 출석 등록</a></li>
+											<li><a href="/attendance/list">비교과 출석 목록 조회</a></li>
+										</c:if>
+										<c:if test = "${sessionScope.power eq 'S' }" > 
+											<li><a href="/employment/list">취업 점수</a></li>
+										</c:if>
+									</ul>
+								</section>
+							</div>
+						</section>
 						</div>
 						
 						<!-- Content -->
 						<div id="content" class="8u skel-cell-important">
 							<section>
 								<header class="major">
+								<h2>취업 타입 수정</h2>
 								<form action="/employmentType/edit" method="POST">
-									유      형  <input type="text" id="name" name="name" value="${type.name}" style="width:300px;" maxlength="1"  onkeyup='setAlpha(this)'  style="ime-mode:disabled;" placeholder="       영어 한글자"/>${checkName}<br>
-									<input type="hidden" name="no" value="${type.no}" style="width:300px;">
-									필수 점수  <input type="text" id="required"name="required" value="${type.required}" style="width:300px;" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;'/> <br>
-									선택 점수  <input type="text" id="choice" name="choice" value="${type.choice}" style="width:300px;" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;'/> <br>
-									
-									연  도 <select name="year">
-									<%-- // 연도선택을 위한 연도출력을 동적으로 변경 --%>
-										<%yearResult = yearMin;
-							
-										for(int i=0; yearResult<=yearMax; i++) { %>
-							
-										<option value=<%=yearResult%> <% if(year == yearResult){%>selected="selected"<%} %> ><%=yearResult%></option>
-							
-										<%String.valueOf(yearResult++); } %>
-							
-									</select> <br>
+								<input type="hidden" name="no" value="${type.no}" style="width:300px;">
+								<table style="margin-left:15%;" >
+										<thead>
+											<tr>
+								                <th style=" text-align: center; background-color:#4C4639">
+								                  	<font color="#FFFFFF">유      형</font>
+								                 </th>
+								                 <td>
+								                 	<input type="text" id="name" name="name" value="${type.name}" style="width:300px;" maxlength="1"  onkeyup='setAlpha(this)'  style="ime-mode:disabled;" placeholder="       영어 한글자"/>${checkName}
+								                 </td>
+								            </tr>
+								            <tr>
+								                <th style=" text-align: center; background-color:#4C4639">
+								                  	<font color="#FFFFFF">필수 점수</font>
+								                 </th>
+								                 <td>
+								                 	<input type="text" id="required"name="required" value="${type.required}" style="width:300px;" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;'/>
+								                 </td>
+								            </tr>
+								            <tr>
+								                <th style=" text-align: center; background-color:#4C4639">
+								                  	<font color="#FFFFFF">선택 점수</font>
+								                 </th>
+								                 <td>
+								                 	<input type="text" id="choice" name="choice" value="${type.choice}" style="width:300px;" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;'/>
+								                 </td>
+								            </tr>
+								            <tr>
+								                <th style=" text-align: center; background-color:#4C4639">
+								                  	<font color="#FFFFFF">연  도</font>
+								                 </th>
+								                 <td>
+								                 	<select name="year">
+													<%-- // 연도선택을 위한 연도출력을 동적으로 변경 --%>
+														<%yearResult = yearMin;
+														for(int i=0; yearResult<=yearMax; i++) { %>
+														<option value=<%=yearResult%> <% if(year == yearResult){%>selected="selected"<%} %> ><%=yearResult%></option>
+														<%String.valueOf(yearResult++); } %>
+													</select>
+								                 </td>
+								            </tr>
+							            </thead>
+					            </table>
 									<div style="text-align: right;">
 										<input type="submit" value="수정" onclick="return checkNull()"/>
 										<a href="/employmentType/list"><input type="button" value="취소" /></a>

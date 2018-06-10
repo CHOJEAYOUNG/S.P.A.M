@@ -5,185 +5,147 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="../../main/assets/css/main.css" rel="stylesheet" />
+
 <script type="text/javascript">
-	function onlyNumber(event) {
-		event = event || window.event;
-		var keyID = (event.which) ? event.which : event.keyCode;
-		if ((keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105)
-				|| keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39)
-			return;
-		else
-			return false;
-	}
-	function removeChar(event) {
-		event = event || window.event;
-		var keyID = (event.which) ? event.which : event.keyCode;
-		if (keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39)
-			return;
-		else
-			event.target.value = event.target.value.replace(/[^0-9]/g, "");
-	}
-	function removetext() {
-		text = document.getElementById("beginHour")
-		text2 = document.getElementById("beginMinutes")
-		text3 = document.getElementById("finishHour")
-		text4 = document.getElementById("finishMinutes")
+	
+	function check() {
+		var period = document.getElementById('period').value;
+		var beginHour = document.getElementById('beginHour').value;
+		var beginMinutes = document.getElementById('beginMinutes').value;
+		var finishHour = document.getElementById('finishHour').value;
+		var finishMinutes = document.getElementById('finishMinutes').value;
 		
 		
-		
-		if (text.value == "시간을 입력하시오 ex)09") {
-			text.value = "";
-		}
-		else if (text2.value == "분을 입력하시오 ex)30") {
-			text2.value = "";
-		}else if (text3.value == "시간을 입력하시오 ex)10") {
-			text3.value = "";
-		}
-		else if (text4.value == "분을 입력하시오 ex)20") {
-			text4.value = "";
-		}
-	}
-	function add() {
-		formData = document.getElementById("form");
-		if (formData.elements['period'].value.replace(/(\s*)/g, "") == "" ) {
+		if (!period) {
 			alert('교시가 입력되지 않았습니다.');
-			return formData.elements['period'].focus();
+			return;
 		}
-
-		if (formData.elements['beginHour'].value.replace(/(\s*)/g, "") == "" ) {
-			alert('시작 시간에 시간이 입력되지 않았습니다.');
-			return formData.elements['beginHour'].focus();
-		}else if(formData.elements['beginHour'].value == "시간을 입력하시오 ex)09") {
-			alert('시작 시간에 분이 입력되지 않았습니다.');
-			return formData.elements['beginHour'].focus();
+		if (!beginHour || !beginMinutes) {
+			alert('시작시간이 입력되지 않았습니다.');
+			return;
 		}
-		if (formData.elements['beginMinutes'].value.replace(/(\s*)/g, "") == "" ) {
-			alert('시작 시간에 시간이 입력되지 않았습니다.');
-			return formData.elements['beginMinutes'].focus();
-		}else if(formData.elements['beginMinutes'].value == "분을 입력하시오 ex)30") {
-			alert('시작 시간에 분이 입력되지 않았습니다.');
-			return formData.elements['beginMinutes'].focus();
+		if (!finishHour || !finishMinutes) {
+			alert('종료시간이 입력되지 않았습니다.');
+			return;
 		}
-		if (formData.elements['finishHour'].value.replace(/(\s*)/g, "") == "" ) {
-			alert('종료 시간에 시간이 입력되지 않았습니다.');
-			return formData.elements['finishHour'].focus();
-		}else if(formData.elements['finishHour'].value == "시간을 입력하시오 ex)10"){
-			alert('종료 시간에 분이 입력되지 않았습니다.');
-			return formData.elements['finishHour'].focus();
-		}
-		if (formData.elements['finishMinutes'].value.replace(/(\s*)/g, "") == "" ) {
-			alert('종료 시간에 시간이 입력되지 않았습니다.');
-			return formData.elements['finishMinutes'].focus();
-		}else if(formData.elements['finishMinutes'].value == "분을 입력하시오 ex)20"){
-			alert('종료 시간에 분이 입력되지 않았습니다.');
-			return formData.elements['finishMinutes'].focus();
-		}
-
+		document.getElementById("form").submit();
 		
-		form.submit();
+		return;
 	};
 </script>
-<title>::: 시간표 관리 :::</title>
-</head>
-<body>
+	<head>
+         <c:if test="${sessionScope.isLogin}"> 
+		      <div style="text-align: right;">
+		         <%@ include file="/WEB-INF/jsp/menubar.jsp" %>
+		      </div>
+		 </c:if>
+	</head>
 
-	<!-- Wrapper -->
-		<!-- Main -->
-		<div id="main">
-			<div class="inner">
-				<h1>시간표 추가</h1>
-
-
-				<!-- Table -->
-				<section>
-					<form id="form" name="form"
+	<body class="left-sidebar">
+		<form id="form" name="form"
 						action="<c:url value="/timeTable/add" />" method="post">
+		<!-- Header -->
+			<div id="header">
+				<div class="container">
+						
+					<!-- Logo -->
+						<h1><a href="/main" id="logo">S.P.A.M</a></h1>
 					
-						<div class="table-wrapper">
-							<table class="alt" >
-								<thead>
-									<tr>
-										<th style="text-align:center;">목록</th>
-										<th style="text-align:center;">내용</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td style="text-align:center;">교시</td>
-										<td style="text-align: center;"><input type="text" id="period"
-											name="period" maxlength="2" style='ime-mode: disabled;'
-											onkeydown='return onlyNumber(event)'
-											onkeyup='removeChar(event)' /> <font color="red">${message}</font></td>
-									</tr>
-									<tr>
-										<td style="text-align:center;">시작시간</td>
-										<td >
-											<input type="text"
-											id="beginHour" name="beginHour" value ="시간을 입력하시오 ex)09" maxlength="2"
-											style='ime-mode: disabled;'
-											onclick="removetext();"
-											onkeydown='return onlyNumber(event)'
-											onkeyup='removeChar(event)' />
-											<input type="text"
-											id="beginMinutes" name="beginMinutes" value ="분을 입력하시오 ex)30" maxlength="2"
-											style='ime-mode: disabled;'
-											onclick="removetext();"
-											onkeydown='return onlyNumber(event)'
-											onkeyup='removeChar(event)' />
-										</td>
-									</tr>
-									
-									<tr>
-										<td style="text-align:center;">종료시간</td>
-										<td ><input type="text"
-											id="finishHour" name="finishHour" value ="시간을 입력하시오 ex)10" maxlength="5"
-											style='ime-mode: disabled;'
-											onclick="removetext();"
-											onkeydown='return onlyNumber(event)'
-											onkeyup='removeChar(event)' />
-											<input type="text"
-											id="finishMinutes" name="finishMinutes" value ="분을 입력하시오 ex)20" maxlength="5"
-											style='ime-mode: disabled;'
-											onclick="removetext();"
-											onkeydown='return onlyNumber(event)'
-											onkeyup='removeChar(event)' />
-										</td>
-									</tr>
-									
-								
-								</tbody>
-							</table>
-					</form>
-					<table class="alt">
-						<thead>
-							<tr>
-								<th></th>
-								<th>
-								<th colspan="1">
-								<td><div style="text-align: right; padding-top: 10px;">
-										<input type="button" id="button_add" name="button_add"
-											value="등록" title="등록" onclick="add();" /> <a
-											href="<c:url value="/timeTable/list" />"> <input
-											type="button" id="button_list" name="button_list" value="목록" />
-										</a>
-									</div></td>
-							</tr>
-						</thead>
-					</table>
-				</section>
-			</div>
+					<!-- Nav -->
+						<%@ include file="/WEB-INF/jsp/navbar.jsp" %>
+				</div>
 			</div>
 
-
-			<!-- Scripts -->
-			<script src="../../main/assets/js/jquery.min.js"></script>
-			<script src="../../main/assets/js/skel.min.js"></script>
-			<script src="../../main/assets/js/util.js"></script>
-			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
-			<script src="../../main/assets/js/main.js"></script>
-</body>
+		<!-- Main -->
+			<div id="main" class="wrapper style1">
+				<div class="container">
+					<div class="row">
+					
+						<!-- Sidebar -->
+						<div id="sidebar" class="4u sidebar">
+							<section>
+                        <header class="major">
+                           <h2>목록</h2>
+                        </header>
+                        <ul class="default">
+                        
+                         <c:if test = "${sessionScope.power eq 'A' }" > 
+                           <li><a href="/schedule/list">교수 일정 조회</a></li>
+                           <li><a href="/schedule/add">교수 일정 등록</a></li>
+                           <li><a href="/timeTable/list">시간표 조회</a></li>
+                           <li><a href="/timeTable/add">시간표 등록</a></li>
+                         </c:if>
+                          <c:if test = "${sessionScope.power eq 'P' }" > 
+                           <li><a href="/schedule/list">일정 조회</a></li>
+                           <li><a href="/schedule/add">일정 등록</a></li>
+                         </c:if>
+                         
+                        </ul>
+                     </section>
+							
+						</div>
+						
+						<!-- Content -->
+						<div id="content" class="8u skel-cell-important">
+							<section>
+								<header class="major">
+									<h2>시간표 등록</h2><br>
+								      	<font color="red">${message}</font>
+								      <table style="margin-left:15%;" >
+								      	<thead>
+								    	  <tr>
+							                   <th style="width: 100px; text-align: center; background-color:#4C4639">
+							                  	<font color="#FFFFFF">교시</font>
+							                  </th>
+							                  <td>
+							                  	<input type="number" id="period" name="period" min="1" max="10" maxlength="2" size="10" style="width:50%; border: 2;"
+											 />
+							                  </td>
+							              </tr>
+							              <tr>
+							                  <th style="width: 100px; text-align: center; background-color:#4C4639">
+							                  	<font color="#FFFFFF">시작시간</font>
+							                  </th>
+							                  <td>
+							                  	<input type="number" id="beginHour" name="beginHour" min="0" max="23" placeholder="시간   EX)10" maxlength="2"  size="10"
+													style="width:25%; border: 2;" />
+										
+												<input type="number" id="beginMinutes" name="beginMinutes" min="0" max="59" placeholder="분   EX)30" maxlength="2" size="10"
+													style="width:25%; border: 2;" />
+										
+											  </td>
+							              </tr>
+							               <tr>
+							                  <th style="width: 100px; text-align: center; background-color:#4C4639">
+							                  	<font color="#FFFFFF">종료시간</font>
+							                  </th>
+							                  <td>
+							                  	<input type="number" id="finishHour" name="finishHour" min="0" max="24" placeholder="시간   EX)11" maxlength="2"  size="10"
+													style="width:25%; border: 2;"/>
+										
+												<input type="number" id="finishMinutes" name="finishMinutes" min="0" max="59" placeholder="분   EX)20" maxlength="2" size="10"
+													style="width:25%; border: 2;"/>
+										
+											  </td>
+							              </tr>
+							             
+							             </thead>
+							         </table>
+							        
+								        <input type="button" value="등록" onclick="check()" style="margin-left:40%;" /> 
+											
+											<a href="<c:url value="/timeTable/list" />"> 
+												<input type="button" id="button_list" name="button_list" value="목록" />
+											</a>
+							        
+								</header>
+							</section>
+						</div>
+					</div>
+				</div>
+			</div>
+			</form>
+			<!-- Footer -->
+			<%@ include file="/WEB-INF/jsp/footer.jsp" %>
+	</body>
 </html>

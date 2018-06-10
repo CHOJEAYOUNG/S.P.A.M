@@ -6,6 +6,8 @@
 <mapper namespace="com.spam.persistence.TimeTableMapper">
 	<resultMap id="timeTableResultMap" type="timeTable">
 		<id column="PERIOD" property="period"/>
+		<result column="BEGIN_TIME" property="beginTime"/>
+		<result column="FINISH_TIME" property="finishTime"/>
 		<result column="BEGIN_HOUR" property="beginHour"/>
 		<result column="BEGIN_MINUTES" property="beginMinutes"/>
 		<result column="FINISH_HOUR" property="finishHour"/>
@@ -18,19 +20,22 @@
 			  ,BEGIN_MINUTES
 			  ,FINISH_HOUR
 			  ,FINISH_MINUTES
-			  FROM TIMETABLE2 
+			  FROM TIMETABLE
 		<where>
-			<if test="period != null and period != ''">
-				AND PERIOD LIKE '%'|| #{period} || '%'
+			<if test="beginTime != null and beginTime !=''">
+				OR #{beginTime} BETWEEN BEGIN_TIME AND FINISH_TIME
+			</if>
+			<if test="finishTime != null and finishTime !=''">
+				OR #{finishTime} BETWEEN BEGIN_TIME AND FINISH_TIME
 			</if>
 		</where>
 		ORDER BY PERIOD ASC  
 	</select>
 	
 	<insert id="insert" parameterType="timeTable">
-		INSERT INTO TIMETABLE2
-		(PERIOD,BEGIN_HOUR,BEGIN_MINUTES,FINISH_HOUR,FINISH_MINUTES)
-		VALUES(#{period}, #{beginHour},#{beginMinutes}, #{finishHour},#{finishMinutes})
+		INSERT INTO TIMETABLE
+		(PERIOD,BEGIN_TIME,FINISH_TIME,BEGIN_HOUR,BEGIN_MINUTES,FINISH_HOUR,FINISH_MINUTES)
+		VALUES(#{period},TO_DSINTERVAL(#{beginTime}),TO_DSINTERVAL(#{finishTime}),#{beginHour},#{beginMinutes}, #{finishHour},#{finishMinutes})
 	</insert>
 	
 	<select id="select" parameterType="timeTable" resultMap="timeTableResultMap">
@@ -39,7 +44,7 @@
 			  ,BEGIN_MINUTES
 			  ,FINISH_HOUR
 			  ,FINISH_MINUTES
-			  FROM TIMETABLE2 
+			  FROM TIMETABLE 
 		<where>
 			<if test="period > 0">
 				AND PERIOD = #{period}
@@ -48,13 +53,15 @@
 	</select>
 	
 	<update id="update" parameterType="timeTable">
-        UPDATE TIMETABLE2
+        UPDATE TIMETABLE
         <set>
-            <if test="period != null and period != ''">PERIOD = #{period},   </if>
             <if test="beginHour != null and beginHour != ''">BEGIN_HOUR = #{beginHour},	     </if>
             <if test="beginMinutes != null and beginMinutes != ''">BEGIN_MINUTES = #{beginMinutes},	     </if>
-            <if test="finishHour != null and finishHour != ''">FINISH_MINUTES = #{finishHour},	     </if>           
-            <if test="finishMinutes != null and finishMinutes != ''" >FINISH = #{finishMinutes}, </if>
+            <if test="finishHour != null and finishHour != ''">FINISH_HOUR = #{finishHour},	     </if>           
+            <if test="finishMinutes != null and finishMinutes != ''" >FINISH_MINUTES = #{finishMinutes}, </if>
+            <if test="beginTime != null and beginTime != ''">BEGIN_TIME = TO_DSINTERVAL(#{beginTime}),</if>
+            
+            <if test="finishTime != null and finishTime !=''">FINISH_TIME = TO_DSINTERVAL(#{finishTime}),</if>
         </set>
         WHERE  PERIOD = #{period}
     </update>

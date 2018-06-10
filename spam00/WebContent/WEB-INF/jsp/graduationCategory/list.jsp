@@ -56,19 +56,24 @@ function checkNull() {
 						<!-- Sidebar -->
 						<div id="sidebar" class="4u sidebar">
 							<section>
-								<header class="major">
-									<h2>목록</h2>
-								</header>
-								<div class="row half">
-									<section class="8u">
-										<ul class="default">
+							<header class="major">
+								<h2>목록</h2>
+							</header>
+							<div class="row half">
+								<section class="6u">
+									<ul class="default">
+										<c:if test = "${sessionScope.power eq 'A' }" > 
 											<li><a href="/graduation/list">졸업 점수</a></li>
-											<c:if test="${power eq 'A' }">
-												<li><a href="/graduationCategory/list">졸업 카테고리</a></li>
-												<li><a href="/graduationType/list">졸업 유형</a></li>
-											</c:if>
-										</ul>
-									</section>
+											<li><a href="/graduationCategory/list">졸업 카테고리</a></li>
+											<li><a href="/graduationType/list">졸업 유형</a></li>
+										</c:if>
+										<c:if test = "${sessionScope.power eq 'S' }" > 
+											<li><a href="/graduation/list">졸업 점수</a></li>
+										</c:if>
+									</ul>
+								</section>
+							</div>
+						
 									<section>
 			                      		<header class="major">
 			                           		<h2>검색</h2>
@@ -85,7 +90,7 @@ function checkNull() {
 											</div>
 										</form>
 		                    		</section>
-								</div>
+								
 							</section>
 						</div>
 						
@@ -93,17 +98,21 @@ function checkNull() {
 						<div id="content" class="8u skel-cell-important">
 							<section>
 								<header class="major">
-								<h3>졸업 카테고리</h3>
+								<h2>졸업 카테고리</h2>
 									<table style="width:100%; text-align: center;" border="1">
 										<thead>
-											<tr>
-												<th>번호</th>
-												<th>카테고리 명</th>
-												<th>유형</th>
-												<th>조건</th>
-												<th>상세보기</th>
+											<tr bgcolor="#4C4639">
+												<th style="width: 40px; text-align: center;"><font
+												color="#FFFFFF">번호</font></th>
+												<th style="width: 40px; text-align: center;"><font
+												color="#FFFFFF">카테고리 명</font></th>
+												<th style="width: 40px; text-align: center;"><font
+												color="#FFFFFF">유형</font></th>
+												<th style="width: 40px; text-align: center;"><font
+												color="#FFFFFF">조건</font></th>
+												<th style="width: 40px; text-align: center;"><font
+												color="#FFFFFF">상세보기</font></th>
 											</tr>
-											
 											<c:if test="${ !empty listCategory}">
 												<c:forEach items="${ listCategory }" var="graduationCategory" varStatus="status">
 													<c:if test="${graduationCategory.state eq 'Y'}">

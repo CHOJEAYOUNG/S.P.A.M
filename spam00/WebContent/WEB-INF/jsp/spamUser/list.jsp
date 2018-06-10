@@ -2,11 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE HTML>
-<!--
-	Horizons by TEMPLATED
-	templated.co @templatedco
-	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
--->
+
 <html>
 <head>
 		<c:if test="${sessionScope.isLogin}"> 
@@ -36,16 +32,27 @@
 					<div id="sidebar" class="4u sidebar">
 						<section>
 							<header class="major">
-								<h2>학생 정보</h2>
+								<h2>목록</h2>
 							</header>
 							<div class="row half">
 								<section class="6u">
 									<ul class="default">
 										<c:if test = "${sessionScope.power eq 'A' }" > 
-											<li><a href="/spamUser/listAdd">일괄 등록</a></li>
+											<li><a href="/spamUser/list">사용자 목록 조회</a></li>
+											<li><a href="/spamUser/listAdd">학생 일괄 등록</a></li>
 											<li><a href="/spamUser/oneAddS">학생 개별 등록</a></li>
 											<li><a href="/spamUser/oneAddP">교수 개별 등록</a></li>
-											<li><a href="/spamUser/list">학생 목록</a></li>
+											<li><a href="/spamUser/viewPA/${spamuser.id}">내 정보 보기</a></li>
+											<li><a href="/spamUser/edit/${spamuser.id}">내 정보 수정</a></li>
+										</c:if>
+										<c:if test = "${sessionScope.power eq 'S' }" > 
+											<li><a href="/spamUser/viewPA/${spamuser.id}">내 정보 조회</a></li>
+											<li><a href="/spamUser/edit/${spamuser.id}">내 정보 수정</a></li>
+										</c:if>
+										<c:if test = "${sessionScope.power eq 'P' }" > 
+											<li><a href="/spamUser/list">사용자 조회</a></li>
+											<li><a href="/spamUser/viewPA/${sessionScope.id}">내 정보 조회</a></li>
+											<li><a href="/spamUser/edit/${sessionScope.id}">내 정보 수정</a></li>
 										</c:if>
 									</ul>
 								</section>
@@ -54,11 +61,11 @@
 						<c:if test = "${!(sessionScope.power eq 'S') }" >
 							<section>
 								<header class="major">
-									<h2>학생 검색</h2>
+									<h2>사용자 검색</h2>
 								</header>
 									<ul class="default">
 										<select name="select">
-											<option value="1">학번</option>
+											<option value="1">학번(교번)</option>
 											<option value="2">이름</option>
 											<option value="3">신분</option>
 										</select>
@@ -72,9 +79,13 @@
 					<!-- Content -->
 					<div id="content" class="8u skel-cell-important">
 						<section>
-							<header class="major">
-								<h2>학생 정보 보기</h2>
-							</header>
+							
+								<header class="major">
+									<h2>사용자 목록 조회</h2>
+								</header>
+							
+							
+							
 							<div style="overflow: auto; width: 100%; height: 1000px;">
 								<table style="width: 100%" border="1">
 									<thead>
@@ -95,14 +106,16 @@
 												color="#FFFFFF">상태</font></th>
 											<th style="width: 100px; text-align: center;"><font
 												color="#FFFFFF">보기</font></th>
-											<th style="width: 100px; text-align: center;"><font
-												color="#FFFFFF">수정</font></th>
+											<c:if test= "${ sessionScope.power eq 'A'}">
+												<th style="width: 100px; text-align: center;"><font
+													color="#FFFFFF">수정</font>
+												</th>
+											</c:if>
 										</tr>
 										<c:if test="${ !empty listSpam}">
 											<c:forEach items="${ listSpam }" var="spamuser"
 												varStatus="status">
 												<tr>
-													
 													<td style="text-align: center; width: 35px;"><c:out
 															value="${ status.count }" /></td>
 													<td style="text-align: center; width: 100px;"><c:out
@@ -139,18 +152,7 @@
 														href="<c:url value="/spamUser/viewPA/${spamuser.id}" /> ">
 															<input type="button" value="상세보기" />
 													</a></td>
-													<c:if test="${ !(spamuser.power eq 'P') }">
-														<c:if test="${ sessionScope.power eq 'A' }">
-															<td style="text-align: center;"><a
-																href="<c:url value="/spamUser/edit/${spamuser.id}" /> ">
-																	<input type="button" value="수정" />
-															</a></td>
-														</c:if>
-														<c:if test="${ !(sessionScope.power eq 'A') }">
-															<td>수정불가</td>
-														</c:if>
-													</c:if>
-													<c:if test="${ spamuser.power eq 'P' }">
+													<c:if test="${ sessionScope.power eq 'A' }">
 														<td style="text-align: center;"><a
 															href="<c:url value="/spamUser/edit/${spamuser.id}" /> ">
 																<input type="button" value="수정" />
@@ -161,9 +163,6 @@
 										</c:if>
 									</thead>
 								</table>
-								
-								<c:out value="${sessionScope.power }"/>
-								
 							</div>
 						</section>
 					</div>

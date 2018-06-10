@@ -1,223 +1,178 @@
-
+<%@page import="com.spam.domain.Attendance"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE HTML>
-<!--
-	Horizons by TEMPLATED
-	templated.co @templatedco
-	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
--->
+
 <html>
 <script type="text/javascript">
-function viewPopupOpen(v) {
-	window.name = "viewForm";
+	function viewPopupOpen(v) {
+		window.name = "viewForm";
 
-	var option = "width=500, height=720, resizable=no, scrollbars=no, status=no, toolbar=yes, directories=yes, menubar=yes, location=no;";
-	openWin = window.open("/schedule/view/" + v, "childForm", option);
-}
-function editPopupOpen(v) {
-	window.name = "editForm";
+		var option = "width=500, height=720, resizable=no, scrollbars=no, status=no, toolbar=yes, directories=yes, menubar=yes, location=no;";
+		openWin = window.open("/schedule/view/" + v, "childForm", option);
+	}
+	function stuPopupOpen() {
+		window.name = "ListForm";
 
-	var option = "width=500, height=720, resizable=no, scrollbars=no, status=no, toolbar=yes, directories=yes, menubar=yes, location=no;";
-	openWin = window.open("/schedule/edit/" + v, "childForm", option);
-}
-
-function stuPopupOpen() {
-	window.name = "ListForm";
-
-	var option = "width=700, height=410, resizable=no, scrollbars=no, status=no, toolbar=yes, directories=yes, menubar=yes, location=no;";
-	openWin = window.open("/schedule/searchE", "stuForm", option);
-}
+		var option = "width=700, height=410, resizable=no, scrollbars=no, status=no, toolbar=yes, directories=yes, menubar=yes, location=no;";
+		openWin = window.open("/schedule/searchE", "stuForm", option);
+	}
 </script>
-<head>
-<title>Left Sidebar - Horizons by TEMPLATED</title>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<meta name="description" content="" />
-<meta name="keywords" content="" />
-<script src="/js/jquery.min.js"></script>
-<script src="/js/jquery.dropotron.min.js"></script>
-<script src="/js/skel.min.js"></script>
-<script src="/js/skel-layers.min.js"></script>
-<script src="/js/init.js"></script>
-<link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/css/skel.css" />
-<link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/css/style.css" />
-<!--[if lte IE 8]><link rel="stylesheet" href="/css/ie/v8.css" /><![endif]-->
-<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
-</head>
-<body class="left-sidebar">
-	<form action="/spamUser/list" method="POST">
+	<head>
+		<c:if test="${sessionScope.isLogin}"> 
+		      <div style="text-align: right;">
+		         <%@ include file="/WEB-INF/jsp/menubar.jsp" %>
+		      </div>
+		 </c:if>
+		
+	</head>
+	<body class="left-sidebar">
+		
 		<!-- Header -->
-		<div id="header">
-			<div class="container">
-				<!-- Logo -->
-				<h1>
-					<a href="#" id="logo">Untitled</a>
-				</h1>
-				<!-- Nav -->
-				<nav id="nav">
-					<ul>
-						<li><a href="index.html">Home</a></li>
-						<li><a href="">Dropdown</a>
-							<ul>
-								<li><a href="#">Lorem ipsum dolor</a></li>
-								<li><a href="#">Magna phasellus</a></li>
-								<li><a href="#">Etiam dolore nisl</a></li>
-								<li><a href="">Phasellus consequat</a>
-									<ul>
-										<li><a href="#">Lorem ipsum dolor</a></li>
-										<li><a href="#">Phasellus consequat</a></li>
-										<li><a href="#">Magna phasellus</a></li>
-										<li><a href="#">Etiam dolore nisl</a></li>
-										<li><a href="#">Veroeros feugiat</a></li>
-									</ul></li>
-								<li><a href="#">Veroeros feugiat</a></li>
-							</ul></li>
-						<li><a href="left-sidebar.html">Left Sidebar</a></li>
-						<li><a href="right-sidebar.html">Right Sidebar</a></li>
-						<li><a href="no-sidebar.html">No Sidebar</a></li>
-					</ul>
-				</nav>
+			<div id="header">
+				<div class="container">
+						
+					<!-- Logo -->
+						<h1><a href="/main" id="logo">S.P.A.M</a></h1>
+						 
+					<!-- Nav -->
+						<%@ include file="/WEB-INF/jsp/navbar.jsp" %>
+				</div>
 			</div>
-		</div>
-		<!-- Main -->
-		<div id="main" class="wrapper style1">
-			<div class="container">
-				<div class="row">
 
-					<!-- Sidebar -->
-					<div id="sidebar" class="4u sidebar">
-						<section>
-							<header class="major">
-								<h2>학생 정보</h2>
-							</header>
-							<div class="row half">
-								<section class="6u">
-									<ul class="default">
-										<c:if test="${sessionScope.power eq 'A' }">
-											<li><a href="/spamUser/listAdd">일괄 등록</a></li>
-											<li><a href="/spamUser/oneAddS">학생 개별 등록</a></li>
-											<li><a href="/spamUser/oneAddP">교수 개별 등록</a></li>
-											<li><a href="/spamUser/list">학생 목록</a></li>
-										</c:if>
-										<li><a href="/logout">로그 아웃</a></li>
-									</ul>
-								</section>
-							</div>
-						</section>
-						<c:if test="${sessionScope.power eq 'A' }">
+		<!-- Main -->
+			<div id="main" class="wrapper style1">
+				<div class="container">
+					<div class="row">
+					
+						<!-- Sidebar -->
+						<div id="sidebar" class="4u sidebar">
+							<section>
+                        <header class="major">
+                           <h2>목록</h2>
+                        </header>
+                        <ul class="default">
+                        
+                         <c:if test = "${sessionScope.power eq 'A' }" > 
+                           <li><a href="/schedule/list">교수 일정 조회</a></li>
+                           <li><a href="/schedule/add">교수 일정 등록</a></li>
+                           <li><a href="/timeTable/list">시간표 조회</a></li>
+                           <li><a href="/timeTable/add">시간표 등록</a></li>
+                         </c:if>
+                          <c:if test = "${sessionScope.power eq 'P' }" > 
+                           <li><a href="/schedule/list">일정 조회</a></li>
+                           <li><a href="/schedule/add">일정 등록</a></li>
+                         </c:if>
+                         
+                        </ul>
+                     </section>
+							
+						</div>
+						
+						<!-- Content -->
+						<div id="content" class="8u skel-cell-important">
 							<section>
 								<header class="major">
-									<h2>학생 검색</h2>
-								</header>
-								<ul class="default">
-									<select name="select">
-										<option value="1">학번</option>
-										<option value="2">이름</option>
-										<option value="3">신분</option>
-									</select>
-									<input type="text" name="search" />
-									<input type="submit" value="검색" style="margin-left: 86%;" />
-								</ul>
-							</section>
-						</c:if>
-					</div>
-
-					<!-- Content -->
-					<div id="content" class="8u skel-cell-important">
-						<section>
-							<header class="major">
-								<h2>상담 정보 보기</h2>
-							</header>
-							<div style="overflow: auto; width: 100%; height: 1000px;">
-								<table style="width: 100%" border="1">
-									<thead>
-										<tr bgcolor="#4C4639">
-											<th style="width: 40px; text-align: center;"><font
-												color="#FFFFFF">번호</font></th>
-											<th style="width: 100px; text-align: center;"><font
-												color="#FFFFFF">교번</font></th>
-											<th style="width: 100px; text-align: center;"><font
-												color="#FFFFFF">월</font></th>
-											<th style="width: 100px; text-align: center;"><font
-												color="#FFFFFF">화</font></th>
-											<th style="width: 120px; text-align: center;"><font
-												color="#FFFFFF">수</font></th>
-											<th style="width: 100px; text-align: center;"><font
-												color="#FFFFFF">목</font></th>
-											<th style="width: 100px; text-align: center;"><font
-												color="#FFFFFF">금</font></th>
-											<th style="width: 100px; text-align: center;"><font
-												color="#FFFFFF">시작 날짜</font></th>
-											<th style="width: 100px; text-align: center;"><font
-												color="#FFFFFF">종료 날짜</font></th>
-											<th style="width: 100px; text-align: center;"><font
-												color="#FFFFFF">사유</font></th>
-											<th style="width: 100px; text-align: center;"><font
-												color="#FFFFFF">수정</font></th>
-											<th style="width: 100px; text-align: center;"><font
-												color="#FFFFFF">삭제</font></th>
-										</tr>
-										<c:if test="${ !empty listSchedule}">
-											<c:forEach items="${listSchedule}" var="schedule"
-												varStatus="status">
-												<tr>
-													<td style="text-align: center; width: 35px;"><c:out
-															value="${ status.count }" /></td>
-													<td style="text-align: center; width: 100px;"><c:out
-															value="${ schedule.id }" /></td>
-													<td style="text-align: center; width: 100px;"><c:out
-															value="${ schedule.mon }" /></td>
-													<td style="text-align: center; width: 100px;"><c:out
-															value="${ schedule.tue }" /></td>
-													<td style="text-align: center; width: 100px;"><c:out
-															value="${ schedule.wed }" /></td>
-													<td style="text-align: center; width: 100px;"><c:out
-															value="${ schedule.thur }" /></td>
-													<td style="text-align: center; width: 100px;"><c:out
-															value="${ schedule.fri }" /></td>
-													<td style="text-align: center; width: 100px;"><c:out
-															value="${ schedule.begin }" /></td>
-													<td style="text-align: center; width: 100px;"><c:out
-															value="${ schedule.finish }" /></td>
-													<td style="text-align: center; width: 100px;"><c:out
-															value="${ schedule.reason }" /></td>
-													<td style="text-align: center; width: 100px;">
-																								
-															<a href="<c:url value="/schedule/remove/${schedule.scheduleNo}"/>">
-															<input type="button" value="삭제" />
-															</a>
-													</td>
-													<td style="text-align: center; width: 100px;">
-													<input type="button" id="button_edit" name="button_edit"
-														onclick="editPopupOpen(${schedule.scheduleNo})" value="거절" />
-													</td>
-													<td style="text-align: center; width: 100px;">
-													<input type="button" id="button_view" name="button_view"
-														onclick="viewPopupOpen(${schedule.scheduleNo})" value="상세보기" />
-													</td>
-													<br />
-											</c:forEach>
+									<h2>교수 일정표 조회</h2>
+									<c:if test="${sessionScope.power eq 'A'}">
+									<form action="/schedule/list" method="post">
+									<input type="text"
+										style="text-align: left; width:150px;" id="name"
+										name="name" maxlength="20" onclick="stuPopupOpen();" placeholder="교수님 이름" />
+					
+									<input type="submit" value="검색" />
+									</form>
+									</c:if>
+								      <table style="overflow:auto; width:100%" border="1">
+								      	<thead>
+								    	  <tr bgcolor="#4C4639">
+							                  <th style="width: 35px; text-align: center;">
+							                  	<font color="#FFFFFF">번호</font></th>
+							                  <th style="width: 30px; text-align: center;">
+							                  	<font color="#FFFFFF" >이름</font></th>
+							                  <th style="width: 40px; text-align: center;">
+							                  	<font color="#FFFFFF">교시</font></th>
+							                  <th style="width: 120px; text-align: center;">
+							                  	<font color="#FFFFFF">기간</font></th>
+							                  <th style="width: 40px; text-align: center;">
+							                  	<font color="#FFFFFF">이유</font></th>
+							                  <th style="width: 30px; text-align: center;">
+							                  	<font color="#FFFFFF">수정</font></th>
+							                  <th style="width: 30px; text-align: center;">
+							                  	<font color="#FFFFFF">삭제</font></th>
+							               </tr>
+							               
+								            <c:if test="${ !empty listSchdule}"> 
+												<c:forEach items="${listSchdule}" var="schedule" varStatus="status">
+													<tr>
+														<td style="text-align: center; width: 35px;"><c:out
+																value="${ status.count }" /></td>
+														<td style="text-align: center; width: 35px;"><c:out
+																value="${ schedule.name }" /></td>
+														<td style="text-align: center; width: 35px;"><c:choose>
+																<c:when test="${schedule.mon ne 0}">
+																							월요일 <c:out value="${schedule.mon}"></c:out>
+																</c:when>
+																<c:when test="${schedule.tue ne 0}">
+																							화요일 <c:out value="${schedule.tue}"></c:out>
+																</c:when>
+																<c:when test="${schedule.wed ne 0}">
+																							수요일 <c:out value="${schedule.wed}"></c:out>
+																</c:when>
+																<c:when test="${schedule.thur ne 0}">
+																							목요일 <c:out value="${schedule.thur}"></c:out>
+																</c:when>
+																<c:when test="${schedule.fri ne 0}">
+																							금요일 <c:out value="${schedule.fri}"></c:out>
+																</c:when>
+															</c:choose></td>
+														<td style="text-align: center; width: 35px;"><c:out
+																value="${ schedule.begin }" /> ~ <c:out
+																value="${ schedule.finish }" /></td>
+														<td style="text-align: center; width: 35px;"><c:out
+																value="${ schedule.reason }" /> 
+																</td>
+															<td style="text-align: center; width: 35px;"><a
+															href="<c:url value="/schedule/edit/${schedule.scheduleNo}"/>">
+																<input type="button" value="수정" />
+														</a></td>
+														<td style="text-align: center; width: 35px;"><a
+															href="<c:url value="/schedule/remove/${schedule.scheduleNo}"/>">
+																<input type="button" value="삭제" />
+														</a></td>
+												</c:forEach>
+												
 											</c:if>
-									</thead>
-
-								</table>
-								<a href="<c:url value="/schedule/add" />"> <input
-									type="button" id="button_add" name="button_edit" value="등록" />
-								</a>
-							</div>
-						</section>
+								            <c:if test="${empty listSchdule}">
+								               <tr>
+								                  <td style="text-align: center;" colspan="7"/>
+								                    		등록된 일정이 없습니다.
+								                  </td>
+								               </tr>
+								                
+								            </c:if>
+								            
+								         </thead>
+								      </table>
+								      <br><br><br>
+								      <div style="text-align: center; padding-top: 20px;"> 
+								         <a href="<c:url value="/schedule/add"/>"> <input type="button"
+												value="등록" />
+											</a>
+								      </div>
+								</header>
+							</section>
+						</div>
+					
 					</div>
 				</div>
 			</div>
-		</div>
-		<!-- Footer -->
-		<div id="footer">
-			<!-- Copyright -->
-			<div class="copyright">Tel: 041-530-2212 (선문대학교 컴퓨터공학과 과사무실)</div>
-		</div>
-	</form>
-</body>
+
+			<!-- Footer -->
+			<%@ include file="/WEB-INF/jsp/footer.jsp" %>
+			
+		
+	</body>
 </html>

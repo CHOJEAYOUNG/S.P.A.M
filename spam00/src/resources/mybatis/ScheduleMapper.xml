@@ -16,46 +16,53 @@
 		<result column="THUR" property="thur"/>
 		<result column="FRI" property="fri"/>
 		<result column="QUARTER" property="quarter"/>
+		<result column="NAME" property="name"/>
 	</resultMap>
 
 	<select id="list" parameterType="schedule" resultMap="scheduleResultMap">
-		SELECT SCHEDULE_NO
-			  ,ID
-			  ,REASON
-			  ,BEGIN
-			  ,FINISH
-			  ,MON
-			  ,TUE
-			  ,WED
-			  ,THUR
-			  ,FRI
-			  ,QUARTER
-		FROM SCHEDULE
-			<where>
+		SELECT s.SCHEDULE_NO
+			  ,s.ID
+              ,spam.NAME
+			  ,s.REASON
+			  ,s.BEGIN
+			  ,s.FINISH
+			  ,s.MON
+			  ,s.TUE
+			  ,s.WED
+			  ,s.THUR
+			  ,s.FRI
+			  ,s.QUARTER
+		FROM SCHEDULE s, SPAM_USER spam
+        WHERE s.ID = spam.ID
+			
 				<if test="begin != null and begin !=''">
-					AND BEGIN BETWEEN TO_DATE(#{begin}, 'YYYY/MM/DD') AND TO_DATE(#{finish}, 'YYYY/MM/DD')
+					AND TO_DATE(#{begin}, 'YYYY/MM/DD') BETWEEN s.BEGIN AND s.FINISH
+				</if>
+				<if test="finish != null and finish !=''">
+					AND TO_DATE(#{finish}, 'YYYY/MM/DD') BETWEEN s.BEGIN AND s.FINISH
 				</if>
 				<if test="mon != null and mon != ''">
-					AND MON LIKE '%'|| #{mon}||'%'
+					AND s.MON LIKE '%'|| #{mon}||'%'
 				</if>
 				<if test="tue != null and tue != ''">
-					AND TUE LIKE '%'|| #{tue} ||'%'
+					AND s.TUE LIKE '%'|| #{tue} ||'%'
 				</if>
 				<if test="wed != null and wed != ''">
-					AND WED LIKE '%'|| #{wed} ||'%'
+					AND s.WED LIKE '%'|| #{wed} ||'%'
 				</if>
 				<if test="thur != null and thur != ''">
-					AND THUR LIKE '%'|| #{thur} ||'%'
+					AND s.THUR LIKE '%'|| #{thur} ||'%'
 				</if>
 				<if test="fri != null and fri != ''">
-					AND FRI LIKE '%'|| #{fri} ||'%'
+					AND s.FRI LIKE '%'|| #{fri} ||'%'
 				</if>
 				<if test="id >0">
-					AND ID = #{id}
+					AND s.ID = #{id}
 				</if>
-			
-			</where>
-		ORDER BY BEGIN ASC
+				<if test="name != null and name !=''">
+					AND spam.NAME = #{name}				
+				</if>
+		ORDER BY s.BEGIN ASC
 	</select>
 	
 	<insert id="insert" parameterType="schedule">
@@ -111,17 +118,23 @@
 	</select>
 	
 	<update id="update" parameterType="schedule">
-        UPDATE ADVICE
+        UPDATE SCHEDULE
         <set>
-            <if test="assentNo != null and period != ''">ASSENT_NO = #{assentNo},   </if>
-            <if test="cause != null and cause != ''">CAUSE = #{cause},	     </if>
-             <if test="assentDate != null and assnetDate != ''" >ASSENT_DATE = #{assentDate}, </if>
+            <if test="begin != null and begin != ''">BEGIN = TO_DATE(#{begin}),   </if>
+            <if test="finish != null and finish != ''">FINISH = TO_DATE(#{finish}),   </if>
+             <if test="reason != null and reason != ''" >REASON = #{reason}, </if>
+             <if test="mon != null and mon != ''" >MON = #{mon}, </if>
+             <if test="tue != null and tue != ''" >TUE = #{tue}, </if>
+             <if test="wed != null and wed != ''" >WED = #{wed}, </if>
+             <if test="thur != null and thur != ''" >THUR = #{thur}, </if>
+             <if test="fri != null and fri != ''" >FRI = #{fri}, </if>
+             
         </set>
-        WHERE  ADVICE_NO = #{adviceNo}
+        WHERE  SCHEDULE_NO = #{scheduleNo}
     </update>
     
 	<delete id="delete" parameterType="schedule">
-		DELETE FROM ADVICE
-        WHERE ADVICE_NO = #{adviceNo}
+		DELETE FROM SCHEDULE
+        WHERE SCHEDULE_NO = #{scheduleNo}
 	</delete>
 </mapper>

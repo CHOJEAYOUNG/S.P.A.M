@@ -17,6 +17,10 @@
 <script src="/js/init.js"></script>
 <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/css/skel.css" />
 <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/css/style.css" />
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <!--[if lte IE 8]><link rel="stylesheet" href="/css/ie/v8.css" /><![endif]-->
 </head>
 <body class="homepage">

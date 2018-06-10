@@ -42,7 +42,7 @@ function fileCheck() {
 	templated.co @templatedco
 	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
 -->
-<html>
+
 	<head>
 		<title>학과 업무 관리 시스템</title>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
@@ -65,12 +65,17 @@ function fileCheck() {
 			<input type="hidden" name="name" value="${user.name}"/>
 			<table style="width:100%" border="1">
 				<thead>
-					<tr>
-						<th>선택</th>
-						<th>카테고리 명</th>
-						<th>유형</th>
-						<th>조건</th>
-						<th>점수</th>
+					<tr bgcolor="#4C4639">
+						<th style="width: 40px; text-align: center;"><font
+												color="#FFFFFF">선택</font></th>
+						<th style="width: 40px; text-align: center;"><font
+												color="#FFFFFF">카테고리 명</font></th>
+						<th style="width: 40px; text-align: center;"><font
+												color="#FFFFFF">유형</font></th>
+						<th style="width: 40px; text-align: center;"><font
+												color="#FFFFFF">조건</font></th>
+						<th style="width: 40px; text-align: center;"><font
+												color="#FFFFFF">점수</font></th>
 					</tr>
 					
 	 				<c:if test="${ !empty listCategory}">

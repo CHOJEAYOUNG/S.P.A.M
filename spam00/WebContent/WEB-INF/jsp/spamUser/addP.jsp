@@ -113,18 +113,28 @@
 					<div id="sidebar" class="4u sidebar">
 						<section>
 							<header class="major">
-								<h2>학생 정보</h2>
+								<h2>목록</h2>
 							</header>
 							<div class="row half">
 								<section class="6u">
 									<ul class="default">
 										<c:if test = "${sessionScope.power eq 'A' }" > 
-											<li><a href="/spamUser/listAdd">일괄 등록</a></li>
+											<li><a href="/spamUser/list">사용자 목록 조회</a></li>
+											<li><a href="/spamUser/listAdd">학생 일괄 등록</a></li>
 											<li><a href="/spamUser/oneAddS">학생 개별 등록</a></li>
 											<li><a href="/spamUser/oneAddP">교수 개별 등록</a></li>
-											<li><a href="/spamUser/list">학생 목록</a></li>
+											<li><a href="/spamUser/viewPA/${spamuser.id}">내 정보 보기</a></li>
+											<li><a href="/spamUser/edit/${spamuser.id}">내 정보 수정</a></li>
 										</c:if>
-										<li><a href="/logout">로그 아웃</a></li>
+										<c:if test = "${sessionScope.power eq 'S' }" > 
+											<li><a href="/spamUser/viewPA/${spamuser.id}">내 정보 조회</a></li>
+											<li><a href="/spamUser/edit/${spamuser.id}">내 정보 수정</a></li>
+										</c:if>
+										<c:if test = "${sessionScope.power eq 'P' }" > 
+											<li><a href="/spamUser/list">사용자 조회</a></li>
+											<li><a href="/spamUser/viewPA/${sessionScope.id}">내 정보 조회</a></li>
+											<li><a href="/spamUser/edit/${sessionScope.id}">내 정보 수정</a></li>
+										</c:if>
 									</ul>
 								</section>
 							</div>
@@ -151,64 +161,98 @@
 					<div id="content" class="8u skel-cell-important">
 						<section>
 							<header class="major">
-								<h2>교수님 개별 등록</h2>
+								<h2>교수 개별 등록</h2>
 							</header>
 							<form id="form" action="/spamUser/oneAdd" method="post"	style="padding-top: 3%; padding-bottom: 3%;">
-								<table border="1" width="300" align="center" height="250">
-									<tr>
-										<td>교번</td>
-										<td>
-											<input type="text" id="id" name="id" maxlength="10" onkeydown="return showKeyCode(event)" onkeyup='removeChar(event)' style="ime-mode:disabled;" /> 
-											<input type="hidden" name="grade" value="0" />
-										</td>
-									</tr>
-									<tr>
-										<td>생년월일</td>
-										<td>
-											<input type="text" size="30" id="birthDate"	name="birthDate" maxlength="6" onkeydown="return showKeyCode(event)" onkeyup='removeChar(event)' style="ime-mode:disabled;" />
-										</td>
-									</tr>
-									<tr>
-										<td>이름</td>
-										<td><input type="text" name="name" id="name" /></td>
-									</tr>
-									<tr>
-										<td>학과</td>
-										<td><input type="text" name="major" id="major" /></td>
-									</tr>
-									<tr>
-										<td>전화번호</td>
-										<td>
-											<select name="phoneNo1" style="width: 10%;">
-												<option value="010">010</option>
-												<option value="016">016</option>
-												<option value="011">011</option>
-												<option value="070">070</option>
-												<option value="041">041</option>
-												<option value="02">02</option>
-												<option value="031">031</option>
-												<option value="05">05</option>
-											</select> - 
-											<input type="text"  id="phoneNo2" size="6" name="phoneNo2" maxlength="4" onkeydown="return showKeyCode(event)" onkeyup='removeChar(event)' style="ime-mode:disabled; width: 42%" /> - 
-											<input type="text" id="phoneNo3" size="6" name="phoneNo3" maxlength="4" onkeydown="return showKeyCode(event)" onkeyup='removeChar(event)' style="ime-mode:disabled; width: 42%" />
-										</td>
-									</tr>
-									<tr>
-										<td>사무실 위치</td>
-										<td><input type="text" name="office" id="office" /></td>
-									</tr>
-									<tr>
-										<td>상태</td>
-										<td><select name="enrollment">
-												<option value="6" selected="selected">재직</option>
-												<option value="5">연구년</option>
-												<option value="7">이직</option>
-										</select></td>
-									</tr>
+					
+								<table style="margin-left:15%;" >
+									<thead>
+										<tr>
+							                  <th style="width: 100px; text-align: center; background-color:#4C4639">
+							                  	<font color="#FFFFFF">교번</font>
+							                  </th>
+							                  <td>
+								                  <input type="text" id="id" name="id" maxlength="10" onkeydown="return showKeyCode(event)" onkeyup='removeChar(event)' size="10" style="ime-mode:disabled; width:50%; border: 2;" /> 
+												  <input type="hidden" name="grade" value="0" />
+								                  
+							                  </td>
+							              </tr>
+							              <tr>
+							                   <th style="width: 100px; text-align: center; background-color:#4C4639">
+							                  	<font color="#FFFFFF">생년월일</font>
+							                  </th>
+							                  <td>
+							                     <input type="text" size="30" id="birthDate"	name="birthDate" maxlength="6" onkeydown="return showKeyCode(event)" onkeyup='removeChar(event)' size="10" style="ime-mode:disabled; width:50%; border: 2;" />
+												 
+							                  </td>
+							              </tr>
+							              
+							              <tr>
+							                   <th style="width: 100px; text-align: center; background-color:#4C4639">
+							                  	<font color="#FFFFFF">이름</font>
+							                  </th>
+							                  <td>
+												 <input type="text" name="name" id="name" size="10" style="ime-mode:disabled; width:50%; border: 2;"/>
+							                  </td>
+							              </tr>
+							              
+							              <tr>
+							                   <th style="width: 100px; text-align: center; background-color:#4C4639">
+							                  	<font color="#FFFFFF">학과</font>
+							                  </th>
+							                  <td>
+												 <input type="text" name="major" id="major" size="10" style="ime-mode:disabled; width:50%; border: 2;"/>
+							                  </td>
+							              </tr>
+							              
+							              <tr>
+							                   <th style="width: 100px; text-align: center; background-color:#4C4639">
+							                  	<font color="#FFFFFF">전화번호</font>
+							                  </th>
+							                  <td>
+							                  	
+							                  	 <select name="phoneNo1" style="width: 10%;">
+													<option value="010">010</option>
+													<option value="016">016</option>
+													<option value="011">011</option>
+													<option value="070">070</option>
+													<option value="041">041</option>
+													<option value="02">02</option>
+													<option value="031">031</option>
+													<option value="05">05</option>
+												</select>-
+												<input type="text"  id="phoneNo2" size="4" name="phoneNo2" maxlength="4" onkeydown="return showKeyCode(event)" onkeyup='removeChar(event)' style="ime-mode:disabled; display:inline; width: 18%"/> - 
+												<input type="text"  id="phoneNo3" size="4" name="phoneNo3" maxlength="4" onkeydown="return showKeyCode(event)" onkeyup='removeChar(event)' style="ime-mode:disabled; display:inline; width: 18%"/>
+							                </td>
+							              </tr>
+							              
+							              <tr>
+							                   <th style="width: 100px; text-align: center; background-color:#4C4639">
+							                  	<font color="#FFFFFF">사무실 위치</font>
+							                  </th>
+							                  <td>
+												 <input type="text" name="office" id="office" size="10" style="ime-mode:disabled; width:50%; border: 2;"/>
+							                  </td>
+							              </tr>
+							               <tr>
+							                   <th style="width: 100px; text-align: center; background-color:#4C4639">
+							                  	<font color="#FFFFFF">상태</font>
+							                  </th>
+							                  <td>
+												 <select name="enrollment" style="width:50%; border: 2;">
+														<option value="6" selected="selected">재직</option>
+														<option value="5">연구년</option>
+														<option value="7">이직</option>
+												</select>
+							                  </td>
+							              </tr>
+							              
+									</thead>
 								</table>
-								<div style="text-align: center; padding-top: 10px; padding-left: 255px;">
-									<input type="button" value="등록" onclick="formOnClick()" />
-								</div>
+								
+								
+									<input type="button" value="등록" onclick="formOnClick()" style="margin-left:40%;" />
+								
 								<div style="text-align: center; padding-top: 10px; padding-left: 10px;">
 									<c:out value="교수님의 최초 비밀번호는 생년월일입니다. ex) 941004" />
 								</div>
@@ -216,6 +260,7 @@
 					</section>
 				</div>
 			</div>
+		</div>
 		</div>
 		<!-- Footer -->
 			<%@ include file="/WEB-INF/jsp/footer.jsp" %>

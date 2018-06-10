@@ -20,12 +20,86 @@
 		<result column="FRI" property="fri"/>
 		<result column="QUARTER" property="quarter"/>
 		<result column="STATE" property="state"/>
+		<result column="NAME" property="name"/>
 	</resultMap>
 
 	<select id="list" parameterType="advice" resultMap="adviceResultMap">
 		SELECT a.ADVICE_NO 
+			  ,spam.name
+			  ,assent.STATE
+			  ,a.ASSENT_NO
+			  ,a.CAUSE
+			  ,a.ASSENT_DATE
+			  ,a.REGISTRATION
+			  ,a.ADVICE_DATE
+			  ,a.REASON
+			  ,a.CAUSE
+			  ,a.MON
+			  ,a.TUE
+			  ,a.WED
+			  ,a.THUR
+			  ,a.FRI
+			  ,a.QUARTER
+		FROM ADVICE a,ASSENT assent, SPAM_USER spam
+        WHERE a.ASSENT_NO = assent.ASSENT_NO
+        AND a.S_ID = spam.ID
+			<if test="quarter>0">
+				AND a.QUARTER > 0
+			</if>
+			<if test="quarter=0">
+				AND a.QUARTER = 0
+			</if>
+			<if test="pId>0">
+				AND a.P_ID = #{pId}
+			</if>
+			<if test="sId>0">
+				AND a.S_ID = #{sId}
+			</if>
+			<if test="adviceDate != null and adviceDate != ''">
+				AND a.ADVICE_DATE = #{adviceDate}
+			</if>
+			<if test="searchDate == 'mon'">
+				AND a.MON != '0'
+			</if>
+			<if test="searchDate == 'tue'">
+				AND a.TUE != '0'
+			</if>
+			<if test="searchDate == 'wed'">
+				AND a.WED != '0'
+			</if>
+			<if test="searchDate == 'thur'">
+				AND a.THUR != '0'
+			</if>
+			<if test="searchDate == 'fri'">
+				AND a.FRI != '0'
+			</if>
+			<if test="mon != null and mon != ''">
+				AND a.MON = #{mon}
+			</if>
+			<if test="tue != null and tue != ''">
+				AND a.TUE = #{tue}
+			</if>
+			<if test="wed != null and wed != ''">
+				AND a.WED = #{wed}
+			</if>
+			<if test="thur != null and thur != ''">
+				AND a.THUR = #{thur}
+			</if>
+			<if test="fri != null and fri != ''">
+				AND a.FRI = #{fri}
+			</if>
+			<if test="assentNo >0">
+				AND a.ASSENT_NO = #{assentNo}
+			</if>
+		ORDER BY a.ADVICE_DATE ASC
+	</select>
+	
+	<select id="listS" parameterType="advice" resultMap="adviceResultMap">
+		SELECT a.ADVICE_NO 
+			  ,a.ASSENT_NO
 			  ,a.S_ID
 			  ,a.P_ID
+			  ,spam.name
 			  ,assent.STATE
 			  ,a.CAUSE
 			  ,a.ASSENT_DATE
@@ -39,10 +113,9 @@
 			  ,a.THUR
 			  ,a.FRI
 			  ,a.QUARTER
-		FROM ADVICE a
-            INNER JOIN ASSENT assent
-            ON a.ASSENT_NO = assent.ASSENT_NO
-		WHERE a.ADVICE_DATE > SYSDATE-1
+		FROM ADVICE a,ASSENT assent, SPAM_USER spam
+        WHERE a.ASSENT_NO = assent.ASSENT_NO
+        AND a.P_ID = spam.ID
 			<if test="quarter>0">
 				AND a.QUARTER > 0
 			</if>
@@ -50,13 +123,13 @@
 				AND a.QUARTER = 0
 			</if>
 			<if test="pId>0">
-				AND P_ID = #{pId}
+				AND a.P_ID = #{pId}
 			</if>
 			<if test="sId>0">
-				AND S_ID = #{sId}
+				AND a.S_ID = #{sId}
 			</if>
 			<if test="adviceDate != null and adviceDate != ''">
-				AND ADVICE_DATE = #{adviceDate}
+				AND a.ADVICE_DATE = #{adviceDate}
 			</if>
 			<if test="searchDate == 'mon'">
 				AND MON != '0'
@@ -88,7 +161,10 @@
 			<if test="fri != null and fri != ''">
 				AND FRI = #{fri}
 			</if>
-		ORDER BY ADVICE_DATE ASC
+			<if test="assentNo >0">
+				AND a.ASSENT_NO = #{assentNo}
+			</if>
+		ORDER BY a.ADVICE_DATE ASC
 	</select>
 	 
 	<insert id="insert" parameterType="advice">
@@ -109,6 +185,7 @@
 			  ,assent.STATE
 			  ,a.CAUSE
 			  ,a.ASSENT_DATE
+			  ,a.ASSENT_NO
 			  ,a.REGISTRATION
 			  ,a.ADVICE_DATE
 			  ,a.REASON
@@ -121,26 +198,11 @@
 		FROM ADVICE a
             INNER JOIN ASSENT assent
             ON a.ASSENT_NO = assent.ASSENT_NO
-		WHERE ADVICE_NO = #{adviceNo}			
+					
 			<where>
-				<if test="quarter > 0">
-					AND QUARTER = #{quarter}
+				<if test="adviceNo > 0">
+					AND a.ADVICE_NO = #{adviceNo}
 				</if>
-				<if test="mon != null and mon != ''">
-					AND MON = #{mon}
-				</if>
-				<if test="tue != null and tue != ''">
-					AND TUE = #{tue}
-				</if>
-				<if test="wed != null and wed != ''">
-					AND WED = #{wed}
-				</if>
-				<if test="thur != null and thur != ''">
-					AND THUR = #{thur}
-				</if>
-				<if test="fri != null and fri != ''">
-					AND FRI = #{fri}
-				</if> 
 			</where>
 	</select>
 	

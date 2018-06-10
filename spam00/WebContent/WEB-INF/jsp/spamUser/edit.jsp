@@ -2,11 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE HTML>
-<!--
-	Horizons by TEMPLATED
-	templated.co @templatedco
-	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
--->
+
 <% 
 	String power = (String)session.getAttribute("power");
 %>
@@ -180,18 +176,28 @@
 					<div id="sidebar" class="4u sidebar">
 						<section>
 							<header class="major">
-								<h2>학생 정보</h2>
+								<h2>목록</h2>
 							</header>
 							<div class="row half">
 								<section class="6u">
 									<ul class="default">
 										<c:if test = "${sessionScope.power eq 'A' }" > 
-											<li><a href="/spamUser/listAdd">일괄 등록</a></li>
+											<li><a href="/spamUser/list">사용자 목록 조회</a></li>
+											<li><a href="/spamUser/listAdd">학생 일괄 등록</a></li>
 											<li><a href="/spamUser/oneAddS">학생 개별 등록</a></li>
 											<li><a href="/spamUser/oneAddP">교수 개별 등록</a></li>
-											<li><a href="/spamUser/list">학생 목록</a></li>
+											<li><a href="/spamUser/viewPA/${spamuser.id}">내 정보 보기</a></li>
+											<li><a href="/spamUser/edit/${spamuser.id}">내 정보 수정</a></li>
 										</c:if>
-										<li><a href="/logout">로그 아웃</a></li>
+										<c:if test = "${sessionScope.power eq 'S' }" > 
+											<li><a href="/spamUser/viewPA/${spamuser.id}">내 정보 조회</a></li>
+											<li><a href="/spamUser/edit/${spamuser.id}">내 정보 수정</a></li>
+										</c:if>
+										<c:if test = "${sessionScope.power eq 'P' }" > 
+											<li><a href="/spamUser/list">사용자 조회</a></li>
+											<li><a href="/spamUser/viewPA/${sessionScope.id}">내 정보 조회</a></li>
+											<li><a href="/spamUser/edit/${sessionScope.id}">내 정보 수정</a></li>
+										</c:if>
 									</ul>
 								</section>
 							</div>
@@ -218,240 +224,246 @@
 					<div id="content" class="8u skel-cell-important">
 						<section>
 							<header class="major">
-								<h2>학생 정보 보기</h2>
+								<h2>정보 수정</h2>
 							</header>
-	<form id="form" action="/spamUser/edit" method="post" style="padding-top: 3%; padding-bottom: 3%;">
-		<table border="1" width="300" align="center" height="250" >
-			<tr>
-				<td>아이디</td>
-				<td>
-					<c:out value="${spamuser.id}" />
-					<input type="hidden" name="id" value="${spamuser.id}" id="id"/>
-				</td>
-				
-			</tr>
-			<tr>
-				<td>비밀번호</td>
-				<td><input type="password" size="30" name="passWord"
-					maxlength="16" value="${spamuser.passWord}" id="password"></td>
-			</tr>
-			<tr>
-				<td>이름</td>
-				<td>
-					<c:if test="${!(spamuser.power eq 'A')}" >
-						<c:out value="${spamuser.name}" />
-						<input type="hidden" name="name" value="${spamuser.name}" id="name"/>
-					</c:if>
-					<c:if test="${spamuser.power eq 'A'}" >
-						<input type="text" name="name" maxlength="60" value = "${spamuser.name}" id="name"/>
-					</c:if>
-				</td>
-			</tr>
-			<c:if test="${sessionScope.power eq 'A'}" >
-				<c:if test="${spamuser.power eq 'S'}" >
-					<tr>
-						<td>학년</td>
-						<td>
-							<input type="text" name="grade" id="grade" value = "${spamuser.grade}" maxlength="1" onkeydown="return showKeyCode2(event)" onkeyup='removeChar(event)' style="ime-mode:disabled;" />
-						</td>
-					</tr>
-				</c:if>
-				<c:if test="${sessionScope.power eq 'P'}" >
-					<tr>
-						<td>학년</td>
-						<td>
-							<input type="hidden" name="grade" value = "0"/>
-						</td>
-					</tr>
-				</c:if>
-			</c:if>
-			<tr>
-				<td>학과</td>
-				<td>
-					<input type="text" name="major" id="major" value = "${spamuser.major}" />
-				</td>
-			</tr>
-			<tr>
-				<td>전화번호</td>
-				<td>
-					<select name="phoneNo1">
-					<c:if test="${spamuser.phoneNo1 eq '010'}" >
-						<option value="010" selected="selected">010</option>
-					</c:if>
-					<c:if test="${!(spamuser.phoneNo1 eq '010')}" >
-						<option value="010">010</option>
-					</c:if>
-					<c:if test="${spamuser.phoneNo1 eq '016'}" >
-						<option value="016" selected="selected">016</option>
-					</c:if>
-					<c:if test="${!(spamuser.phoneNo1 eq '016')}" >
-						<option value="016">016</option>
-					</c:if>
-					<c:if test="${spamuser.phoneNo1 eq '011'}" >
-						<option value="011" selected="selected">011</option>
-					</c:if>
-					<c:if test="${!(spamuser.phoneNo1 eq '011')}" >
-						<option value="011">011</option>
-					</c:if>
-					<c:if test="${spamuser.phoneNo1 eq '070'}" >
-						<option value="070" selected="selected">070</option>
-					</c:if>
-					<c:if test="${!(spamuser.phoneNo1 eq '070')}" >
-						<option value="070">070</option>
-					</c:if>
-					<c:if test="${spamuser.phoneNo1 eq '041'}" >
-						<option value="041" selected="selected">041</option>
-					</c:if>
-					<c:if test="${!(spamuser.phoneNo1 eq '041')}" >
-						<option value="041">041</option>
-					</c:if>
-					<c:if test="${spamuser.phoneNo1 eq '02'}" >
-						<option value="02" selected="selected">02</option>
-					</c:if>
-					<c:if test="${!(spamuser.phoneNo1 eq '02')}" >
-						<option value="02">02</option>
-					</c:if>
-					<c:if test="${spamuser.phoneNo1 eq '031'}" >
-						<option value="031" selected="selected">031</option>
-					</c:if>
-					<c:if test="${!(spamuser.phoneNo1 eq '031')}" >
-						<option value="031">031</option>
-					</c:if>
-					<c:if test="${spamuser.phoneNo1 eq '05'}" >
-						<option value="05" selected="selected">05</option>
-					</c:if>
-					<c:if test="${!(spamuser.phoneNo1 eq '05')}" >
-						<option value="05" >05</option>
-					</c:if>
-					</select>
-					-
-					<input type="text" id="phoneNo2" size="6" name="phoneNo2" maxlength="4" value="${spamuser.phoneNo2}" onkeydown="return showKeyCode(event)" onkeyup='removeChar(event)' style="ime-mode:disabled; width: 42%;" /> - 
-					<input type="text" id="phoneNo3" size="6" name="phoneNo3" maxlength="4" value="${spamuser.phoneNo3}" onkeydown="return showKeyCode(event)" onkeyup='removeChar(event)' style="ime-mode:disabled; width: 42%;" />
-				</td>
-			</tr>
-			<c:if test="${!(sessionScope.power eq 'S')}" >
-				<c:if test="${!(spamuser.power eq 'S')}" >
-					<tr>
-						<td>사무실 위치</td>
-						<td>
-							<input type="text" id="office" name="office" maxlength="60" value = "${spamuser.office}" />
-						</td>
-					</tr>
-				</c:if>
-			</c:if>
-			<tr>
-				<c:if test="${sessionScope.power eq 'A'}" >
-				<td>상태</td>
-				<td>
-				<c:if test="${(spamuser.power eq 'S')}" >
-					<select name="enrollment">
-						<c:if test="${spamuser.enrollment eq '1'}" >
-							<option value="1" selected="selected">재학</option>
-						</c:if>
-						<c:if test="${!(spamuser.enrollment eq '1')}" >
-							<option value="1">재학</option>
-						</c:if>
-						<c:if test="${spamuser.enrollment eq '2'}" >
-							<option value="2" selected="selected">휴학</option>
-						</c:if>
-						<c:if test="${!(spamuser.enrollment eq '2')}" >
-							<option value="2">휴학</option>
-						</c:if>
-						<c:if test="${spamuser.enrollment eq '3'}" >
-							<option value="3" selected="selected">자퇴</option>
-						</c:if>
-						<c:if test="${!(spamuser.enrollment eq '3')}" >
-							<option value="3">자퇴</option>
-						</c:if>
-						<c:if test="${spamuser.enrollment eq '4'}" >
-							<option value="4" selected="selected">졸업</option>
-						</c:if>
-						<c:if test="${!(spamuser.enrollment eq '4')}" >
-							<option value="4">졸업</option>
-						</c:if>
-					</select>
-				</c:if>
-					
-				<c:if test="${!(spamuser.power eq 'S')}" >
-					<select name="enrollment">
-						<c:if test="${spamuser.enrollment eq '5'}" >
-							<option value="5" selected="selected">연구년</option>
-						</c:if>
-						<c:if test="${!(spamuser.enrollment eq '5')}" >
-							<option value="5">연구년</option>
-						</c:if>
-						<c:if test="${spamuser.enrollment eq '6'}" >
-							<option value="6" selected="selected">재직</option>
-						</c:if>
-						<c:if test="${!(spamuser.enrollment eq '6')}" >
-							<option value="6">재직</option>
-						</c:if>
-						<c:if test="${spamuser.enrollment eq '7'}" >
-							<option value="7" selected="selected">이직</option>
-						</c:if>
-						<c:if test="${!(spamuser.enrollment eq '7')}" >
-							<option value="7">이직</option>
-						</c:if>
-					</select>
-				</c:if>
-				
-				</td>
-				</c:if>
-			</tr>
-			<c:if test="${power eq 'A'}" >
-				<tr>
-					<td>취업 유형</td>
-					<td>
-						<select name="empNo">
-							<c:forEach items="${ listEmp }" var="employmentType" varStatus="status">
-								<c:if test="${employmentType.no eq spamuser.empNo}"> 
-									<option value="${ employmentType.no }" selected="selected" >${ employmentType.name }</option>
+				<form id="form" action="/spamUser/edit" method="post" style="padding-top: 3%; padding-bottom: 3%;">
+				<table style="margin-left: 15%;">
+					<thead>
+						<tr>
+							<th style="width: 100px; text-align: center; background-color:#4C4639"><font color="#FFFFFF">아이디</font></th>
+							<td>
+								<c:out value="${spamuser.id}" />
+								<input type="hidden" name="id" value="${spamuser.id}" id="id"/>
+							</td>
+						</tr>
+						<tr>
+							<th style="width: 100px; text-align: center; background-color:#4C4639"><font color="#FFFFFF">비밀번호</font></th>
+							<td><input type="password" name="passWord"
+								maxlength="16" value="${spamuser.passWord}" id="password" size="10" style="ime-mode:disabled; width:300px; border: 2;"  ></td>
+						</tr>
+						<tr>
+							<th style="width: 100px; text-align: center; background-color:#4C4639"><font color="#FFFFFF">이름</font></th>
+							<td>
+								<c:if test="${!(spamuser.power eq 'A')}" >
+									<c:out value="${spamuser.name}" />
+									<input type="hidden" name="name" value="${spamuser.name}" id="name"/>
 								</c:if>
-								<c:if test="${!(employmentType.no eq spamuser.grNo)}"> 
-									<option value="${ employmentType.no }">${ employmentType.name }</option>
+								<c:if test="${spamuser.power eq 'A'}" >
+									<input type="text" name="name" maxlength="60" value = "${spamuser.name}" id="name" style="width: 300px;"/>
 								</c:if>
-							</c:forEach>
-						</select>
-					</td>
-				</tr>
-			</c:if>
-			<c:if test="${power eq 'A'}" >
-				<tr>
-					<td>졸업 유형</td>
-					<td>
-						<select name="grNo">
-							<c:forEach items="${ listGr }" var="grType" varStatus="status">
-								<c:if test="${grType.no eq spamuser.grNo}"> 
-									<option value="${ grType.no }" selected="selected" >${ grType.name }</option>
+							</td>
+						</tr>
+						<c:if test="${sessionScope.power eq 'A'}" >
+							<c:if test="${spamuser.power eq 'S'}" >
+								<tr>
+									<th style="width: 100px; text-align: center; background-color:#4C4639"><font color="#FFFFFF">학년</font></th>
+									<td>
+										<input type="text" name="grade" id="grade" value = "${spamuser.grade}" maxlength="1" onkeydown="return showKeyCode2(event)" onkeyup='removeChar(event)' style="ime-mode:disabled; width:300px;" />
+									</td>
+								</tr>
+							</c:if>
+							<c:if test="${spamuser.power eq 'P'}" >
+								<input type="hidden" name="grade" value = "0"/>
+							</c:if>
+						</c:if>
+						<c:if test="${sessionScope.power eq 'S'}" >
+							<tr>
+								<th style="width: 100px; text-align: center; background-color:#4C4639"><font color="#FFFFFF">학년</font></th>
+								<td>
+									<c:out value="${spamuser.grade}" />
+									<input type="hidden" name="grade" id="grade" value = "${spamuser.grade}"  />
+								</td>
+							</tr>
+						</c:if>
+						<tr>
+							<th style="width: 100px; text-align: center; background-color:#4C4639"><font color="#FFFFFF">학과</font></th>
+							<td>
+								<input type="text" name="major" id="major" value = "${spamuser.major}"  style="width:300px;"/>
+							</td>
+						</tr>
+						<tr>
+							<th style="width: 100px; text-align: center; background-color:#4C4639"><font color="#FFFFFF">전화번호</font></th>
+							<td>
+								<select name="phoneNo1" style="width:60px;">
+								<c:if test="${spamuser.phoneNo1 eq '010'}" >
+									<option value="010" selected="selected">010</option>
 								</c:if>
-								<c:if test="${grType.no eq spamuser.grNo}"> 
-									<option value="${ grType.no }"  >${ grType.name }</option>
+								<c:if test="${!(spamuser.phoneNo1 eq '010')}" >
+									<option value="010">010</option>
 								</c:if>
-							</c:forEach>
-						</select>
-					</td>
-				</tr>
-			</c:if>
-			<c:if test="${(sessionScope.power eq 'A')}" >
-				<c:if test="${(spamuser.power eq 'S')}" >
-					<tr>
-						<td>카드 번호</td>
-						<td>
-							<input type="text" name="cardNo" maxlength="60" value = "${spamuser.cardNo}" />
-						</td>
-					</tr>
-				</c:if>
-			</c:if>
-		</table>
-		<div style="text-align: center; padding-top: 10px; padding-left: 255px; ">
-			<c:if test="${spamuser.power eq 'S'}">
-				<input type="button" value="수정" onclick="formOnClick()" />
-			</c:if>
-			<c:if test="${spamuser.power eq 'P'}">
-				<input type="button" value="수정" onclick="formOnClick2()" />
-			</c:if>
-		</div>
-	</form>
+								<c:if test="${spamuser.phoneNo1 eq '016'}" >
+									<option value="016" selected="selected">016</option>
+								</c:if>
+								<c:if test="${!(spamuser.phoneNo1 eq '016')}" >
+									<option value="016">016</option>
+								</c:if>
+								<c:if test="${spamuser.phoneNo1 eq '011'}" >
+									<option value="011" selected="selected">011</option>
+								</c:if>
+								<c:if test="${!(spamuser.phoneNo1 eq '011')}" >
+									<option value="011">011</option>
+								</c:if>
+								<c:if test="${spamuser.phoneNo1 eq '070'}" >
+									<option value="070" selected="selected">070</option>
+								</c:if>
+								<c:if test="${!(spamuser.phoneNo1 eq '070')}" >
+									<option value="070">070</option>
+								</c:if>
+								<c:if test="${spamuser.phoneNo1 eq '041'}" >
+									<option value="041" selected="selected">041</option>
+								</c:if>
+								<c:if test="${!(spamuser.phoneNo1 eq '041')}" >
+									<option value="041">041</option>
+								</c:if>
+								<c:if test="${spamuser.phoneNo1 eq '02'}" >
+									<option value="02" selected="selected">02</option>
+								</c:if>
+								<c:if test="${!(spamuser.phoneNo1 eq '02')}" >
+									<option value="02">02</option>
+								</c:if>
+								<c:if test="${spamuser.phoneNo1 eq '031'}" >
+									<option value="031" selected="selected">031</option>
+								</c:if>
+								<c:if test="${!(spamuser.phoneNo1 eq '031')}" >
+									<option value="031">031</option>
+								</c:if>
+								<c:if test="${spamuser.phoneNo1 eq '05'}" >
+									<option value="05" selected="selected">05</option>
+								</c:if>
+								<c:if test="${!(spamuser.phoneNo1 eq '05')}" >
+									<option value="05" >05</option>
+								</c:if>
+								</select>
+								-
+								<input type="text" id="phoneNo2" size="6" name="phoneNo2" maxlength="4" value="${spamuser.phoneNo2}" onkeydown="return showKeyCode(event)" onkeyup='removeChar(event)' style="ime-mode:disabled; width: 104px;" /> - 
+								<input type="text" id="phoneNo3" size="6" name="phoneNo3" maxlength="4" value="${spamuser.phoneNo3}" onkeydown="return showKeyCode(event)" onkeyup='removeChar(event)' style="ime-mode:disabled; width: 104px;" />
+							</td>
+						</tr>
+						<c:if test="${!(sessionScope.power eq 'S')}" >
+							<c:if test="${!(spamuser.power eq 'S')}" >
+								<tr>
+									<th style="width: 100px; text-align: center; background-color:#4C4639"><font color="#FFFFFF">사무실 위치</font></th>
+									<td>
+										<input type="text" id="office" name="office" maxlength="60" value = "${spamuser.office}" style="width: 300px;"/>
+									</td>
+								</tr>
+							</c:if>
+						</c:if>
+						<tr>
+							<c:if test="${sessionScope.power eq 'A'}" >
+							<th style="width: 100px; text-align: center; background-color:#4C4639"><font color="#FFFFFF">상태</font></th>
+							<td>
+							<c:if test="${(spamuser.power eq 'S')}" >
+								<select name="enrollment" style="width:300px;">
+									<c:if test="${spamuser.enrollment eq '1'}" >
+										<option value="1" selected="selected">재학</option>
+									</c:if>
+									<c:if test="${!(spamuser.enrollment eq '1')}" >
+										<option value="1">재학</option>
+									</c:if>
+									<c:if test="${spamuser.enrollment eq '2'}" >
+										<option value="2" selected="selected">휴학</option>
+									</c:if>
+									<c:if test="${!(spamuser.enrollment eq '2')}" >
+										<option value="2">휴학</option>
+									</c:if>
+									<c:if test="${spamuser.enrollment eq '3'}" >
+										<option value="3" selected="selected">자퇴</option>
+									</c:if>
+									<c:if test="${!(spamuser.enrollment eq '3')}" >
+										<option value="3">자퇴</option>
+									</c:if>
+									<c:if test="${spamuser.enrollment eq '4'}" >
+										<option value="4" selected="selected">졸업</option>
+									</c:if>
+									<c:if test="${!(spamuser.enrollment eq '4')}" >
+										<option value="4">졸업</option>
+									</c:if>
+								</select>
+							</c:if>
+								
+							<c:if test="${!(spamuser.power eq 'S')}" >
+								<select name="enrollment" style="width:300px;">
+									<c:if test="${spamuser.enrollment eq '5'}" >
+										<option value="5" selected="selected">연구년</option>
+									</c:if>
+									<c:if test="${!(spamuser.enrollment eq '5')}" >
+										<option value="5">연구년</option>
+									</c:if>
+									<c:if test="${spamuser.enrollment eq '6'}" >
+										<option value="6" selected="selected">재직</option>
+									</c:if>
+									<c:if test="${!(spamuser.enrollment eq '6')}" >
+										<option value="6">재직</option>
+									</c:if>
+									<c:if test="${spamuser.enrollment eq '7'}" >
+										<option value="7" selected="selected">이직</option>
+									</c:if>
+									<c:if test="${!(spamuser.enrollment eq '7')}" >
+										<option value="7">이직</option>
+									</c:if>
+								</select>
+							</c:if>
+							</td>
+							</c:if>
+						</tr>
+						<c:if test="${spamuser.power eq 'S'}" >
+							<tr>
+								<th style="width: 100px; text-align: center; background-color:#4C4639"><font color="#FFFFFF">취업 유형</font></th>
+								<td>
+									<select name="empNo" style="width:300px;">
+										<c:forEach items="${ listEmp }" var="employmentType" varStatus="status">
+											<c:if test="${employmentType.no eq spamuser.empNo}"> 
+												<option value="${ employmentType.no }" selected="selected" >${ employmentType.name }</option>
+											</c:if>
+											<c:if test="${!(employmentType.no eq spamuser.grNo)}"> 
+												<option value="${ employmentType.no }">${ employmentType.name }</option>
+											</c:if>
+										</c:forEach>
+									</select>
+								</td>
+							</tr>
+						</c:if>
+						<c:if test="${spamuser.power eq 'S'}" >
+							<tr>
+								<th style="width: 100px; text-align: center; background-color:#4C4639"><font color="#FFFFFF">졸업 유형</font></th>
+								<td>
+									<select name="grNo" style="width:300px;">
+										<c:forEach items="${ listGr }" var="grType" varStatus="status">
+											<c:if test="${grType.no eq spamuser.grNo}"> 
+												<option value="${ grType.no }" selected="selected" >${ grType.name }</option>
+											</c:if>
+											<c:if test="${grType.no eq spamuser.grNo}"> 
+												<option value="${ grType.no }"  >${ grType.name }</option>
+											</c:if>
+										</c:forEach>
+									</select>
+								</td>
+							</tr>
+						</c:if>
+						<c:if test="${(sessionScope.power eq 'A')}" >
+							<c:if test="${(spamuser.power eq 'S')}" >
+								<tr>
+									<th style="width: 100px; text-align: center; background-color:#4C4639"><font color="#FFFFFF">카드 번호</font></th>
+									<td>
+										<input type="text" name="cardNo" maxlength="60" value = "${spamuser.cardNo}" style="width: 300px;" />
+									</td>
+								</tr>
+							</c:if>
+						</c:if>
+					</table>
+					<div style="text-align: center; padding-top: 10px;">
+						<c:if test="${spamuser.power eq 'S'}">
+							<input type="button" value="수정" onclick="formOnClick()" />
+						</c:if>
+						<c:if test="${spamuser.power eq 'P'}">
+							<input type="button" value="수정" onclick="formOnClick2()" />
+						</c:if>
+						<c:if test="${spamuser.power eq 'A'}">
+							<input type="button" value="수정" onclick="formOnClick2()" />
+						</c:if>
+					</div>
+					</form>
 						</section>
 					</div>
 				</div>

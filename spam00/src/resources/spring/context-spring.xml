@@ -28,5 +28,55 @@
     	<property name="maxUploadSize" value="10000000" />
 	</bean>
 
+
+<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="/login" />
+			<mvc:exclude-mapping path="/logout" />
+			<mvc:exclude-mapping path="/main" />
+			<mvc:exclude-mapping path="/css/*" />
+			<mvc:exclude-mapping path="/fonts/*" />
+			<mvc:exclude-mapping path="/js/*" />
+			<mvc:exclude-mapping path="/images/*" />
+			<bean class="com.spam.interceptor.SessionInterceptor" />
+		</mvc:interceptor>
+		
+		<mvc:interceptor>
+			<mvc:mapping path="/timeTable/*" />
+			<bean class="com.spam.interceptor.SroleInterceptor" />
+		</mvc:interceptor>
+		
+		<mvc:interceptor>
+			<mvc:mapping path="/timeTable/*" />
+			<bean class="com.spam.interceptor.ProleInterceptor" />
+		</mvc:interceptor>
+		
+		<mvc:interceptor>
+			<mvc:mapping path="/spamUser/*" />
+			<mvc:exclude-mapping path="/spamUser/viewS" />
+			<bean class="com.spam.interceptor.SroleInterceptor" />
+		</mvc:interceptor>
+		
+		<mvc:interceptor>
+			<mvc:mapping path="/schedule/*" />
+			<bean class="com.spam.interceptor.SroleInterceptor" />
+		</mvc:interceptor>
+		
+		<mvc:interceptor>
+			<mvc:mapping path="/advice/*" />
+			<bean class="com.spam.interceptor.AroleInterceptor" />
+		</mvc:interceptor>
+		
+		<mvc:interceptor>
+			<mvc:mapping path="/attendance/*" />
+			<bean class="com.spam.interceptor.ProleInterceptor" />
+		</mvc:interceptor>
+		
+		<mvc:interceptor>
+			<mvc:mapping path="/attendance/*" />
+			<bean class="com.spam.interceptor.SroleInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
 </beans>
    

@@ -116,6 +116,7 @@
 				AND ENROLLMENT = #{enrollment}
 			</if>
 		</where>
+		ORDER BY ID ASC
 	</select>
 	<update id="update" parameterType="spamuser" >
 		UPDATE SPAM_USER 
@@ -170,8 +171,23 @@
 			   ,#{birthDate}
 			   ,#{empNo}
 			   ,#{grNo}
-			   ,<if test="cardNo == 0">0</if> 
-			   <if test="cardNo != 0">#{cardNo} </if>
+			   ,#{cradNo}
+			   ,#{enrollment}
+		)
+	</insert>
+	<insert id="listInsertS" parameterType="spamuser">
+		INSERT INTO SPAM_USER 
+		(ID, PASSWORD, POWER, NAME, GRADE, MAJOR, PHONE_NO, BIRTH_DATE, EMP_NO, GR_NO,ENROLLMENT)
+		VALUES (#{id}
+			   ,#{passWord}
+			   ,#{power}
+			   ,#{name}
+			   ,#{grade}
+			   ,#{major}
+			   ,#{phoneNo}
+			   ,#{birthDate}
+			   ,#{empNo}
+			   ,#{grNo}
 			   ,#{enrollment}
 		)
 	</insert>
@@ -191,33 +207,28 @@
 		)
 	</insert>
 	
-	<select id="listP" resultMap="spamuserResultMap" parameterType="spamuser">
-		SELECT 	  ID
-				, PASSWORD 
-				, POWER 
-				, NAME 
-				, GRADE 
-				, MAJOR 
-				, PHONE_NO 
-				, BIRTH_DATE 
-				, OFFICE 
-				, EMP_NO 
-				, GR_NO 
-				, CARD_NO 
-				, ENROLLMENT 
-				FROM SPAM_USER 
-
-				<where>
-
-					<if test="power != null and power != ''"> 
-						AND POWER = #{power} 
-					</if>
-
-					<if test="name != null and name != ''"> 
-						NAME LIKE '%' || #{name} || '%',
-					</if>
-
-				</where>
-
-			</select>
+	 <select id="listP" parameterType="spamuser" resultMap="spamuserResultMap">
+      SELECT   ID
+            , PASSWORD
+            , POWER
+            , NAME 
+            , GRADE
+            , MAJOR
+            , PHONE_NO
+            , BIRTH_DATE
+            , OFFICE
+            , EMP_NO
+            , GR_NO
+            , CARD_NO
+            , ENROLLMENT
+      FROM SPAM_USER
+      <where>
+         <if test="power != null and power != ''">
+            AND POWER = #{power}
+         </if>
+         <if test="name != null and name != ''" >
+            AND NAME LIKE '%' || #{name} || '%'
+         </if>
+      </where>
+   </select>
 </mapper>

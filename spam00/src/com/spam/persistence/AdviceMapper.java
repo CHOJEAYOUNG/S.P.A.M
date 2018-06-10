@@ -6,9 +6,11 @@ import com.spam.domain.Advice;
 
 public interface AdviceMapper {
 	public List<Advice> list(Advice advice);
-
+	
+	public List<Advice> listS(Advice advice);
+	
 	public void insert(Advice advice);
-
+	
 	public Advice select(Advice advice);
 
 	public void update(Advice advice);

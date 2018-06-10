@@ -1,5 +1,7 @@
 package com.spam.domain;
 
+import java.util.Date;
+
 public class Advice {
 	private int adviceNo;
 	private int sId;
@@ -20,8 +22,17 @@ public class Advice {
 	private String day;
 	private String period;
 	private String searchDate;
+	private String name;
 	
 	
+	
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	public String getSearchDate() {
 		return searchDate;
 	}

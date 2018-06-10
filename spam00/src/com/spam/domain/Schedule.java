@@ -12,8 +12,15 @@ public class Schedule {
 	private String thur;
 	private String fri;
 	private int quarter;
+	private String name;
 	
 
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	public int getScheduleNo() {
 		return scheduleNo;
 	}

@@ -48,6 +48,12 @@ public class SpamUserServiceImpl implements SpamUserService {
 		return spamuser;
 	}
 
+	  @Override
+	   public List<SpamUser> listPop(SpamUser spamuser) {
+	      spamuser.setPower("P");
+	      return this.spamUserMapper.listP(spamuser);
+	   }
+	
 	@Override
 	public List<SpamUser> list(SpamUser spamuser, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
@@ -61,10 +67,10 @@ public class SpamUserServiceImpl implements SpamUserService {
 			for (int i = 0; i < listSpamUser.size(); i++) {
 				if ("A".equals(listSpamUser.get(i).getPower())) {
 					listSpamUser.remove(i);
-					i = 0;
+					i = -1;
 				} else if ("P".equals(listSpamUser.get(i).getPower()) && id != listSpamUser.get(i).getId()) {
 					listSpamUser.remove(i);
-					i = 0;
+					i = -1;
 				}
 			}
 			return listSpamUser;
@@ -133,8 +139,6 @@ public class SpamUserServiceImpl implements SpamUserService {
 							phoneNo = i;
 						} else if ("BIRTH_DATE".equals(row.getCell(i).getStringCellValue())) {
 							birthDateNo = i;
-						} else if ("CARD_NO".equals(row.getCell(i).getStringCellValue())) {
-							cardNo = i;
 						}
 					}
 				} else if (row != sheet.getRow(0)) {
@@ -155,7 +159,6 @@ public class SpamUserServiceImpl implements SpamUserService {
 					spamUserTemp.setPower("S");
 					spamUserTemp.setBirthDate(String.valueOf((int) row.getCell(birthDateNo).getNumericCellValue()));
 					spamUserTemp.setPassWord(String.valueOf((int) row.getCell(birthDateNo).getNumericCellValue()));
-					spamUserTemp.setCardNo(String.valueOf((int) row.getCell(cardNo).getNumericCellValue()));
 					spamUserTemp.setEnrollment(1);
 					int b = Integer.parseInt(String.valueOf(spamUserTemp.getId()).substring(0, 4));
 					System.out.println(b);
@@ -165,9 +168,9 @@ public class SpamUserServiceImpl implements SpamUserService {
 					for (int r = 0; r < listEmp.size(); r++) {
 						areEmp[r] = (listEmp.get(r).getYear()) - b;
 					}
-					int temp=areEmp.length;
+					int temp=-100;
 					for(int r = 0; r < areEmp.length; r++) {
-						if(areEmp[r] <= 0) {
+						if(areEmp[r] < 1) {
 							if(areEmp[r] == 0 ) {
 								cemp = r;
 								break;
@@ -206,7 +209,7 @@ public class SpamUserServiceImpl implements SpamUserService {
 					System.out.println(spamUserTemp.toString());
 					int yay = wndqhr(spamUserTemp);
 					if(yay == 0) {
-						spamUserMapper.insertS(spamUserTemp);
+						spamUserMapper.listInsertS(spamUserTemp);
 					}
 				}
 			}
@@ -222,11 +225,5 @@ public class SpamUserServiceImpl implements SpamUserService {
 		} else {
 			return 0;
 		}
-	}
-	
-	@Override
-	public List<SpamUser> listPop(SpamUser spamuser) {
-		spamuser.setPower("P");
-		return this.spamUserMapper.listP(spamuser);
 	}
 }

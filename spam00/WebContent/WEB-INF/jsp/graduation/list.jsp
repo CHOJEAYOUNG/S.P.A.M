@@ -93,53 +93,59 @@ function removeChar(event) {
 						<!-- Sidebar -->
 						<div id="sidebar" class="4u sidebar">
 							<section>
-								<header class="major">
-									<h2>목록</h2>
-								</header>
-								<div class="row half">
-									<section class="8u">
-										<ul class="default">
+							<header class="major">
+								<h2>목록</h2>
+							</header>
+							<div class="row half">
+								<section class="6u">
+									<ul class="default">
+										<c:if test = "${sessionScope.power eq 'A' }" > 
 											<li><a href="/graduation/list">졸업 점수</a></li>
-											<c:if test="${power eq 'A' }">
-												<li><a href="/graduationCategory/list">졸업 카테고리</a></li>
-												<li><a href="/graduationType/list">졸업 유형</a></li>
-											</c:if>
-										</ul>
-									</section>
-									<section>
-	                      				<header class="major">
-	                           				<h2>검색</h2>
-	                      				</header>
-	                        			<form action="/graduation/list" method="get">
-											<c:if test="${power ne 'S' }">
-												<input type="text" name="id" id="id" placeholder="학번" style="width:200px;" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;'/>
-												<input type="submit"value="검색" onclick="return checkNull()"/>
-												<br>
-											</c:if>
-										</form>
-                    				</section>
-								</div>
-							</section>
+											<li><a href="/graduationCategory/list">졸업 카테고리</a></li>
+											<li><a href="/graduationType/list">졸업 유형</a></li>
+										</c:if>
+										<c:if test = "${sessionScope.power eq 'S' }" > 
+											<li><a href="/graduation/list">졸업 점수</a></li>
+										</c:if>
+									</ul>
+								</section>
+							</div>
+						</section>
 						</div>
 						
 						<!-- Content -->
 						<div id="content" class="8u skel-cell-important">
 							<section>
 								<header class="major">
-									<h3>졸업 기준</h3>
+									<h2>졸업 점수 조회</h2>
+										<form action="/graduation/list" method="get">
+											<c:if test="${power ne 'S' }">
+												<input type="text" name="id" id="id" placeholder="학번" style="width:200px;" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;'/>
+												<input type="submit"value="검색" onclick="return checkNull()"/>
+												<br>
+											</c:if>
+										</form>
+										<br><br><br>
 										 <table style="width:100%; text-align: center;" border="1">
 											<thead>
 												<c:if test="${ !empty listGr}">
-												<tr>
-													<th>번호</th>
+												<tr bgcolor="#4C4639">
+													<th style="width: 40px; text-align: center;"><font
+												color="#FFFFFF"> 번호</font></th>
 													<c:if test="${power eq 'A'}">
-															<th>이름</th>
+															<th style="width: 40px; text-align: center;"><font
+												color="#FFFFFF"> 이름</font></th>
 														</c:if>
-													<th>제목</th>
-													<th>조건</th>
-													<th>등록일</th>
-													<th>승인여부</th>
-													<th>상세보기</th>
+													<th style="width: 40px; text-align: center;"><font
+												color="#FFFFFF">제목</font></th>
+													<th style="width: 40px; text-align: center;"><font
+												color="#FFFFFF">조건</font></th>
+													<th style="width: 40px; text-align: center;"><font
+												color="#FFFFFF">등록일</font></th>
+													<th style="width: 40px; text-align: center;"><font
+												color="#FFFFFF">승인여부</font></th>
+													<th style="width: 40px; text-align: center;"><font
+												color="#FFFFFF">상세보기</font></th>
 												</tr>
 													<c:forEach items="${ listGr }" var="graduation" varStatus="status">
 														

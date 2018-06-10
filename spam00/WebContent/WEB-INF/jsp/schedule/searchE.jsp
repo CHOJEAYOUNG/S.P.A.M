@@ -17,28 +17,15 @@ function closeWin() {
 }
 </script>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
- <title>학과 업무 관리 시스템</title>
-      <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-      <meta name="description" content="" />
-      <meta name="keywords" content="" />
-      <script src="/js/jquery.min.js"></script>
-      <script src="/js/jquery.dropotron.min.js"></script>
-      <script src="/js/skel.min.js"></script>
-      <script src="/js/skel-layers.min.js"></script>
-      <script src="/js/init.js"></script>
-       <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/css/style.css" />
+<title>::: 사용자 검색 :::</title>
 </head>
-
-<body id="main" class="wrapper style1">
+<body>
 	<div style="align: center; width: 275px; height: 200; margin: auto;">
-		 <h2>교수님 선택</h2>
 		<form action="/advice/searchE" method="get">
 			<table style="border_color: white; align: center;">
 				<tr>
-					
-					<td><input type="text" id="keyword" name="keyword" placeholder="이름"/></td>
+					<td>이름</td>
+					<td><input type="text" id="keyword" name="keyword" /></td>
 					<td><input type="submit" value="검색" /></td>
 				</tr>
 			</table>
@@ -47,16 +34,11 @@ function closeWin() {
 	<div style="align: left;">
 		<table style="width: 100%;" border="1">
 			<thead>
-				<tr bgcolor="#4C4639">
-					<th style="width: 40px; text-align: center;">
-						<font color="#FFFFFF">번호</font></th>
-					<th style="width: 40px; text-align: center;">
-						<font color="#FFFFFF">이름</font></th>
-					<th style="width: 40px; text-align: center;">
-						<font color="#FFFFFF">위치</font></th>
-					<th style="width: 40px; text-align: center;">
-						<font color="#FFFFFF">등록</font></th>
-					
+				<tr>
+					<th>번호</th>
+					<th>이름</th>
+					<th>위치</th>
+					<th>등록</th>
 				</tr>
 			</thead>
 			<tbody>

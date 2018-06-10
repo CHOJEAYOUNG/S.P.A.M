@@ -1,5 +1,9 @@
 package com.spam.presentation;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -15,8 +19,10 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.spam.domain.Advice;
 import com.spam.domain.SpamUser;
+import com.spam.domain.TimeTable;
 import com.spam.service.AdviceService;
 import com.spam.service.SpamUserService;
+import com.spam.service.TimeTableService;
 
 @Controller
 @RequestMapping("/advice")
@@ -25,6 +31,8 @@ public class AdviceController {
 	private AdviceService adviceService;
 	@Resource
 	private SpamUserService spamUserService;
+	@Resource
+	private TimeTableService timeTableService;
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list(Advice advice, HttpServletRequest request) throws Exception {
@@ -32,7 +40,8 @@ public class AdviceController {
 		HttpSession session = request.getSession(false);
 		String power = session.getAttribute("power") != null ? (String) session.getAttribute("power") : null;
 		int id = (int) session.getAttribute("id");
-
+		advice.setAdviceDate(advice.getSearchDate());
+		System.out.println(advice.toString());
 		if (power.equals("P")) {
 			advice.setpId(id);
 		} else if (power.equals("S")) {
@@ -51,9 +60,14 @@ public class AdviceController {
 		ModelAndView modelAndView = new ModelAndView("/advice/listS");
 		HttpSession session = request.getSession(false);
 		int id = (int) session.getAttribute("id");
-		System.out.println("S");
+		
+		advice.setAdviceDate(advice.getSearchDate());
+		
+		if(advice.getAdviceDate() != null) {
+			advice.setAdviceDate(advice.getSearchDate());
+		}
 			advice.setsId(id);
-			List<Advice> listAdvice = this.adviceService.list(advice);
+			List<Advice> listAdvice = this.adviceService.listS(advice);
 			modelAndView.addObject("listAdvice", listAdvice);
 			return modelAndView;
 	}
@@ -65,42 +79,55 @@ public class AdviceController {
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public ModelAndView add(Advice advice) throws Exception {
-		ModelAndView modelAndView = new ModelAndView(new RedirectView("/advice/add"));
+	public ModelAndView add(Advice advice, HttpServletRequest request) throws Exception {
+		ModelAndView modelAndView = new ModelAndView("/advice/add");
+		SpamUser spamUser = new SpamUser();
+		spamUser.setName(advice.getName());
+		
+		List<SpamUser> listSpam = this.spamUserService.listPop(spamUser);
+		advice.setpId(listSpam.get(0).getId());
+		
 		Advice check = new Advice();
 		check.setpId(advice.getpId());
 		check.setQuarter(advice.getQuarter());
 		check.setAdviceDate(advice.getAdviceDate());
-		switch (advice.getDay()) {
-		case "mon":
+		
+		String inputDate = advice.getAdviceDate();
+		DateFormat dateFormat = new SimpleDateFormat("yyMMdd");
+		Date date = dateFormat.parse(inputDate);
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		switch (calendar.get(Calendar.DAY_OF_WEEK)) {
+		case 2:
 				advice.setMon(advice.getPeriod());
 				advice.setTue("0");
 				advice.setWed("0");
 				advice.setThur("0");
 				advice.setFri("0");
 			break;
-		case "tue":
+		case 3:
 			advice.setMon("0");
 			advice.setTue(advice.getPeriod());
 			advice.setWed("0");
 			advice.setThur("0");
 			advice.setFri("0");
 		break;
-		case "wed":
+		case 4:
 			advice.setMon("0");
 			advice.setTue("0");
 			advice.setWed(advice.getPeriod());
 			advice.setThur("0");
 			advice.setFri("0");
 		break;
-		case "thur":
+		case 5:
 			advice.setMon("0");
 			advice.setTue("0");
 			advice.setWed("0");
 			advice.setThur(advice.getPeriod());
 			advice.setFri("0");
 		break;
-		case "fri":
+		case 6:
 			advice.setMon("0");
 			advice.setTue("0");
 			advice.setWed("0");
@@ -155,11 +182,30 @@ public class AdviceController {
 	}
 
 	@RequestMapping(value = "/view/{adviceNo}", method = RequestMethod.GET)
-	public ModelAndView view(@PathVariable int adviceNo) throws Exception {
+	public ModelAndView view(@PathVariable int adviceNo,HttpServletRequest request) throws Exception {
 		ModelAndView modelAndView = new ModelAndView("/advice/view");
 		Advice advice = new Advice();
+		SpamUser spamUser = new SpamUser();
+		
+		HttpSession session = request.getSession(false);
+		String power = session.getAttribute("power") != null ? (String) session.getAttribute("power") : null;
+		int id = (int) session.getAttribute("id");
+		
 		advice.setAdviceNo(adviceNo);
 		advice = this.adviceService.view(advice);
+		
+		if (power.equals("P")) {
+			spamUser.setId(advice.getsId());
+			List<SpamUser> listSpam = this.spamUserService.listPop(spamUser);
+			advice.setName(listSpam.get(0).getName());
+		} else if (power.equals("S")) {
+			spamUser.setId(advice.getpId());
+			List<SpamUser> listSpam = this.spamUserService.listPop(spamUser);
+			advice.setName(listSpam.get(0).getName());
+		}
+		
+		
+		
 		modelAndView.addObject("advice", advice);
 		return modelAndView;
 	}
@@ -177,7 +223,7 @@ public class AdviceController {
 
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView edit(Advice advice) throws Exception {
-		advice.setAssentNo(2);
+		advice.setAssentNo(3);
 		this.adviceService.edit(advice);
 		return new ModelAndView(new RedirectView("/advice/list"));
 	}
@@ -187,20 +233,28 @@ public class AdviceController {
 		Advice advice = new Advice();
 		advice.setAdviceNo(adviceNo);
 		System.out.println(advice.toString());
+		
+		Advice check = new Advice();
+		check.setAdviceNo(advice.getAdviceNo());
+		check = this.adviceService.view(advice);
+
+		if(check.getAssentNo() == 1) {
+			advice.setAssentNo(4);
+		}else {
 		advice.setAssentNo(1);
+		}
 		this.adviceService.edit(advice);
 		return new ModelAndView(new RedirectView("/advice/list"));
 	}
 
 	@RequestMapping(value = "/remove/{adviceNo}", method = RequestMethod.GET)
-	public ModelAndView remove(@PathVariable int adviceNo) throws Exception {
+	public ModelAndView remove(Advice advice) throws Exception {
 		ModelAndView modelAndView = new ModelAndView("/advice/view");
-		Advice advice = new Advice();
 		Advice check = new Advice();
-		advice.setAdviceNo(adviceNo);
 		check = this.adviceService.view(advice);
-		if (check.getAssentNo() == 1) {
-			String message = "상담 승인된 예약은 취소 불가능 합니다.";
+		if (check.getAssentNo() == 1 || check.getAdviceNo() == 4) {
+			String message = "상담승인 및 상담완료된 예약은 삭제가 불가능 합니다.";
+			modelAndView.addObject("advice", advice);
 			modelAndView.addObject("message", message);
 			return modelAndView;
 		}
@@ -218,6 +272,10 @@ public class AdviceController {
 		if (keyword == null || "".equals(keyword)) {
 			List<SpamUser> listSpam = spamUserService.listPop(spamuser);
 			modelAndView.addObject("listSpam", listSpam);
+			for(int i=0; i < listSpam.size(); i++) {
+				System.out.println(listSpam.get(i).toString());
+				
+			}
 			return modelAndView;
 		} else {
 			spamuser.setName(keyword);
@@ -225,7 +283,37 @@ public class AdviceController {
 
 		List<SpamUser> listSpam = this.spamUserService.listPop(spamuser);
 		modelAndView.addObject("listSpam", listSpam);
+		
+		for(int i=0; i < listSpam.size(); i++) {
+			System.out.println(listSpam.get(i).toString());
+			
+		}
+		
+		
 		return modelAndView;
 
+	}
+	@RequestMapping(value = "/searchT", method = RequestMethod.GET)
+	public ModelAndView searchE(HttpServletRequest request, TimeTable timeTable) throws Exception {
+		ModelAndView modelAndView = new ModelAndView("/advice/searchT");
+
+		List<TimeTable> listTimeTable = this.timeTableService.list(timeTable);
+		modelAndView.addObject("listTimeTable", listTimeTable);
+		return modelAndView;
+
+	}
+	@RequestMapping(value = "/listC", method = RequestMethod.GET)
+	public ModelAndView listC(Advice advice, HttpServletRequest request) throws Exception {
+		ModelAndView modelAndView = new ModelAndView("/advice/listC");
+		System.out.println("왔니?");
+		HttpSession session = request.getSession(false);
+		int id = (int) session.getAttribute("id");
+		advice.setAssentNo(4);
+		
+			advice.setsId(id);
+			List<Advice> listAdvice = this.adviceService.listS(advice);
+			System.out.println(listAdvice.size());
+			modelAndView.addObject("listAdvice", listAdvice);
+			return modelAndView;
 	}
 }

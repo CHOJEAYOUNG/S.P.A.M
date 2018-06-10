@@ -62,42 +62,74 @@ function checkNull() {
 						<!-- Sidebar -->
 						<div id="sidebar" class="4u sidebar">
 							<section>
-								<header class="major">
-									<h2>목록</h2>
-								</header>
-								<div class="row half">
-									<section class="8u">
-										<ul class="default">
+							<header class="major">
+								<h2>목록</h2>
+							</header>
+							<div class="row half">
+								<section class="6u">
+									<ul class="default">
+										<c:if test = "${sessionScope.power eq 'A' }" > 
 											<li><a href="/graduation/list">졸업 점수</a></li>
-											<c:if test="${power eq 'A' }">
-												<li><a href="/graduationCategory/list">졸업 카테고리</a></li>
-												<li><a href="/graduationType/list">졸업 유형</a></li>
-											</c:if>
-										</ul>
-									</section>
-								</div>
-							</section>
+											<li><a href="/graduationCategory/list">졸업 카테고리</a></li>
+											<li><a href="/graduationType/list">졸업 유형</a></li>
+										</c:if>
+										<c:if test = "${sessionScope.power eq 'S' }" > 
+											<li><a href="/graduation/list">졸업 점수</a></li>
+										</c:if>
+									</ul>
+								</section>
+							</div>
+						</section>
 						</div>
 						
 						<!-- Content -->
 						<div id="content" class="8u skel-cell-important">
 							<section>
 								<header class="major">
+								<h2>졸업 카테고리 등록</h2>
 									<form action="/graduationCategory/add" method="POST">
-										카테고리 명 <input type="text" id="name" name="name" /> <span style="color:red">${checkName}</span> <br>
-										유  형  <select name="grTypeNo">
-												<c:forEach items="${listType}" var="type"  varStatus="status">
-													<option value="${type.no}">${type.name}</option>
-												</c:forEach>
-											 </select> <br>
-											 
-										조  건	<input type="radio"	name="conditionSqeNo" value="1" checked="checked">필수
-										 	<input type="radio"	name="conditionSqeNo" value="2">선택  <br>
-										
-										상세정보 <br>
-										<textarea rows="3" cols="50" id="info" name="info"></textarea> <br>
-										
-										<div style="text-align: right;">
+									<table style="margin-left:15%;" >
+										<thead>
+											<tr>
+								                <th style=" text-align: center; background-color:#4C4639">
+								                  	<font color="#FFFFFF">카테고리 명</font>
+								                 </th>
+								                 <td>
+								                 	<input type="text" id="name" name="name" style="width: 300px;"/> <span style="color:red">${checkName}</span>
+								                 </td>
+								            </tr>
+								            <tr>
+								                <th style=" text-align: center; background-color:#4C4639">
+								                  	<font color="#FFFFFF">유  형</font>
+								                 </th>
+								                 <td>
+								                 	<select name="grTypeNo">
+														<c:forEach items="${listType}" var="type"  varStatus="status">
+															<option value="${type.no}">${type.name}</option>
+														</c:forEach>
+													</select>
+								                 </td>
+								            </tr>
+								            <tr>
+								                <th style=" text-align: center; background-color:#4C4639">
+								                  	<font color="#FFFFFF">조  건</font>
+								                 </th>
+								                 <td>
+								                 	<input type="radio"	name="conditionSqeNo" value="1" checked="checked">필수
+										 			<input type="radio"	name="conditionSqeNo" value="2">선택 
+								                 </td>
+								            </tr>
+								            <tr>
+								                <th style=" text-align: center; background-color:#4C4639">
+								                  	<font color="#FFFFFF">상세정보</font>
+								                 </th>
+								                 <td>
+								                 	<textarea rows="3" cols="50" id="info" name="info" style="width: 300px;"></textarea> 
+								                 </td>
+								            </tr>
+								        </thead>
+								    </table>
+										<div style="text-align: center;">
 											<input type="submit" value="등록" onclick="return checkNull()"/>
 											<a href="/graduationCategory/list"><input type="button" value="취소"/></a>
 										</div>

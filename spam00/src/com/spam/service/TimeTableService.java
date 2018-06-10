@@ -14,5 +14,5 @@ public interface TimeTableService {
 	public TimeTable view(TimeTable timeTable);
 
 	public void edit(TimeTable timeTable);
-
+	
 }

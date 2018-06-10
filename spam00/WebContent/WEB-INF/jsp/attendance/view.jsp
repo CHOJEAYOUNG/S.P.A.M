@@ -13,6 +13,7 @@
 		         <%@ include file="/WEB-INF/jsp/menubar.jsp" %>
 		      </div>
 		 </c:if>
+	
 	</head>
 	<body class="left-sidebar">
 		<form action="/attendance/view" method="post">
@@ -36,26 +37,27 @@
 						<!-- Sidebar -->
 						<div id="sidebar" class="4u sidebar">
 							<section>
-								<header class="major">
-									<h2>비교과 출석</h2>
-								</header>
-								<ul class="default">
-									<li><a href="/attendance/upload">비교과 출석 등록</a></li>
-									<li><a href="/attendance/list">비교과 출석 목록 조회</a></li>
-								</ul>
-							</section>
-							<section>
-								<header class="major">
-									<h2>검색</h2>
-								</header>
-								<select name="select">
-								   	   <option value="title">비교과제목</option>
-								       <option value="location">위치</option>
-								       <option value="score">점수</option>
-								</select>
-								<input type="text" name="search" />
-         						
-							</section>
+							<header class="major">
+								<h2>목록</h2>
+							</header>
+							<div class="row half">
+								<section class="6u">
+									<ul class="default">
+										<c:if test = "${sessionScope.power eq 'A' }" > 
+											<li><a href="/employment/list">취업 점수</a></li>
+											<li><a href="/employmentCategory/list">취업 카테고리</a></li>
+											<li><a href="/employmentType/list">취업 유형</a></li>
+											<li><a href="/attendance/upload">비교과 출석 등록</a></li>
+											<li><a href="/attendance/list">비교과 출석 목록 조회</a></li>
+										</c:if>
+										<c:if test = "${sessionScope.power eq 'S' }" > 
+											<li><a href="/employment/list">취업 점수</a></li>
+										</c:if>
+									</ul>
+								</section>
+							</div>
+						</section>
+							
 						</div>
 						
 						<!-- Content -->
@@ -63,7 +65,7 @@
 							<section>
 								<header class="major">
 									<h2>비교과 출석 상세 조회</h2><br>
-								      <table style="margin-left:15%;" >
+								      <table style="margin-left:15%;" border="1" >
 								      	<thead>
 								    	  <tr>
 							                   <th style="width: 100px; text-align: center; background-color:#4C4639">

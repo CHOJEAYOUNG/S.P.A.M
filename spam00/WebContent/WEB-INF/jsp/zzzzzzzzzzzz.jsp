@@ -5,25 +5,19 @@
 
 <!DOCTYPE HTML>
 
-<html>
-   <head>
-   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="/resources/demos/style.css">
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-   <script type="text/javascript">
+<script type="text/javascript">
    function stuPopupOpen() {
       window.name = "ListForm";
 
-      var option = "width=800, height=500, resizable=no, scrollbars=no, status=no, toolbar=yes, directories=yes, menubar=yes, location=no;";
+      var option = "width=90, height=90, resizable=no, scrollbars=no, status=no, toolbar=yes, directories=yes, menubar=yes, location=no;";
       openWin = window.open("/advice/searchE", "stuForm", option);
-   };
+   }
    function timePopupOpen() {
-      window.name = "ListFzorm2";
+      window.name = "ListForm2";
 
       var option = "width=700, height=410, resizable=no, scrollbars=no, status=no, toolbar=yes, directories=yes, menubar=yes, location=no;";
       openWin = window.open("/advice/searchT", "timeForm", option);
-   };
+   }
    function edit() {
       formData = document.getElementById("form");
       if (formData.elements['name'].value.replace(/(\s*)/g, "") == "" ) {
@@ -47,9 +41,9 @@
          return formData.elements['quarter'].focus();
       }
 
-      var date = formData.elements['adviceDate'].value;
+      var date = formDate.elements['adviceDate'].value;
       var split = date.split('/');
-      var temp = split[2] + "-" + split[0] + "-" + split[1];
+      var tmep = split[2] + "-" + split[0] + "-" + split[1];
       formData.elements['adviceDate'].value = temp;
       
       formData.submit();
@@ -59,6 +53,9 @@
           $( "#adviceDate" ).datepicker();
     } );
 </script>
+
+<html>
+   <head>
          <c:if test="${sessionScope.isLogin}"> 
             <div style="text-align: right;">
                <%@ include file="/WEB-INF/jsp/menubar.jsp" %>
@@ -90,10 +87,17 @@
                         <header class="major">
                            <h2>목록</h2>
                         </header>
+                       
                         <ul class="default">
-                           <li><a href="/attendance/upload">비교과 출석 등록</a></li>
-                           <li><a href="/attendance/list">비교과 출석 목록 조회</a></li>
+                         <c:if test = "${sessionScope.power eq 'S' }" > 
+                           <li><a href="/advice/add">상담 신청</a></li>
+                           <li><a href="/advice/list">상담 신청 내용 조회</a></li>
+                         </c:if>
+                          <c:if test = "${sessionScope.power eq 'P' }" > 
+                           <li><a href="/advice/list">상담 예약 조회</a></li>
+                         </c:if>
                         </ul>
+                        
                      </section>
                      
                   </div>
@@ -102,7 +106,7 @@
                   <div id="content" class="8u skel-cell-important">
                      <section>
                         <header class="major">
-                           <h2>3상담 신청</h2>
+                           <h2>상담 신청</h2>
                            
                            <input type="hidden" id="sId" name="sId" value=${ sessionScope.id } />
                               <table style="margin-left:15%;" >

@@ -18,4 +18,3 @@ public interface SpamUserService {
 	public List<Enrollment> enrollments();
 	public List<SpamUser> listPop(SpamUser spamuser);
 }
-

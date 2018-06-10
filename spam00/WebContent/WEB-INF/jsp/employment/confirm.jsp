@@ -10,7 +10,7 @@
 	templated.co @templatedco
 	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
 -->
-<html>
+
 	<head>
 		<title>학과 업무 관리 시스템</title>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
