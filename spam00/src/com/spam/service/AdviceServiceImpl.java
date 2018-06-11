@@ -24,7 +24,17 @@ public class AdviceServiceImpl implements AdviceService{
 		public List<Advice> list(Advice advice) {
 			return this.adviceMapper.list(advice);
 		}
-
+		
+		@Override
+		public List<Advice> listS(Advice advice) {
+			return this.adviceMapper.listS(advice);
+		}
+		
+		@Override
+		public List<Advice> listF(Advice advice) {
+			return this.adviceMapper.listF(advice);
+		}
+		
 		@Override
 		@Transactional
 		public void add(Advice advice) {
@@ -32,6 +42,7 @@ public class AdviceServiceImpl implements AdviceService{
 		      SimpleDateFormat dayTime = new SimpleDateFormat("yyyy-MM-dd");
 		      String str = dayTime.format(new Date(time));
 		      advice.setRegistration(str);
+		      advice.setAssentNo(2);
 			this.adviceMapper.insert(advice);
 	}
 
