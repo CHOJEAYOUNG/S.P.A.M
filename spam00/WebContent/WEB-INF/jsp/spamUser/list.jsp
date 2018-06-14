@@ -39,6 +39,7 @@
 									<ul class="default">
 										<c:if test = "${sessionScope.power eq 'A' }" > 
 											<li><a href="/spamUser/list">사용자 목록 조회</a></li>
+											<li><a href="/spamUser/listEdit">학생 학년 일괄 변경</a></li>
 											<li><a href="/spamUser/listAdd">학생 일괄 등록</a></li>
 											<li><a href="/spamUser/oneAddS">학생 개별 등록</a></li>
 											<li><a href="/spamUser/oneAddP">교수 개별 등록</a></li>

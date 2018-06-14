@@ -61,92 +61,60 @@ public class GraduationCategoryController {
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public ModelAndView add(HttpServletRequest request, GraduationCategory category, GraduationType type) throws Exception {
-		ModelAndView modelAndView = new ModelAndView("/graduationCategory/add");
-		List<GraduationCategory> check = new ArrayList<GraduationCategory>();
-		check = this.graduationCategoryService.find(category);
-		// 이름 빔
-		if ("".equals(category.getName().trim())) {
-			List<GraduationType> listType = this.graduationTypeService.find(type);
-			String checkName = "카테고리 명이 비어있습니다.";
-			modelAndView.addObject("checkName", checkName);
-			modelAndView.addObject("listType", listType);
+	   public ModelAndView add(HttpServletRequest request, GraduationCategory category) throws Exception {
+	      ModelAndView modelAndView = new ModelAndView("/graduationCategory/add");
+	      GraduationType type = new GraduationType();
+	      List<GraduationCategory> check = new ArrayList<GraduationCategory>();
+	      GraduationCategory temp = new GraduationCategory();
+	      check = this.graduationCategoryService.find(temp);
+	      category.setName(category.getName().toUpperCase());
+	      
+	      for(int i = 0 ; i < check.size() ; i++) {
+	         if(check.get(i).getGrTypeNo() == category.getGrTypeNo()) {
+	            if(check.get(i).getName().equals(category.getName())) {
+	               List<GraduationType> listType = this.graduationTypeService.find(type);
+	               String checkName = "이미 등록된 카테고리입니다.";
+	               modelAndView.addObject("checkName", checkName);
+	               modelAndView.addObject("listType", listType);
+	               return modelAndView;
+	            }
+	         }
+	      }
+	      graduationCategoryService.add(category);
+	      return new ModelAndView(new RedirectView("/graduationCategory/list"));
+	   }
 
-			return modelAndView;
-		}
-		// 이름 중복
-		if (!check.isEmpty()) {
-			List<GraduationType> listType = this.graduationTypeService.find(type);
-			String checkName = "이미 등록된 카테고리입니다.";
-			modelAndView.addObject("checkName", checkName);
-			modelAndView.addObject("listType", listType);
+	   @RequestMapping(value = "/view/{no}", method = RequestMethod.GET)
+	   public ModelAndView view(@PathVariable int no, GraduationCategory category, GraduationType type) {
+	      ModelAndView modelAndView = new ModelAndView("/graduationCategory/view");
 
-			return modelAndView;
-		}
+	      category = graduationCategoryService.view(no);
+	      type = this.graduationTypeService.view(category.getGrTypeNo());
 
-		graduationCategoryService.add(category);
-		return new ModelAndView(new RedirectView("/graduationCategory/list"));
-	}
+	      modelAndView.addObject("category", category);
+	      modelAndView.addObject("typeName", type.getName());
 
-	@RequestMapping(value = "/view/{no}", method = RequestMethod.GET)
-	public ModelAndView view(@PathVariable int no, GraduationCategory category, GraduationType type) {
-		ModelAndView modelAndView = new ModelAndView("/graduationCategory/view");
+	      return modelAndView;
+	   }
 
-		category = graduationCategoryService.view(no);
-		type = this.graduationTypeService.view(category.getGrTypeNo());
+	   @RequestMapping(value = "/edit/{no}", method = RequestMethod.GET)
+	   public ModelAndView editForm(@PathVariable int no, HttpServletRequest request, GraduationCategory category) throws Exception {
+	      ModelAndView modelAndView = new ModelAndView("/graduationCategory/edit");
+	      category = graduationCategoryService.view(no);
+	      List<GraduationType> listType = this.graduationTypeService.find(null);
+	      
+	      modelAndView.addObject("category", category);
+	      modelAndView.addObject("listType", listType);
 
-		modelAndView.addObject("category", category);
-		modelAndView.addObject("typeName", type.getName());
+	      return modelAndView;
+	   }
 
-		return modelAndView;
-	}
+	   @RequestMapping(value = "/edit", method = RequestMethod.POST)
+	   public ModelAndView edit(HttpServletRequest request, GraduationCategory category) {
+	      this.graduationCategoryService.edit(category);
 
-	@RequestMapping(value = "/edit/{no}", method = RequestMethod.GET)
-	public ModelAndView editForm(@PathVariable int no, HttpServletRequest request, GraduationCategory category,
-			GraduationType type) throws Exception {
-		ModelAndView modelAndView = new ModelAndView("/graduationCategory/edit");
-
-		List<GraduationType> listType = this.graduationTypeService.find(type);
-		category = graduationCategoryService.view(no);
-		modelAndView.addObject("category", category);
-		modelAndView.addObject("listType", listType);
-
-		return modelAndView;
-	}
-
-	@RequestMapping(value = "/edit", method = RequestMethod.POST)
-	public ModelAndView edit(HttpServletRequest request, GraduationCategory category, GraduationType type) {
-		ModelAndView modelAndView = null;
-
-		List<GraduationCategory> check = this.graduationCategoryService.find(category);
-		// 유형 명이 빈칸인지
-		if ("".equals(category.getName().trim())) {
-			String checkName = "카테고리 명을 입력해주세요.";
-			List<GraduationType> listType = this.graduationTypeService.find(type);
-			modelAndView = new ModelAndView("/graduationCategory/edit");
-			modelAndView.addObject("checkName", checkName);
-			modelAndView.addObject("category", category);
-			modelAndView.addObject("listType", listType);
-
-			return modelAndView;
-		}
-
-		// 이미 등록되어 있는지
-		if (!check.isEmpty() && !((category.getNo()) == check.get(0).getNo())) {
-			String checkName = "이미 등록된 카테고리입니다.";
-			List<GraduationType> listType = this.graduationTypeService.find(type);
-			modelAndView = new ModelAndView("/graduationCategory/edit");
-			modelAndView.addObject("checkName", checkName);
-			modelAndView.addObject("category", category);
-			modelAndView.addObject("listType", listType);
-
-			return modelAndView;
-		}
-
-		this.graduationCategoryService.edit(category);
-
-		return new ModelAndView(new RedirectView("/graduationCategory/list"));
-	}
+	      return new ModelAndView(new RedirectView("/graduationCategory/list"));
+	   }
 
 	@RequestMapping(value = "remove/{no}", method = RequestMethod.GET)
 	public ModelAndView remove(@PathVariable int no) {

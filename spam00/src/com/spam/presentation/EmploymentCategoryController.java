@@ -62,93 +62,63 @@ public class EmploymentCategoryController {
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public ModelAndView add(HttpServletRequest request, EmploymentType type, EmploymentCategory category)
-			throws Exception {
-		ModelAndView modelAndView = new ModelAndView("/employmentCategory/add");
-		List<EmploymentCategory> check = new ArrayList<EmploymentCategory>();
-		check = this.employmentCategoryService.find(category);
-		// 이름 빔
-		if ("".equals(category.getName().trim())) {
-			List<EmploymentType> listType = this.employmentTypeService.find(type);
-			String checkName = "카테고리 명이 비어있습니다.";
-			modelAndView.addObject("checkName", checkName);
-			modelAndView.addObject("listType", listType);
+	   public ModelAndView add(HttpServletRequest request, EmploymentCategory category)
+	         throws Exception {
+	      ModelAndView modelAndView = new ModelAndView("/employmentCategory/add");
+	      EmploymentType type = new EmploymentType();
+	      List<EmploymentCategory> check = new ArrayList<EmploymentCategory>();
+	      EmploymentCategory temp = new EmploymentCategory();
+	      check = this.employmentCategoryService.find(temp);
+	      category.setName(category.getName().toUpperCase());
+	      
+	      for(int i = 0 ; i < check.size() ; i++) {
+	         if(check.get(i).getEmpTypeNo() == category.getEmpTypeNo()) {
+	            if(check.get(i).getName().equals(category.getName())) {
+	               List<EmploymentType> listType = this.employmentTypeService.find(type);
+	               String checkName = "이미 등록된 카테고리입니다.";
+	               modelAndView.addObject("checkName", checkName);
+	               modelAndView.addObject("listType", listType);
+	               return modelAndView;
+	            }
+	         }
+	      }
+	      
+	      employmentCategoryService.add(category);
+	      return new ModelAndView(new RedirectView("/employmentCategory/list"));
+	   }
 
-			return modelAndView;
-		}
-		// 이름 중복
-		if (!check.isEmpty()) {
-			List<EmploymentType> listType = this.employmentTypeService.find(type);
-			String checkName = "이미 등록된 카테고리입니다.";
-			modelAndView.addObject("checkName", checkName);
-			modelAndView.addObject("listType", listType);
+	   @RequestMapping(value = "/view/{no}", method = RequestMethod.GET)
+	   public ModelAndView view(@PathVariable int no, EmploymentCategory category, EmploymentType type) {
+	      ModelAndView modelAndView = new ModelAndView("/employmentCategory/view");
 
-			return modelAndView;
-		}
+	      category = employmentCategoryService.view(no);
+	      type = this.employmentTypeService.view(category.getEmpTypeNo());
 
-		employmentCategoryService.add(category);
-		return new ModelAndView(new RedirectView("/employmentCategory/list"));
-	}
+	      modelAndView.addObject("category", category);
+	      modelAndView.addObject("typeName", type.getName());
 
-	@RequestMapping(value = "/view/{no}", method = RequestMethod.GET)
-	public ModelAndView view(@PathVariable int no, EmploymentCategory category, EmploymentType type) {
-		ModelAndView modelAndView = new ModelAndView("/employmentCategory/view");
+	      return modelAndView;
+	   }
 
-		category = employmentCategoryService.view(no);
-		type = this.employmentTypeService.view(category.getEmpTypeNo());
+	   @RequestMapping(value = "/edit/{no}", method = RequestMethod.GET)
+	   public ModelAndView editForm(@PathVariable int no, HttpServletRequest request, EmploymentCategory category,
+	         EmploymentType type) throws Exception {
+	      ModelAndView modelAndView = new ModelAndView("/employmentCategory/edit");
+	      category = employmentCategoryService.view(no);
+	      List<EmploymentType> listType = this.employmentTypeService.find(type);
 
-		modelAndView.addObject("category", category);
-		modelAndView.addObject("typeName", type.getName());
+	      modelAndView.addObject("category", category);
+	      modelAndView.addObject("listType", listType);
 
-		return modelAndView;
-	}
+	      return modelAndView;
+	   }
 
-	@RequestMapping(value = "/edit/{no}", method = RequestMethod.GET)
-	public ModelAndView editForm(@PathVariable int no, HttpServletRequest request, EmploymentCategory category,
-			EmploymentType type) throws Exception {
-		ModelAndView modelAndView = new ModelAndView("/employmentCategory/edit");
+	   @RequestMapping(value = "/edit", method = RequestMethod.POST)
+	   public ModelAndView edit(HttpServletRequest request, EmploymentCategory category) {
+	      this.employmentCategoryService.edit(category);
 
-		List<EmploymentType> listType = this.employmentTypeService.find(type);
-		category = employmentCategoryService.view(no);
-		modelAndView.addObject("category", category);
-		modelAndView.addObject("listType", listType);
-
-		return modelAndView;
-	}
-
-	@RequestMapping(value = "/edit", method = RequestMethod.POST)
-	public ModelAndView edit(HttpServletRequest request, EmploymentCategory category, EmploymentType type) {
-		ModelAndView modelAndView = null;
-
-		List<EmploymentCategory> check = this.employmentCategoryService.find(category);
-		// 유형 명이 빈칸인지
-		if ("".equals(category.getName().trim())) {
-			String checkName = "카테고리 명을 입력해주세요.";
-			List<EmploymentType> listType = this.employmentTypeService.find(type);
-			modelAndView = new ModelAndView("/employmentCategory/edit");
-			modelAndView.addObject("checkName", checkName);
-			modelAndView.addObject("category", category);
-			modelAndView.addObject("listType", listType);
-
-			return modelAndView;
-		}
-
-		// 이미 등록되어 있는지
-		if (!check.isEmpty() && !((category.getNo()) == check.get(0).getNo())) {
-			String checkName = "이미 등록된 카테고리입니다.";
-			List<EmploymentType> listType = this.employmentTypeService.find(type);
-			modelAndView = new ModelAndView("/employmentCategory/edit");
-			modelAndView.addObject("checkName", checkName);
-			modelAndView.addObject("category", category);
-			modelAndView.addObject("listType", listType);
-
-			return modelAndView;
-		}
-
-		this.employmentCategoryService.edit(category);
-
-		return new ModelAndView(new RedirectView("/employmentCategory/list"));
-	}
+	      return new ModelAndView(new RedirectView("/employmentCategory/list"));
+	   }
 
 	@RequestMapping(value = "remove/{no}", method = RequestMethod.GET)
 	public ModelAndView remove(@PathVariable int no) {

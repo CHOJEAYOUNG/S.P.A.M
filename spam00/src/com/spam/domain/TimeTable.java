@@ -1,5 +1,7 @@
 package com.spam.domain;
 
+import java.util.Date;
+
 public class TimeTable{
 	private int period;
 	private String beginHour;

@@ -1,30 +1,72 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <script type="text/javascript">
-function add() {
-	from.submit();
-	window.self.close();
-}
-function closeWin() {
-	window.self.close();
-}
+	function add() {
+		formData = document.getElementById("form");
+		formData.submit();
+	}
+	function closeWin() {
+		opener.location.reload();
+		window.self.close();
+	}
 </script>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>Insert title here</title>
+<title>í•™ê³¼ ì—…ë¬´ ê´€ë¦¬ ì‹œìŠ¤í…œ</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+<script src="/js/jquery.min.js"></script>
+<script src="/js/jquery.dropotron.min.js"></script>
+<script src="/js/skel.min.js"></script>
+<script src="/js/skel-layers.min.js"></script>
+<script src="/js/init.js"></script>
+<link rel="stylesheet"
+	href="${pageContext.servletContext.contextPath}/css/style.css" />
 </head>
-<body>
-	<form id="form" name="form"	action="<c:url value="/advice/edit" />" method="get">
-		<input type="hidden" id="adviceNo" name="adviceNo" value="${advice.adviceNo}" /></br>
-		°ÅÀý»çÀ¯ :<br />
-		<input type="text" id="cause" name="cause"/>
-		<br /> 
-	</form>
-		 <input	type="button" id="add" name="add" value="µî·Ï" onclick="add();"/>
-	 <input	type="button" id="close" name="close"value="Ãë¼Ò" onclick="closeWin();"/>
+<body id="main" class="wrapper style1">
+	<c:if test="${empty message}">
+
+		<form id="form" name="form" action="<c:url value="/advice/edit" />"
+			method="get">
+			<input type="hidden" id="adviceNo" name="adviceNo"
+				value="${advice.adviceNo}" />
+			<div style="text-align: center">
+				<h2>ê±°ì ˆì‚¬ìœ </h2>
+			</div>
+			<table>
+				<thead>
+					<tr>
+						<td style="width: 50px; text-align: center;"><input
+							type="text" id="cause" name="cause" style="width: 300px" /></td>
+					</tr>
+				</thead>
+			</table>
+			<div style="text-align: center"></div>
+		</form>
+		<input type="button" id="add" name="add" value="ë“±ë¡" onclick="add();" />
+		<input type="button" id="close" name="close" value="ì·¨ì†Œ"
+			onclick="closeWin();" />
+	</c:if>
+	<c:if test="${!empty message}">
+		<div style="text-align: center">
+			<h2>ê±°ì ˆì‚¬ìœ </h2>
+		</div>
+		<table>
+			<thead>
+				<tr>
+					${message}
+					<td />
+				</tr>
+			</thead>
+		</table>
+		<div style="text-align: center">
+			<input type="button" id="close" name="close" value="í™•ì¸"
+				onclick="closeWin();" />
+		</div>
+	</c:if>
 </body>
 </html>

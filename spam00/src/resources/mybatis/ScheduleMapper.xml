@@ -22,7 +22,7 @@
 	<select id="list" parameterType="schedule" resultMap="scheduleResultMap">
 		SELECT s.SCHEDULE_NO
 			  ,s.ID
-              ,spam.NAME
+              ,f.NAME
 			  ,s.REASON
 			  ,s.BEGIN
 			  ,s.FINISH
@@ -32,11 +32,12 @@
 			  ,s.THUR
 			  ,s.FRI
 			  ,s.QUARTER
-		FROM SCHEDULE s, SPAM_USER spam
-        WHERE s.ID = spam.ID
+		FROM SCHEDULE s, SPAM_USER f
+        WHERE s.ID = f.ID
 			
 				<if test="begin != null and begin !=''">
 					AND TO_DATE(#{begin}, 'YYYY/MM/DD') BETWEEN s.BEGIN AND s.FINISH
+					
 				</if>
 				<if test="finish != null and finish !=''">
 					AND TO_DATE(#{finish}, 'YYYY/MM/DD') BETWEEN s.BEGIN AND s.FINISH
@@ -60,7 +61,10 @@
 					AND s.ID = #{id}
 				</if>
 				<if test="name != null and name !=''">
-					AND spam.NAME = #{name}				
+					AND f.NAME = #{name}				
+				</if>
+				<if test="date !=null and date !=''">
+					AND TO_DATE(#{date}, 'YYYY/MM/DD') BETWEEN s.BEGIN AND s.FINISH
 				</if>
 		ORDER BY s.BEGIN ASC
 	</select>

@@ -71,38 +71,45 @@ function closeWin() {
 
 <head>
 <title>::: 수요일 교시 선택 :::</title>
+     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+      <meta name="description" content="" />
+      <meta name="keywords" content="" />
+      <script src="/js/jquery.min.js"></script>
+      <script src="/js/jquery.dropotron.min.js"></script>
+      <script src="/js/skel.min.js"></script>
+      <script src="/js/skel-layers.min.js"></script>
+      <script src="/js/init.js"></script>
+       <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/css/style.css" />
 </head>
-<body>
+<body id="main" class="wrapper style1">
 		<input type="button" id="checkAll" value="전체선택" />
 
 		<input type="button" id="uncheckAll" value="전채선택 해제" />
 
 		<font color="RED"> ※ 해당 요일에 스케줄이 없을시 체크박스 미 체크후 선택 버튼을 누르시오</font>
 
-	<div style="align: left;">
+	<div style="align: center;">
 		<table style="width: 100%;" border="1">
 			<thead>
-				<tr>
-					<th>교시</th>
-					<th>시작시간</th>
-					<th>종료시간</th>
-					<th>등록</th>
+				<tr bgcolor="#4C4639">
+					<th style="text-align: center; width: 35px;"><font color="#FFFFFF">교시</font></th>
+					<th style="text-align: center; width: 35px;"><font color="#FFFFFF">시작시간</font></th>
+					<th style="text-align: center; width: 35px;"><font color="#FFFFFF">종료시간</font></th>
+					<th style="text-align: center; width: 35px;"><font color="#FFFFFF">등록</font></th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:if test="${!empty listTimeTable}">
 					<c:forEach items="${listTimeTable}" var="timeTable" varStatus="status">
 						<tr>
-							<td style="text-align: left;"><c:out value="${timeTable.period}" /></td>
+							<td style="text-align: center;"><c:out value="${timeTable.period}" /></td>
 
-							<td style="text-align: left;"><c:out value="${timeTable.beginHour}" />
+							<td style="text-align: center;"><c:out value="${timeTable.beginHour}" />
 							:<c:out value="${timeTable.beginMinutes}" />
 							</td>
-							<td style="text-align: left;"><c:out value="${timeTable.finishHour}" />
+							<td style="text-align: center;"><c:out value="${timeTable.finishHour}" />
 							:<c:out value="${timeTable.finishMinutes}" />
 							</td>
-
-
 							<td style="text-align: center;">		
 							<input type="checkbox" name="box" value="${timeTable.period}" />
 							</td>
@@ -119,7 +126,7 @@ function closeWin() {
 			</tbody>
 		</table>
 	</div>
-	<div style="align: center; width: 100px; height: 200; margin: auto;">
+	<div style="text-align: center; margin: auto;">
 		<input type="button" id="getCheckedAll" value="선택" />
 		<input type="button" id="button_ok" name="button_ok" value="닫기"
 			onclick="closeWin();" />

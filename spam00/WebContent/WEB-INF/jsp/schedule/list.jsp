@@ -111,23 +111,23 @@
 																value="${ status.count }" /></td>
 														<td style="text-align: center; width: 35px;"><c:out
 																value="${ schedule.name }" /></td>
-														<td style="text-align: center; width: 35px;"><c:choose>
-																<c:when test="${schedule.mon ne 0}">
+														<td style="text-align: center; width: 35px;">
+																<c:if test="${schedule.mon ne '0'}">
 																							월요일 <c:out value="${schedule.mon}"></c:out>
-																</c:when>
-																<c:when test="${schedule.tue ne 0}">
+																</c:if>
+																<c:if test="${schedule.tue ne '0'}">
 																							화요일 <c:out value="${schedule.tue}"></c:out>
-																</c:when>
-																<c:when test="${schedule.wed ne 0}">
+																</c:if>
+																<c:if test="${schedule.wed ne '0'}">
 																							수요일 <c:out value="${schedule.wed}"></c:out>
-																</c:when>
-																<c:when test="${schedule.thur ne 0}">
+																</c:if>
+																<c:if test="${schedule.thur ne '0'}">
 																							목요일 <c:out value="${schedule.thur}"></c:out>
-																</c:when>
-																<c:when test="${schedule.fri ne 0}">
+																</c:if>
+																<c:if test="${schedule.fri ne '0'}">
 																							금요일 <c:out value="${schedule.fri}"></c:out>
-																</c:when>
-															</c:choose></td>
+																</c:if>
+															</td>
 														<td style="text-align: center; width: 35px;"><c:out
 																value="${ schedule.begin }" /> ~ <c:out
 																value="${ schedule.finish }" /></td>

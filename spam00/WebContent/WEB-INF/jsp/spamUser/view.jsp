@@ -39,6 +39,7 @@
 									<ul class="default">
 										<c:if test = "${sessionScope.power eq 'A' }" > 
 											<li><a href="/spamUser/list">사용자 목록 조회</a></li>
+											<li><a href="/spamUser/oneAddP">학생 학년 일괄 변경</a></li>
 											<li><a href="/spamUser/listAdd">학생 일괄 등록</a></li>
 											<li><a href="/spamUser/oneAddS">학생 개별 등록</a></li>
 											<li><a href="/spamUser/oneAddP">교수 개별 등록</a></li>
@@ -79,17 +80,17 @@
 					<!-- Content -->
 					<div id="content" class="8u skel-cell-important">
 						<section>
-							<c:if test="${ sessionScope.power eq 'A'}">
+							<c:if test="${ spamuser.power eq 'A'}">
 								<header class="major">
 									<h2>조교 정보 보기</h2>
 								</header>
 							</c:if>
-							<c:if test="${ sessionScope.power eq 'P'}">
+							<c:if test="${ spamuser.power eq 'P'}">
 								<header class="major">
 									<h2>교수 정보 보기</h2>
 								</header>
 							</c:if>
-							<c:if test="${ sessionScope.power eq 'S'}">
+							<c:if test="${ spamuser.power eq 'S'}">
 								<header class="major">
 									<h2>학생 정보 보기</h2>
 								</header>
@@ -201,7 +202,8 @@
 												<c:out value="${empType.name}" />
 											</c:if>
 										</c:forEach>
-										입니다.
+										입니다.<br>
+										(교수님 상담점수는 5점이며, 최대 20점입니다.)
 										<table style="width: 100%" border="1">
 											<thead>
 												<tr bgcolor="#4C4639" >
@@ -247,6 +249,9 @@
 														</c:if>
 													</tr>
 											</c:forEach>
+												<tr bgcolor="#4C4639" >
+													<td colspan="4" align="center" ><font color="#FFFFFF"> 교수님 상담 횟수 : <c:out value = "${adviceCount}"/> </font></td>
+												</tr>
 												<tr bgcolor="#4C4639" > 
 													<td colspan="2" align="center" ><font color="#FFFFFF"> 필수 점수 :<c:out value="${vlftnemp}" />/<c:out value="${f}" /></font></td>
 													<td colspan="2" align="center" ><font color="#FFFFFF"> 선택 점수 :<c:out value="${tjsxoremp}" />/<c:out value="${s}" /></font></td>

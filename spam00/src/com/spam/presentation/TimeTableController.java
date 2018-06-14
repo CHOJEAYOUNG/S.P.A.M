@@ -38,20 +38,6 @@ public class TimeTableController {
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ModelAndView add(TimeTable timeTable) throws Exception {
 		ModelAndView modelAndView = new ModelAndView("/timeTable/add");
-		
-		if(Integer.parseInt(timeTable.getBeginHour())<12) {
-			timeTable.setBeginHour("0"+Integer.parseInt(timeTable.getBeginHour()));
-		}
-		if(Integer.parseInt(timeTable.getBeginMinutes())<12) {
-			timeTable.setBeginMinutes("0"+Integer.parseInt(timeTable.getBeginMinutes()));
-		}
-		if(Integer.parseInt(timeTable.getFinishHour())<12) {
-			timeTable.setFinishHour("0"+Integer.parseInt(timeTable.getFinishHour()));
-		}
-		if(Integer.parseInt(timeTable.getFinishMinutes())<12) {
-			timeTable.setFinishMinutes("0"+Integer.parseInt(timeTable.getFinishMinutes()));
-		}
-		
 		TimeTable check = new TimeTable();
 		String beginTime = "0 "+timeTable.getBeginHour()+":"+timeTable.getBeginMinutes()+":00";
 		String finishTime = "0 "+timeTable.getFinishHour()+":"+timeTable.getFinishMinutes()+":00";
@@ -99,41 +85,34 @@ public class TimeTableController {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
 	public ModelAndView edit(TimeTable timeTable) throws Exception {
 		ModelAndView modelAndView = new ModelAndView("/timeTable/edit");
-		
-		if(Integer.parseInt(timeTable.getBeginHour())<12) {
-			timeTable.setBeginHour("0"+Integer.parseInt(timeTable.getBeginHour()));
-		}
-		if(Integer.parseInt(timeTable.getBeginMinutes())<12) {
-			timeTable.setBeginMinutes("0"+Integer.parseInt(timeTable.getBeginMinutes()));
-		}
-		if(Integer.parseInt(timeTable.getFinishHour())<12) {
-			timeTable.setFinishHour("0"+Integer.parseInt(timeTable.getFinishHour()));
-		}
-		if(Integer.parseInt(timeTable.getFinishMinutes())<12) {
-			timeTable.setFinishMinutes("0"+Integer.parseInt(timeTable.getFinishMinutes()));
-		}
-		
+		System.out.println("왔니?");
 		TimeTable check = new TimeTable();
-		check.setPeriod(timeTable.getPeriod());
 		String beginTime = "0 "+timeTable.getBeginHour()+":"+timeTable.getBeginMinutes()+":00";
 		String finishTime = "0 "+timeTable.getFinishHour()+":"+timeTable.getFinishMinutes()+":00";
 		
 		check.setBeginTime(beginTime);
 		check.setFinishTime(finishTime);
-		System.out.println(timeTable);
+		System.out.println(check.toString());
 		if (this.timeTableService.list(check).isEmpty()) {
 			timeTable.setBeginTime(beginTime);
 			timeTable.setFinishTime(finishTime);
-			System.out.println("edit");
 			this.timeTableService.edit(timeTable);
 			return new ModelAndView(new RedirectView("/timeTable/list"));
 
 		} else {
-			System.out.println("TEST");
-			String message = "이미 존재하는 교시 또는 시간 입니다..";
+			String message = "이미 존재하는 시간 입니다..";
+			modelAndView.addObject("timeTable", timeTable);
 			modelAndView.addObject("message", message);
 			return modelAndView;
 		}
+	}
+	
+	@RequestMapping(value = "/remove/{period}", method = RequestMethod.GET)
+	public ModelAndView delete(@PathVariable int period, HttpServletRequest request) throws Exception {
+		TimeTable timeTable = new TimeTable();
+		timeTable.setPeriod(period);
+		this.timeTableService.delete(timeTable);
+		return new ModelAndView(new RedirectView("/timeTable/list"));
 	}
 
 }

@@ -56,24 +56,19 @@ function checkNull() {
 						<!-- Sidebar -->
 						<div id="sidebar" class="4u sidebar">
 							<section>
-							<header class="major">
-								<h2>목록</h2>
-							</header>
-							<div class="row half">
-								<section class="6u">
-									<ul class="default">
-										<c:if test = "${sessionScope.power eq 'A' }" > 
+								<header class="major">
+									<h2>목록</h2>
+								</header>
+								<div class="row half">
+									<section class="8u">
+										<ul class="default">
 											<li><a href="/graduation/list">졸업 점수</a></li>
-											<li><a href="/graduationCategory/list">졸업 카테고리</a></li>
-											<li><a href="/graduationType/list">졸업 유형</a></li>
-										</c:if>
-										<c:if test = "${sessionScope.power eq 'S' }" > 
-											<li><a href="/graduation/list">졸업 점수</a></li>
-										</c:if>
-									</ul>
-								</section>
-							</div>
-						
+											<c:if test="${power eq 'A' }">
+												<li><a href="/graduationCategory/list">졸업 카테고리</a></li>
+												<li><a href="/graduationType/list">졸업 유형</a></li>
+											</c:if>
+										</ul>
+									</section>
 									<section>
 			                      		<header class="major">
 			                           		<h2>검색</h2>
@@ -90,7 +85,7 @@ function checkNull() {
 											</div>
 										</form>
 		                    		</section>
-								
+								</div>
 							</section>
 						</div>
 						

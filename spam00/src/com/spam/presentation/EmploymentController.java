@@ -98,7 +98,10 @@ public class EmploymentController {
       employment = employmentService.view(emplNo);
       spamuser.setId(employment.getId());
       spamuser = spamUserService.view(spamuser);
+      System.out.println("전");
+      System.out.println(employment.getAttendanceNo());
       attendance = attendanceService.selectOne(employment.getAttendanceNo());
+      System.out.println("후");
       employmentType = employmentTypeService.view(spamuser.getEmpNo());
       
       if (0 != employment.getEmpcNo()) {

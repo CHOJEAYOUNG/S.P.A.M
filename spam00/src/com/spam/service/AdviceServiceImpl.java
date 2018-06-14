@@ -31,6 +31,11 @@ public class AdviceServiceImpl implements AdviceService{
 		}
 		
 		@Override
+		public List<Advice> listF(Advice advice) {
+			return this.adviceMapper.listF(advice);
+		}
+		
+		@Override
 		@Transactional
 		public void add(Advice advice) {
 			long time = System.currentTimeMillis();

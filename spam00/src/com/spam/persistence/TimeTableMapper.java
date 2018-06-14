@@ -13,5 +13,5 @@ public interface TimeTableMapper {
 
 	public void update(TimeTable timeTable);
 
-	
+	public void delete(TimeTable timeTable);
 }

@@ -15,4 +15,5 @@ public interface TimeTableService {
 
 	public void edit(TimeTable timeTable);
 	
+	public void delete(TimeTable timeTable);
 }

@@ -38,5 +38,11 @@ public class TimeTableServiceImpl implements TimeTableService{
 		public void edit(TimeTable timeTable) {
 			this.timeTableMapper.update(timeTable);
 		}
+		
+		@Override
+		@Transactional
+		public void delete(TimeTable timeTable) {
+			this.timeTableMapper.delete(timeTable);
+		}
 
 }

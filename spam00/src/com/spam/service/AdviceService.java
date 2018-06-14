@@ -9,6 +9,8 @@ public interface AdviceService {
 	
 	public List<Advice> listS(Advice advice);
 	
+	public List<Advice> listF(Advice advice);
+	
 	public void add(Advice advice);
 
 	public Advice view(Advice advice);

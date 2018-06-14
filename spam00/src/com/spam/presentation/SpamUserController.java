@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.spam.domain.Advice;
 import com.spam.domain.Attendance;
 import com.spam.domain.Employment;
 import com.spam.domain.EmploymentCategory;
@@ -25,6 +26,7 @@ import com.spam.domain.Graduation;
 import com.spam.domain.GraduationCategory;
 import com.spam.domain.GraduationType;
 import com.spam.domain.SpamUser;
+import com.spam.service.AdviceService;
 import com.spam.service.AttendanceService;
 import com.spam.service.EmploymentCategoryService;
 import com.spam.service.EmploymentService;
@@ -33,7 +35,6 @@ import com.spam.service.GraduationCategoryService;
 import com.spam.service.GraduationService;
 import com.spam.service.GraduationTypeService;
 import com.spam.service.SpamUserService;
-
 
 @Controller
 @RequestMapping("/spamUser")
@@ -54,6 +55,9 @@ public class SpamUserController {
 	private GraduationService graduationService;
 	
 	@Autowired
+	private AdviceService adviceService;
+	
+	@Autowired
 	private GraduationTypeService graduationTypeService;
 	
 	@Autowired
@@ -65,6 +69,7 @@ public class SpamUserController {
 	@RequestMapping(value = "/viewS", method = RequestMethod.GET)
 	public ModelAndView viewS(SpamUser spamuser, HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView("/spamUser/view");
+		Advice advice = new Advice();
 		spamuser.setId(spamuser.getId());
 		int chdemp = 0;
 		int vlftnemp = 0;
@@ -137,6 +142,24 @@ public class SpamUserController {
 				}
 			}
 		}
+		
+		advice.setAssentNo(4);
+		advice.setsId(spamuser.getId());
+		
+		int adviceCount = 0; 
+		int adviceSco = 0;
+		advice.setAssentNo(4);
+		advice.setsId(spamuser.getId());
+		List<Advice> listAdvice = this.adviceService.listS(advice);
+		adviceCount = listAdvice.size();
+		modelAndView.addObject("adviceCount", adviceCount);
+		if(adviceCount > 4) {
+			adviceCount = 4;
+		}
+		adviceSco = adviceCount * 5 ;
+		System.out.println(listAdvice.size());
+		modelAndView.addObject("adviceSco", adviceSco);
+		vlftnemp = vlftnemp + adviceSco;
 		modelAndView.addObject("vlftnemp", vlftnemp);
 		modelAndView.addObject("tjsxoremp", tjsxoremp);
 		
@@ -147,6 +170,7 @@ public class SpamUserController {
 	public ModelAndView viewPA(@PathVariable String id, HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView("/spamUser/view");
 		SpamUser spamuser = new SpamUser();
+		Advice advice = new Advice();
 		int intId = Integer.parseInt(id);
 		int chdemp = 0;
 		int vlftnemp = 0;
@@ -220,8 +244,24 @@ public class SpamUserController {
 				}
 			}
 		}
+		
+		int adviceCount = 0; 
+		int adviceSco = 0;
+		advice.setAssentNo(4);
+		advice.setsId(spamuser.getId());
+		List<Advice> listAdvice = this.adviceService.listS(advice);
+		adviceCount = listAdvice.size();
+		modelAndView.addObject("adviceCount", adviceCount);
+		if(adviceCount > 4) {
+			adviceCount = 4;
+		}
+		adviceSco = adviceCount * 5 ;
+		System.out.println(listAdvice.size());
+		modelAndView.addObject("adviceSco", adviceSco);
+		vlftnemp = vlftnemp + adviceSco;
 		modelAndView.addObject("vlftnemp", vlftnemp);
 		modelAndView.addObject("tjsxoremp", tjsxoremp);
+		
 		return modelAndView;
 	}
 	
@@ -361,7 +401,26 @@ public class SpamUserController {
 	public ModelAndView oneAddP(SpamUser spamuser, HttpServletRequest request) {
 		return new ModelAndView("/spamUser/addP");
 	}
-	
+	@RequestMapping(value = "/listEdit", method = RequestMethod.GET)
+	   public ModelAndView getListEdit(SpamUser spamuser, HttpServletRequest request) {
+	      return new ModelAndView("/spamUser/listEdit");
+	   }
+	   
+	   @RequestMapping(value = "/listEdit", method = RequestMethod.POST)
+	   public ModelAndView postListEdit(SpamUser spamuser, HttpServletRequest request) {
+	      MultipartRequest multipartRequest = (MultipartRequest) request;
+	      MultipartFile excelFile = multipartRequest.getFile("uploadfile");
+	      
+	      if(excelFile.getOriginalFilename().toUpperCase().endsWith(".XLSX")) {
+	         try {
+	            System.out.println("asdasd");
+	            spamUserService.excelxlsxupload(spamuser, excelFile);
+	         } catch (IOException e) {
+	            e.printStackTrace();
+	         }
+	      }
+	      return new ModelAndView(new RedirectView("/spamUser/list"));
+	   }
 	@RequestMapping(value = "/listAdd", method = RequestMethod.GET)
 	public ModelAndView getListAdd(SpamUser spamuser, HttpServletRequest request) {
 		return new ModelAndView("/spamUser/listAdd");
@@ -382,4 +441,5 @@ public class SpamUserController {
 		}
 		return new ModelAndView(new RedirectView("/spamUser/list"));
 	}
+	
 }

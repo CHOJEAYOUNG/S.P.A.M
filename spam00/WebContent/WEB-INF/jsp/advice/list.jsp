@@ -13,7 +13,7 @@
 function viewPopupOpen(v) {
 	window.name = "viewForm";
 
-	var option = "width=500, height=720, resizable=no, scrollbars=no, status=no, toolbar=yes, directories=yes, menubar=yes, location=no;";
+	var option = "width=500, height=520, resizable=no, scrollbars=no, status=no, toolbar=yes, directories=yes, menubar=yes, location=no;";
 	openWin = window.open("/advice/view/" + v, "childForm", option);
 }
 function editPopupOpen(v) {
@@ -124,9 +124,11 @@ function stuPopupOpen() {
 										<th style="width: 50px; text-align: center;"><font
 											color="#FFFFFF">승인</font></th>
 										<th style="width: 50px; text-align: center;"><font
-											color="#FFFFFF">거절</font></th>
+											color="#FFFFFF">상태</font></th>
 										<th style="width: 100px; text-align: center;"><font
 											color="#FFFFFF">상세 보기</font></th>
+											<th style="width: 100px; text-align: center;"><font
+											color="#FFFFFF">상담 완료</font></th>
 									</tr>
 									<c:if test="${ !empty listAdvice}">
 										<c:forEach items="${listAdvice}" var="advice"
@@ -170,17 +172,17 @@ function stuPopupOpen() {
 													</c:if> <c:if test="${advice.assentDate != null}">
 														<c:out value="${ advice.assentDate }" />
 													</c:if></td>
-												<td style="text-align: center; width: 100px;"><c:if
-														test="${advice.assentNo != 4} ">
+												<td style="text-align: center; width: 100px;">
+												 <c:if test="${advice.assentNo ne 4 }">
 														<input type="button" id="button_edit" name="button_edit"
-															onclick="editPopupOpen(${advice.adviceNo})" value="거절" />
-													</c:if> <c:if test="${advice.assentNo == 4 }">
-														<c:out value="상담이 완료된 예약입니다" />
-													</c:if></td>
+															onclick  ="editPopupOpen(${advice.adviceNo})" value="거절" />
+												 </c:if>  
+													 <c:if test="${advice.assentNo eq 4 }">
+														<c:out value="상담 완료" />
+													</c:if></td> 
 
-												<td style="text-align: center; width: 100px;"><input
-													type="button" id="button_view" name="button_view"
-													onclick="viewPopupOpen(${advice.adviceNo})" value="상세보기" />
+												<td style="text-align: center; width: 100px;">
+												<input type="button" id="button_view" name="button_view" onclick="viewPopupOpen(${advice.adviceNo})" value="상세보기" />
 												</td>
 												<td style="text-align: center; width: 100px;"><c:if
 														test="${advice.assentNo == 1}">

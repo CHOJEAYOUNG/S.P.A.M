@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
@@ -99,10 +100,12 @@ public class SpamUserServiceImpl implements SpamUserService {
 
 		if (spamuser.getOffice() != null) {
 			spamuser.setPower("P");
+			spamuser.setEnrollment(6);
 			spamUserMapper.insertP(spamuser);
 		} else {
 			spamuser.setPower("S");
 			spamuser.setOffice("");
+			spamuser.setEnrollment(1);
 			spamUserMapper.insertS(spamuser);
 		}
 	}
@@ -121,99 +124,133 @@ public class SpamUserServiceImpl implements SpamUserService {
 		int phoneNo = 0;
 		int birthDateNo = 0;
 		int cardNo = 0;
-
+		Sheet sheetz = xexcelOpen.getSheetAt(0);
+		
 		for (int j = 0; j < xexcelOpen.getNumberOfSheets(); j++) {
 			sheet = xexcelOpen.getSheetAt(j);
 			for (Row row : sheet) {
-				if (row == sheet.getRow(0)) {
-					for (int i = row.getFirstCellNum(); i < row.getLastCellNum(); i++) {
-						if ("ID".equals(row.getCell(i).getStringCellValue())) {
-							idNo = i;
-						} else if ("NAME".equals(row.getCell(i).getStringCellValue())) {
-							nameNo = i;
-						} else if ("GRADE".equals(row.getCell(i).getStringCellValue())) {
-							gradeNo = i;
-						} else if ("MAJOR".equals(row.getCell(i).getStringCellValue())) {
-							majorNo = i;
-						} else if ("PHONE_NO".equals(row.getCell(i).getStringCellValue())) {
-							phoneNo = i;
-						} else if ("BIRTH_DATE".equals(row.getCell(i).getStringCellValue())) {
-							birthDateNo = i;
+				if("Sheet1".equals(sheet.getSheetName())) {
+					if (row == sheet.getRow(0)) {
+						for (int i = row.getFirstCellNum(); i < row.getLastCellNum(); i++) {
+							if ("아이디".equals(row.getCell(i).getStringCellValue())) {
+								idNo = i;
+							} else if ("이름".equals(row.getCell(i).getStringCellValue())) {
+								nameNo = i;
+							} else if ("학년".equals(row.getCell(i).getStringCellValue())) {
+								gradeNo = i;
+							} else if ("학과".equals(row.getCell(i).getStringCellValue())) {
+								majorNo = i;
+							} else if ("전화번호".equals(row.getCell(i).getStringCellValue())) {
+								phoneNo = i;
+							} else if ("생년월일".equals(row.getCell(i).getStringCellValue())) {
+								birthDateNo = i;
+							}
 						}
-					}
-				} else if (row != sheet.getRow(0)) {
-					EmploymentType type = new EmploymentType();
-					List<EmploymentType> listEmp = new ArrayList<EmploymentType>();
-					listEmp = employmentTypeService.find(type);
-
-					GraduationType type2 = new GraduationType();
-					List<GraduationType> listGr = new ArrayList<GraduationType>();
-					listGr = graduationTypeService.find(type2);
-					List<SpamUser> listSU = spamUserMapper.list(new SpamUser());
-					SpamUser spamUserTemp = new SpamUser();
-					spamUserTemp.setId((int) row.getCell(idNo).getNumericCellValue());
-					spamUserTemp.setName(row.getCell(nameNo).getStringCellValue());
-					spamUserTemp.setGrade((int) row.getCell(gradeNo).getNumericCellValue());
-					spamUserTemp.setMajor(row.getCell(majorNo).getStringCellValue());
-					spamUserTemp.setPhoneNo(row.getCell(phoneNo).getStringCellValue());
-					spamUserTemp.setPower("S");
-					spamUserTemp.setBirthDate(String.valueOf((int) row.getCell(birthDateNo).getNumericCellValue()));
-					spamUserTemp.setPassWord(String.valueOf((int) row.getCell(birthDateNo).getNumericCellValue()));
-					spamUserTemp.setEnrollment(1);
-					int b = Integer.parseInt(String.valueOf(spamUserTemp.getId()).substring(0, 4));
-					System.out.println(b);
-					int areEmp[] = new int[listEmp.size()];
-					int cemp=0;
-					
-					for (int r = 0; r < listEmp.size(); r++) {
-						areEmp[r] = (listEmp.get(r).getYear()) - b;
-					}
-					int temp=-100;
-					for(int r = 0; r < areEmp.length; r++) {
-						if(areEmp[r] < 1) {
-							if(areEmp[r] == 0 ) {
-								cemp = r;
-								break;
-							} else {
-								if(areEmp[r] > temp) {
-									temp = areEmp[r];
+					} else if (row != sheet.getRow(0)) {
+						EmploymentType type = new EmploymentType();
+						List<EmploymentType> listEmp = new ArrayList<EmploymentType>();
+						listEmp = employmentTypeService.find(type);
+	
+						GraduationType type2 = new GraduationType();
+						List<GraduationType> listGr = new ArrayList<GraduationType>();
+						listGr = graduationTypeService.find(type2);
+						List<SpamUser> listSU = spamUserMapper.list(new SpamUser());
+						SpamUser spamUserTemp = new SpamUser();
+						spamUserTemp.setId((int) row.getCell(idNo).getNumericCellValue());
+						spamUserTemp.setName(row.getCell(nameNo).getStringCellValue());
+						spamUserTemp.setGrade((int) row.getCell(gradeNo).getNumericCellValue());
+						spamUserTemp.setMajor(row.getCell(majorNo).getStringCellValue());
+						spamUserTemp.setPhoneNo(row.getCell(phoneNo).getStringCellValue());
+						spamUserTemp.setPower("S");
+						spamUserTemp.setBirthDate(String.valueOf((int) row.getCell(birthDateNo).getNumericCellValue()));
+						spamUserTemp.setPassWord(String.valueOf((int) row.getCell(birthDateNo).getNumericCellValue()));
+						spamUserTemp.setEnrollment(1);
+						int b = Integer.parseInt(String.valueOf(spamUserTemp.getId()).substring(0, 4));
+						System.out.println(b);
+						int areEmp[] = new int[listEmp.size()];
+						int cemp=0;
+						
+						for (int r = 0; r < listEmp.size(); r++) {
+							areEmp[r] = (listEmp.get(r).getYear()) - b;
+						}
+						int temp=-100;
+						for(int r = 0; r < areEmp.length; r++) {
+							if(areEmp[r] < 1) {
+								if(areEmp[r] == 0 ) {
 									cemp = r;
+									break;
+								} else {
+									if(areEmp[r] > temp) {
+										temp = areEmp[r];
+										cemp = r;
+									}
 								}
 							}
 						}
-					}
-					spamUserTemp.setEmpNo(listEmp.get(cemp).getNo());
-					spamUserTemp.setGrNo(1);
-					
-					int areGr[] = new int[listGr.size()];
-					int cgr=0;
-					
-					for (int r = 0; r < listGr.size(); r++) {
-						areGr[r] = (listGr.get(r).getYear()) - b;
-					}
-					int temp2 = areGr.length;
-					for(int r = 0; r < areGr.length; r++) {
-						if(areGr[r] <= 0) {
-							if(areGr[r] == 0 ) {
-								cgr = r;
-								break;
-							} else {
-								if(areEmp[r] > temp2) {
-									temp2 = areGr[r];
+						spamUserTemp.setEmpNo(listEmp.get(cemp).getNo());
+						spamUserTemp.setGrNo(1);
+						
+						int areGr[] = new int[listGr.size()];
+						int cgr=0;
+						
+						for (int r = 0; r < listGr.size(); r++) {
+							areGr[r] = (listGr.get(r).getYear()) - b;
+						}
+						int temp2 = areGr.length;
+						for(int r = 0; r < areGr.length; r++) {
+							if(areGr[r] <= 0) {
+								if(areGr[r] == 0 ) {
 									cgr = r;
+									break;
+								} else {
+									if(areEmp[r] > temp2) {
+										temp2 = areGr[r];
+										cgr = r;
+									}
 								}
 							}
 						}
-					}
-					spamUserTemp.setGrNo(listGr.get(cgr).getNo());
-					System.out.println(spamUserTemp.toString());
-					int yay = wndqhr(spamUserTemp);
-					if(yay == 0) {
-						spamUserMapper.listInsertS(spamUserTemp);
+						spamUserTemp.setGrNo(listGr.get(cgr).getNo());
+						System.out.println(spamUserTemp.toString());
+						int yay = wndqhr(spamUserTemp);
+						if(yay == 0) {
+							spamUserMapper.listInsertS(spamUserTemp);
+						}
 					}
 				}
 			}
 		}
+	}
+	@Override
+	@Transactional
+	public void excelxlsxupload(SpamUser spamuser, MultipartFile excelFile) throws IOException {
+		xexcelOpen = new XSSFWorkbook(excelFile.getInputStream());
+		XSSFSheet sheet; // sheet creat
+		int idNo = 0;
+		int gradeNo = 0;
+		
+		for (int j = 0; j < xexcelOpen.getNumberOfSheets(); j++) {
+			sheet = xexcelOpen.getSheetAt(j);
+			for (Row row : sheet) {
+				if("Sheet1".equals(sheet.getSheetName())) {
+					if (row == sheet.getRow(0)) {
+						for (int i = row.getFirstCellNum(); i < row.getLastCellNum(); i++) {
+							if ("아이디".equals(row.getCell(i).getStringCellValue())) {
+								idNo = i;
+							} else if ("학년".equals(row.getCell(i).getStringCellValue())) {
+								gradeNo = i;
+							}
+						}
+					} else if (row != sheet.getRow(0)) {
+						SpamUser spamUserTemp = new SpamUser();
+						spamUserTemp.setId((int) row.getCell(idNo).getNumericCellValue());
+						spamUserTemp.setGrade((int) row.getCell(gradeNo).getNumericCellValue());
+						System.out.println(spamUserTemp.getId() + " : " + spamUserTemp.getGrade());
+						spamUserMapper.update(spamUserTemp);
+						}
+					}
+				}
+			}
 	}
 	public int wndqhr(SpamUser spamuser) {
 		SpamUser spam = new SpamUser();

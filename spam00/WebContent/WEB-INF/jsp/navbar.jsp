@@ -68,6 +68,7 @@
 									<h1><a href="">사용자 정보</a></h1>
 									<ul>
 										<li><a href="/spamUser/list">사용자 목록 조회</a></li>
+										<li><a href="/spamUser/listEdit">학생 학년 일괄 변경</a></li>
 										<li><a href="">사용자 등록</a>
 											<ul>
 												<li><a href="/spamUser/listAdd">학생 일괄 등록</a></li>

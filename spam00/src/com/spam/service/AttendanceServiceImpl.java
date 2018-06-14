@@ -121,19 +121,19 @@ public class AttendanceServiceImpl implements AttendanceService{
       XSSFCell cell = null;
       
       cell = row.createCell(0);
-      cell.setCellValue("name");
+      cell.setCellValue("이름");
       
       cell = row.createCell(1);
-      cell.setCellValue("id");
+      cell.setCellValue("학번");
       
       cell = row.createCell(2);
-      cell.setCellValue("grade");
+      cell.setCellValue("학년");
       
       cell = row.createCell(3);
-      cell.setCellValue("major");
+      cell.setCellValue("학과");
       
       cell = row.createCell(4);
-      cell.setCellValue("phoneNo");
+      cell.setCellValue("전화번호");
       
       for(int i = 0; i<dataListInfoExist.size(); i++) {
          row = infoSheet.createRow(i+1);
@@ -181,8 +181,8 @@ public class AttendanceServiceImpl implements AttendanceService{
       copyExcel(attendance.getTitle());
       
       attendance.setRegistrationDate(dateFormatWithTime.format(currentTime));
-      attendance.setUploadFileName(attendance.getTitle()+"_uploadFile"+extension);
-      attendance.setMakedFileName(attendance.getTitle()+"_addedSinfoFile"+extension);
+      attendance.setUploadFileName(attendance.getTitle()+"_올린파일"+extension);
+      attendance.setMakedFileName(attendance.getTitle()+"_정보추가된파일"+extension);
       attendance.setFilesLocation(dateFormat.format(currentTime));
       
       

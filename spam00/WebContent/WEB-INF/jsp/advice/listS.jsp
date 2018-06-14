@@ -13,7 +13,7 @@
 function viewPopupOpen(v) {
 	window.name = "viewForm";
 
-	var option = "width=500, height=720, resizable=no, scrollbars=no, status=no, toolbar=yes, directories=yes, menubar=yes, location=no;";
+	var option = "width=500, height=520, resizable=no, scrollbars=no, status=no, toolbar=yes, directories=yes, menubar=yes, location=no;";
 	openWin = window.open("/advice/view/" + v, "childForm", option);
 }
 function editPopupOpen(v) {
@@ -31,24 +31,81 @@ function stuPopupOpen() {
 }
 </script>
 <head>
-<title>Left Sidebar - Horizons by TEMPLATED</title>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<meta name="description" content="" />
-<meta name="keywords" content="" />
-<script src="/js/jquery.min.js"></script>
-<script src="/js/jquery.dropotron.min.js"></script>
-<script src="/js/skel.min.js"></script>
-<script src="/js/skel-layers.min.js"></script>
-<script src="/js/init.js"></script>
-<link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/css/skel.css" />
-<link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/css/style.css" />
-<!--[if lte IE 8]><link rel="stylesheet" href="/css/ie/v8.css" /><![endif]-->
-<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
+<c:if test="${sessionScope.isLogin}"> 
+		      <div style="text-align: right;">
+		         <%@ include file="/WEB-INF/jsp/menubar.jsp" %>
+		      </div>
+		 </c:if>
 </head>
 <body class="left-sidebar">
+	<!-- Header -->
+		<div id="header">
+			<div class="container">
+				<!-- Logo -->
+						<h1><a href="/main" id="logo">S.P.A.M</a></h1>
+					
+					<!-- Nav -->
+						<%@ include file="/WEB-INF/jsp/navbar.jsp" %>
+			</div>
+		</div>
+	<!-- Main -->
+		<div id="main" class="wrapper style1">
+			<div class="container">
+				<div class="row">
 
+					<!-- Sidebar -->
+					<div id="sidebar" class="4u sidebar">
+						<section>
+							<header class="major">
+								<h2>목록</h2>
+							</header>
+							<div class="row half">
+								<section class="6u">
+									<ul class="default">
+										<c:if test = "${sessionScope.power eq 'A' }" > 
+											<li><a href="/spamUser/list">사용자 목록 조회</a></li>
+											<li><a href="/spamUser/listEdit">학생 학년 일괄 변경</a></li>
+											<li><a href="/spamUser/listAdd">학생 일괄 등록</a></li>
+											<li><a href="/spamUser/oneAddS">학생 개별 등록</a></li>
+											<li><a href="/spamUser/oneAddP">교수 개별 등록</a></li>
+											<li><a href="/spamUser/viewPA/${spamuser.id}">내 정보 보기</a></li>
+											<li><a href="/spamUser/edit/${spamuser.id}">내 정보 수정</a></li>
+										</c:if>
+										<c:if test = "${sessionScope.power eq 'S' }" > 
+											<li><a href="/spamUser/viewPA/${spamuser.id}">내 정보 조회</a></li>
+											<li><a href="/spamUser/edit/${spamuser.id}">내 정보 수정</a></li>
+										</c:if>
+										<c:if test = "${sessionScope.power eq 'P' }" > 
+											<li><a href="/spamUser/list">사용자 조회</a></li>
+											<li><a href="/spamUser/viewPA/${sessionScope.id}">내 정보 조회</a></li>
+											<li><a href="/spamUser/edit/${sessionScope.id}">내 정보 수정</a></li>
+										</c:if>
+									</ul>
+								</section>
+							</div>
+						</section>
+					</div>
+						<c:if test = "${sessionScope.power eq 'A' }" >
+							<section>
+								<header class="major">
+									<h2>학생 검색</h2>
+								</header>
+									<ul class="default">
+										<select name="select">
+											<option value="1">학번</option>
+											<option value="2">이름</option>
+											<option value="3">신분</option>
+										</select>
+										<input type="text" name="search" />
+										<input type="submit" value="검색" style="margin-left: 86%;" />
+									</ul>
+							</section>
+						</c:if>
+					<div id="content" class="8u skel-cell-important">
+						<section>
+							<header class="major">
+								<h2>상담 신청 내용 조회</h2>
+							</header>
 	<form action="/advice/listS" method="get">
 		<table style="border_color: white; align: center;">
 			<tr>
@@ -70,7 +127,7 @@ function stuPopupOpen() {
 	<font color="RED"> ※ 1분기 는 해당 교시의 시작시간부터 25분 2분기는 1분기 종료후 25분
 		입니다.</font>
 	<br />
-
+	
 	<form action="/spamUser/list" method="POST">
 		<table style="width: 100%" border="1">
 			<thead>
@@ -129,13 +186,15 @@ function stuPopupOpen() {
 								onclick="viewPopupOpen(${advice.adviceNo})" value="상세보기" /></td>
 					</c:forEach>
 				</c:if>
-			</thead>
-
-		</table>
-		<a href="<c:url value="/advice/add" />"> <input type="button"
-			id="button_add" name="button_edit" value="등록" />
-		</a>
-
-	</form>
+					</thead>
+				</table>
+			</form>
+			<div style="text-align: center" >
+				<a href="<c:url value="/advice/add" />"> <input type="button"
+					id="button_add" name="button_edit" value="등록" />
+				</a>
+			</div>
+		</section>
+	</div>
 </body>
 </html>

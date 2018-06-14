@@ -120,7 +120,7 @@ function removeChar(event) {
 								                  	<font color="#FFFFFF">카테고리 명</font>
 								                 </th>
 								                 <td>
-								                 	<input type="text" id="name" name="name" value="${category.name}" style="width:300px;"/>${checkName}
+								                 	<input type="text" id="name" name="name" value="${category.name}" readonly="readonly" style="background-color: #e2e2e2; width:300px;"/>${checkName}
 								                 </td>
 								            </tr>
 								            <tr>
@@ -128,11 +128,12 @@ function removeChar(event) {
 								                  	<font color="#FFFFFF">유  형</font>
 								                 </th>
 								                 <td>
-								                 	<select name="empTypeNo" style="width:50px;">
-														<c:forEach items="${listType}" var="type"  varStatus="status">
-															<option value="${type.no}">${type.name}</option>
-														</c:forEach>
-													</select>
+													<c:forEach items="${listType}" var="type"  varStatus="status">
+														<c:if test="${type.no eq category.empTypeNo}">
+								                 			<input type="hidden" name ="empTypeNo" value="${type.no}">
+										                 	<input type="text" value="${type.name}" readonly="readonly" style="background-color: #e2e2e2; width: 300px;"/>
+								                 		</c:if>
+													</c:forEach>
 								                 </td>
 								            </tr>
 								            <tr>
@@ -155,13 +156,7 @@ function removeChar(event) {
 								                  	<font color="#FFFFFF">점  수</font>
 								                 </th>
 								                 <td>
-								                 	<c:if test="${category.conditionSqeNo eq 1}">
-														<input type="radio"	name="conditionSqeNo" value="1" checked="checked"> 필수
-													    <input type="radio"	name="conditionSqeNo" value="2"> 선택
-													</c:if>			
-													<c:if test="${category.conditionSqeNo eq 2}">
 														<input type="text" id="score" name="score" value="${category.score}" style="width:300px;" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;'>
-													</c:if>
 								                 </td>
 								            </tr>
 								            <tr>

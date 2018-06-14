@@ -9,6 +9,8 @@ public interface AdviceMapper {
 	
 	public List<Advice> listS(Advice advice);
 	
+	public List<Advice> listF(Advice advice);
+	
 	public void insert(Advice advice);
 	
 	public Advice select(Advice advice);

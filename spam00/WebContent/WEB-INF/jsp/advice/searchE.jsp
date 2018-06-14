@@ -37,7 +37,6 @@ function closeWin() {
 		<form action="/advice/searchE" method="get">
 			<table style="border_color: white; align: center;">
 				<tr>
-					
 					<td><input type="text" id="keyword" name="keyword" placeholder="이름"/></td>
 					<td><input type="submit" value="검색" /></td>
 				</tr>

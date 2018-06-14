@@ -22,6 +22,9 @@
 			  ,FINISH_MINUTES
 			  FROM TIMETABLE
 		<where>
+			<if test="period != null and period != ''">
+				AND PERIOD LIKE '%'|| #{period} || '%'
+			</if>
 			<if test="beginTime != null and beginTime !=''">
 				OR #{beginTime} BETWEEN BEGIN_TIME AND FINISH_TIME
 			</if>
@@ -60,10 +63,13 @@
             <if test="finishHour != null and finishHour != ''">FINISH_HOUR = #{finishHour},	     </if>           
             <if test="finishMinutes != null and finishMinutes != ''" >FINISH_MINUTES = #{finishMinutes}, </if>
             <if test="beginTime != null and beginTime != ''">BEGIN_TIME = TO_DSINTERVAL(#{beginTime}),</if>
-            
             <if test="finishTime != null and finishTime !=''">FINISH_TIME = TO_DSINTERVAL(#{finishTime}),</if>
         </set>
         WHERE  PERIOD = #{period}
     </update>
 	
+	<delete id="delete" parameterType="schedule">
+		DELETE FROM TIMETABLE
+		WHERE PERIOD = #{period}
+	</delete>
 </mapper>

@@ -63,24 +63,21 @@ function checkNull() {
 						<!-- Sidebar -->
 						<div id="sidebar" class="4u sidebar">
 							<section>
-							<header class="major">
-								<h2>목록</h2>
-							</header>
-							<div class="row half">
-								<section class="6u">
-									<ul class="default">
-										<c:if test = "${sessionScope.power eq 'A' }" > 
+								<header class="major">
+									<h2>목록</h2>
+								</header>
+								<div class="row half">
+									<section class="8u">
+										<ul class="default">
 											<li><a href="/graduation/list">졸업 점수</a></li>
-											<li><a href="/graduationCategory/list">졸업 카테고리</a></li>
-											<li><a href="/graduationType/list">졸업 유형</a></li>
-										</c:if>
-										<c:if test = "${sessionScope.power eq 'S' }" > 
-											<li><a href="/graduation/list">졸업 점수</a></li>
-										</c:if>
-									</ul>
-								</section>
-							</div>
-						</section>
+											<c:if test="${power eq 'A' }">
+												<li><a href="/graduationCategory/list">졸업 카테고리</a></li>
+												<li><a href="/graduationType/list">졸업 유형</a></li>
+											</c:if>
+										</ul>
+									</section>
+								</div>
+							</section>
 						</div>
 						
 						<!-- Content -->
@@ -97,7 +94,7 @@ function checkNull() {
 								                  	<font color="#FFFFFF" style="width: 200px;">카테고리 명</font>
 								                 </th>
 								                 <td>
-								                 	<input type="text" id="name" name="name" value="${category.name}" style="width: 200px;"/> <span style="color:red">${checkName}</span>
+								                 	<input type="text" id="name" name="name" value="${category.name}" readonly="readonly" style="background-color: #e2e2e2; width: 200px;"/> <span style="color:red">${checkName}</span>
 								                 </td>
 								            </tr>
 								            
@@ -106,11 +103,12 @@ function checkNull() {
 								                  	<font color="#FFFFFF" style="width: 200px;">유  형</font>
 								                 </th>
 								                 <td>
-								                 	<select name="grTypeNo">
-														<c:forEach items="${listType}" var="type"  varStatus="status">
-															<option value="${type.no}">${type.name}</option>
-														</c:forEach>
-													 </select>
+								                 	<c:forEach items="${listType}" var="type"  varStatus="status">
+								                 		<c:if test="${type.no eq category.grTypeNo}">
+								                 			<input type="hidden" name ="grTypeNo" value="${type.no}">
+										                 	<input type="text" value="${type.name}" readonly="readonly" style="background-color: #e2e2e2; width: 200px;"/>
+								                 		</c:if>
+													</c:forEach>
 								                 </td>
 								            </tr>
 								            <tr>
