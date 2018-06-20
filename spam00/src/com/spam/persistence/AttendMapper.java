@@ -1,13 +1,12 @@
 package com.spam.persistence;
 
+import java.util.List;
+
 import com.spam.domain.Attend;
 
 public interface AttendMapper {
 	public void insertAttend(Attend attend);
-	// List<Attendance> checkRandomNumber();
-	// List<Attendance> select(Attendance attendance);
-	//public void insertAttendanceStudentInfo(SpamUser spamUser);
-//select
-//insert
-//delete
+	public List<Attend> list(Attend attend);
+	public void delete(int attendanceNo);
+	//public void delete(Attend attend);
 }

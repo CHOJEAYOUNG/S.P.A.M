@@ -2,72 +2,224 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML>
+<!--
+	Horizons by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>SPAM 로그인</title>
-</head>
-<body>
-	<div style="overflow:auto; width:100%; height:500px; padding-bottom:5%; ">
-		<table style="width: 100%" border="1">
-			<thead>
-				<tr bgcolor="#4C4639" >
-					<th style="width: 35px;"><font color="#FFFFFF">번호</font></th>
-					<th style="width: 100px;"><font color="#FFFFFF">아이디</font></th>
-					<th style="width: 100px;"><font color="#FFFFFF">신분</font></th>
-					<th style="width: 100px;"><font color="#FFFFFF">이름</font></th>
-					<th style="width: 100px;"><font color="#FFFFFF">생년월일</font></th>
-					<th style="width: 100px;"><font color="#FFFFFF">상세보기</font></th>
-					<th style="width: 100px;"><font color="#FFFFFF">수정</font></th>
-					<th style="width: 100px;"><font color="#FFFFFF">삭제</font></th>
-				</tr>
-				<c:if test="${ !empty listSpam}">
-					<c:forEach items="${ listSpam }" var="spamUser" varStatus="status">
-					<tr>
-						<td style="text-align: left; width: 35px;">
-							<c:out value="${ status.count }"/>
-						</td>
-						<td style="text-align: left; width: 100px;">
-							<c:out value="${ spamUser.id }"/>
-						</td>
-						<td style="text-align: left; width: 100px;">
-							<c:out value="${ spamUser.power }"/>
-						</td>
-						<td style="text-align: left; width: 100px;">
-							<c:out value="${ spamUser.name }"/>
-						</td>
-						<td style="text-align: left; width: 100px;">
-							<c:out value="${ spamUser.birthDate }"/>
-						</td>
-						<td style="text-align: center;"><a
-							href="<c:url value="/spamUser/view/${spamUser.id}" /> "> <input
-								type="button" value="상세보기" />
-						</a></td>
-						<td style="text-align: center;"><a
-							href="<c:url value="/spamUser/edit/${spamUser.id}" /> "> <input
-								type="button" value="수정" />
-						</a></td>
-						<td style="text-align: center;"><a
-							href="<c:url value="/spamUser/remove/${spamUser.id}" /> "> <input
-								type="button" value="삭제" />
-						</a></td>
-					</tr>
-					</c:forEach>
-				</c:if>
-			</thead>
-		</table>
-	</div>
-	<c:if test="${ sessionScope.power eq 'A' }">
-		<font size="30">조교</font>
+	<head>
+		<title>Horizons by TEMPLATED</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/jquery.dropotron.min.js"></script>
+		<script src="js/skel.min.js"></script>
+		<script src="js/skel-layers.min.js"></script>
+		<script src="js/init.js"></script>
+		<link rel="stylesheet" href="${pageContext.servletContext.contextPath}/css/skel.css" />
+		<link rel="stylesheet" href="${pageContext.servletContext.contextPath}/css/style.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
+	</head>
+	<body class="homepage">
+	<c:if test="${sessionScope.isLogin}"> 
+		<div style="text-align: right;">
+			<%@ include file="../jsp/menubar.jsp" %>
+		</div>
 	</c:if>
+		<!-- Header -->
+			<div id="header">
+				<div class="container">
+						
+					<!-- Logo -->
+						<h1><a href="#" id="logo">Horizons</a></h1>
+					
+					<!-- Nav -->
+						<nav id="nav">
+							<ul>
+								<li><a href="index.html">Home</a></li>
+								<li>
+									<a href="">Dropdown</a>
+									<ul>
+										<li><a href="#">Lorem ipsum dolor</a></li>
+										<li><a href="#">Magna phasellus</a></li>
+										<li><a href="#">Etiam dolore nisl</a></li>
+										<li>
+											<a href="">Phasellus consequat</a>
+											<ul>
+												<li><a href="#">Lorem ipsum dolor</a></li>
+												<li><a href="#">Phasellus consequat</a></li>
+												<li><a href="#">Magna phasellus</a></li>
+												<li><a href="#">Etiam dolore nisl</a></li>
+												<li><a href="#">Veroeros feugiat</a></li>
+											</ul>
+										</li>
+										<li><a href="#">Veroeros feugiat</a></li>
+									</ul>
+								</li>
+								<li><a href="left-sidebar.html">Left Sidebar</a></li>
+								<li><a href="right-sidebar.html">Right Sidebar</a></li>
+								<li><a href="no-sidebar.html">No Sidebar</a></li>
+							</ul>
+						</nav>
+
+
+					<!-- Banner -->
+						<div id="banner">
+							<div class="container">
+								<section>
+									<header class="major">
+										<h2>Welcome to Horizons!</h2>
+										<span class="byline">&hellip; a responsive HTML5 site template freebie by <a href="http://templated.co">TEMPLATED</a>. Released for free under the <a href="http://templated.co/license">Creative Commons Attribution</a> license, so use it for whatever (personal or commercial) &ndash; just give us credit!</span>
+									</header>
+									<c:if test = "${sessionScope.isLogin}" >  
+										<a href="/logout" class="button alt">로 그 아 웃</a> 
+									</c:if>
+									<c:if test = "${!sessionScope.isLogin}" >
+										<a href="/login" class="button alt">로 그 인</a>
+									</c:if> 
+								</section>			
+							</div>
+						</div>
+
+				</div>
+			</div>
+
+		<!-- Featured -->
+			<div class="wrapper style2">
+				<section class="container">
+					<header class="major">
+						<h2>Nulla luctus eleifend</h2>
+						<span class="byline">Mauris vulputate dolor sit amet nibh</span>
+					</header>
+					<div class="row no-collapse-1">
+						<section class="4u">
+							<a href="#" class="image feature"><img src="images/pic02.jpg" alt=""></a>
+							<p>Nam in massa. Sed vel tellus. Curabitur sem urna, consequat vel, suscipit in, mattis placerat.</p>
+						</section>
+						<section class="4u">
+							<a href="#" class="image feature"><img src="images/pic03.jpg" alt=""></a>
+							<p>Donec ornare neque ac sem. Mauris aliquet. Aliquam sem leo, vulputate sed, convallis. Donec magna.</p>
+						</section>
+						<section class="4u">
+							<a href="#" class="image feature"><img src="images/pic04.jpg" alt=""></a>
+							<p>Curabitur sem urna, consequat vel, suscipit convallis sem leo, mattis placerat, nulla. Sed ac leo.</p>
+						</section>
 	
-	<c:if test="${ sessionScope.power eq 'P' }">
-		<font size="30">교수</font>
-	</c:if>
-	
-	<c:if test="${ sessionScope.power eq 'S' }">
-		<font size="30">학생</font>
-	</c:if>
-</body>
+					</div>
+				</section>
+			</div>
+
+		<!-- Main -->
+			<div id="main" class="wrapper style1">
+				<section class="container">
+					<header class="major">
+						<h2>Nulla luctus eleifend</h2>
+						<span class="byline">Mauris vulputate dolor sit amet nibh</span>
+					</header>
+					<div class="row">
+					
+						<!-- Content -->
+							<div class="6u">
+								<section>
+									<ul class="style">
+										<li>
+											<span class="fa fa-wrench"></span>
+											<h3>Integer ultrices</h3>
+											<span>In posuere eleifend odio. Quisque semper augue mattis wisi. Maecenas ligula. Pellentesque viverra vulputate enim.</span>
+										</li>
+										<li>
+											<span class="fa fa-cloud"></span>
+											<h3>Aliquam luctus</h3>
+											<span>Pellentesque viverra vulputate enim. Aliquam erat volutpat. Maecenas condimentum enim tincidunt risus accumsan.</span>
+										</li>
+									</ul>
+								</section>
+							</div>
+							<div class="6u">
+								<section>
+									<ul class="style">
+										<li>
+											<span class="fa fa-cogs"></span>
+											<h3>Integer ultrices</h3>
+											<span>In posuere eleifend odio. Quisque semper augue mattis wisi. Maecenas ligula. Pellentesque viverra vulputate enim.</span>
+										</li>
+										<li>
+											<span class="fa fa-leaf"></span>
+											<h3>Aliquam luctus</h3>
+											<span>Pellentesque viverra vulputate enim. Aliquam erat volutpat. Maecenas condimentum enim tincidunt risus accumsan.</span>
+										</li>
+									</ul>
+								</section>
+							</div>
+
+					</div>
+				</section>
+			</div>
+		<!-- Footer -->
+			<div id="footer">
+				<div class="container">
+
+					<!-- Lists -->
+						<div class="row">
+							<div class="8u">
+								<section>
+									<header class="major">
+										<h2>Donec dictum metus</h2>
+										<span class="byline">Quisque semper augue mattis wisi maecenas ligula</span>
+									</header>
+									<div class="row">
+										<section class="6u">
+											<ul class="default">
+												<li><a href="#">Pellentesque elit non gravida blandit.</a></li>
+												<li><a href="#">Lorem ipsum dolor consectetuer elit.</a></li>
+												<li><a href="#">Phasellus nibh pellentesque congue.</a></li>
+												<li><a href="#">Cras vitae metus aliquam  pharetra.</a></li>
+											</ul>
+										</section>
+										<section class="6u">
+											<ul class="default">
+												<li><a href="#">Pellentesque elit non gravida blandit.</a></li>
+												<li><a href="#">Lorem ipsum dolor consectetuer elit.</a></li>
+												<li><a href="#">Phasellus nibh pellentesque congue.</a></li>
+												<li><a href="#">Cras vitae metus aliquam  pharetra.</a></li>
+											</ul>
+										</section>
+									</div>
+								</section>
+							</div>
+							<div class="4u">
+								<section>
+									<header class="major">
+										<h2>Donec dictum metus</h2>
+										<span class="byline">Mattis wisi maecenas ligula</span>
+									</header>
+									<ul class="contact">
+										<li>
+											<span class="address">Address</span>
+											<span>1234 Somewhere Road #4285 <br />Nashville, TN 00000</span>
+										</li>
+										<li>
+											<span class="mail">Mail</span>
+											<span><a href="#">someone@untitled.tld</a></span>
+										</li>
+										<li>
+											<span class="phone">Phone</span>
+											<span>(000) 000-0000</span>
+										</li>
+									</ul>	
+								</section>
+							</div>
+						</div>
+
+					<!-- Copyright -->
+						<div class="copyright">
+							Design: <a href="http://templated.co">TEMPLATED</a> Images: <a href="http://unsplash.com">Unsplash</a> (<a href="http://unsplash.com/cc0">CC0</a>)
+						</div>
+				</div>
+			</div>
+	</body>
 </html>

@@ -7,5 +7,4 @@ import com.spam.domain.SpamUser;
 public interface LoginMapper {
 	public SpamUser select(SpamUser spamuser);
 	public List<SpamUser> list();
-	
 }

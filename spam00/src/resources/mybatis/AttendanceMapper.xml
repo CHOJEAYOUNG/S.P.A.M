@@ -4,146 +4,183 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.spam.persistence.AttendanceMapper">
-	<resultMap id="attendanceResultMap" type="attendance">
-		<id column="ATTENDANCE_NO" property="attendanceNo" />
-		<result column="TITLE" property="title" />
-		<result column="REGISTRATION_DATE" property="registrationDate" />
-		<result column="LECTURE_DATE" property="lectureDate" />
-		<result column="LECTURE_TIME" property="lectureTime" />
-		<result column="LOCATION" property="location" />
-		<result column="SCORE" property="score" />
-		<result column="UPLOAD_FILE_NAME" property="uploadFileName" />
-		<result column="UPLOAD_FILE_NAME_WITH_S" property="uploadFileNameWithS" />
-		<result column="MAKED_FILE_NAME" property="makedFileName" />
-		<result column="MAKED_FILE_NAME_WITH_S" property="makedFileNameWithS" />
-		<result column="FILES_LOCATION" property="filesLocation" />
-	</resultMap>
+   <resultMap id="attendanceResultMap" type="attendance">
+      <id column="ATTENDANCE_NO" property="attendanceNo" />
+      <result column="TITLE" property="title" />
+      <result column="REGISTRATION_DATE" property="registrationDate" />
+      <result column="LECTURE_DATE" property="lectureDate" />
+      <result column="LECTURE_TIME" property="lectureTime" />
+      <result column="LOCATION" property="location" />
+      <result column="SCORE" property="score" />
+      <result column="UPLOAD_FILE_NAME" property="uploadFileName" />
+      <result column="UPLOAD_FILE_NAME_WITH_S" property="uploadFileNameWithS" />
+      <result column="MAKED_FILE_NAME" property="makedFileName" />
+      <result column="MAKED_FILE_NAME_WITH_S" property="makedFileNameWithS" />
+      <result column="FILES_LOCATION" property="filesLocation" />
+   </resultMap>
+   
+   <select id = "list" resultMap = "attendanceResultMap">
+      SELECT 
+         ATTENDANCE_NO,
+         TITLE,
+         REGISTRATION_DATE,
+         LECTURE_DATE,
+         LECTURE_TIME,
+         LOCATION,
+         SCORE
+         FROM ATTENDANCE 
+         ORDER BY ATTENDANCE_NO DESC
+   </select>
 
-	<select id="attendanceSEQ" resultType="int">
-		SELECT ATTENDANCE_NO_SEQ.NEXTVAL
-			FROM DUAL
-	</select>
+   <select id="attendanceSEQ" resultType="int">
+      SELECT ATTENDANCE_NO_SEQ.NEXTVAL
+         FROM DUAL
+   </select>
 
-	<select id = "checkRandomNumber" resultMap = "attendanceResultMap">
-		SELECT
-			UPLOAD_FILE_NAME_WITH_S,
-			MAKED_FILE_NAME_WITH_S
-		FROM ATTENDANCE
-	</select>
+   <select id = "checkRandomNumber" resultMap = "attendanceResultMap">
+      SELECT
+         UPLOAD_FILE_NAME_WITH_S,
+         MAKED_FILE_NAME_WITH_S
+      FROM ATTENDANCE
+   </select>
 
-	<select id="select" parameterType="attendance"  resultMap="attendanceResultMap">
-		SELECT 
-			ATTENDANCE_NO,
-			TITLE,
-			REGISTRATION_DATE,
-			LECTURE_DATE,
-			LECTURE_TIME,
-			LOCATION,
-			SCORE,
-			UPLOAD_FILE_NAME,
-			UPLOAD_FILE_NAME_WITH_S,
-			MAKED_FILE_NAME,
-			MAKED_FILE_NAME_WITH_S,
-			FILES_LOCATION
-		FROM ATTENDANCE
-	<where>
-		<if test="attendanceNo != null and attendanceNo !=''">
-			AND ATTENDANCE_NO = #{attendanceNo}
-		</if>
-		<if test="title != null and title != ''" >
-			AND TITLE = #{title}
-		</if>
-		<if test="registrationDate != null and registrationDate != ''">
-			AND REGISTRATION_DATE = #{registrationDate}
-		</if>
-		<if test="lectureDate != null and lectureDate != ''" >
-			AND LECTURE_DATE = #{lectureDate}
-		</if>
-		<if test="lectureTime != null and lectureTime != ''">
-			AND LECTURE_TIME = #{lectureTime}
-		</if>
-		<if test="location != null and location != ''">
-			AND LOCATION = #{location}
-		</if>
-		<if test="score != null and score != ''">
-			AND SCORE = #{score}
-		</if>
-		<if test="uploadFileName != null and uploadFileName != ''">
-			AND UPLOAD_FILE_NAME = #{uploadFileName}
-		</if>
-		<if test="uploadFileNameWithS != null and uploadFileNameWithS != ''">
-			AND UPLOAD_FILE_NAME_WITH_S = #{uploadFileNameWithS}
-		</if>
-		<if test="makedFileName != null and makedFileName != ''">
-			AND MAKED_FILE_NAME = #{makedFileName}
-		</if>
-		<if test="makedFileNameWithS != null and makedFileNameWithS != ''">
-			AND MAKED_FILE_NAME_WITH_S = #{makedFileNameWithS}
-		</if>
-		<if test="filesLocation != null and filesLocation != ''">
-			AND FILES_LOCATION = #{filesLocation}
-		</if>
-	</where>
-	</select>
-	
-	 
-	<insert id="insertAttendance" parameterType="attendance"
-		useGeneratedKeys="true" keyProperty="attendanceNo" keyColumn="attendanceNo">
-		<selectKey keyColumn="ATTENDANCE_NO" keyProperty="attendanceNo"
-			resultType="int" order="BEFORE">
-				SELECT ATTENDANCE_NO_SEQ.NEXTVAL
-				FROM DUAL
-		</selectKey>
-		
-		INSERT INTO ATTENDANCE
-		(ATTENDANCE_NO,
-		TITLE, 
-		REGISTRATION_DATE, 
-		LECTURE_DATE, 
-		LECTURE_TIME, 
-		LOCATION, 
-		SCORE, 
-		UPLOAD_FILE_NAME, 
-		UPLOAD_FILE_NAME_WITH_S,
-		MAKED_FILE_NAME,
-		MAKED_FILE_NAME_WITH_S, 
-		FILES_LOCATION)
-		
-		VALUES
-		(#{attendanceNo},
-		#{title},
-		#{registrationDate},
-		#{lectureDate},
-		#{lectureTime},
-		#{location},
-		#{score},
-		#{uploadFileName},
-		#{uploadFileNameWithS},
-		#{makedFileName},
-		#{makedFileNameWithS},
-		#{filesLocation})
-	</insert>
-	
-	<!-- 
-	<insert id="insertAttendanceStudentInfo" parameterType="attendance"
-		useGeneratedKeys="true" keyProperty="attendanceNo" keyColumn="attendanceNo">
-		<selectKey keyColumn="ATTENDANCE_NO" keyProperty="attendanceNo"
-			resultType="int" order="BEFORE">
-				SELECT ATTENDANCE_NO_SEQ.CURRVAL
-				FROM DUAL
-		</selectKey>
-		
-		INSERT INTO ATTEND
-		(ATTEND_NO,
-		ATTENDANCE_NO, 
-		ID 
-		)
-		
-		VALUES
-		(#{attendanceNo},
-		#{title},
-		#{registrationDate})
-	</insert>
-	 -->
+   <select id="select" parameterType="attendance"  resultMap="attendanceResultMap">
+      SELECT 
+         ATTENDANCE_NO,
+         TITLE,
+         REGISTRATION_DATE,
+         LECTURE_DATE,
+         LECTURE_TIME,
+         LOCATION,
+         SCORE,
+         UPLOAD_FILE_NAME,
+         UPLOAD_FILE_NAME_WITH_S,
+         MAKED_FILE_NAME,
+         MAKED_FILE_NAME_WITH_S,
+         FILES_LOCATION
+      FROM ATTENDANCE
+   <where>
+      <if test="attendanceNo != null and attendanceNo !=''">
+         AND ATTENDANCE_NO = #{attendanceNo}
+      </if>
+      <if test="title != null and title != ''" >
+         AND TITLE = #{title}
+      </if>
+      <if test="registrationDate != null and registrationDate != ''">
+         AND REGISTRATION_DATE = #{registrationDate}
+      </if>
+      <if test="lectureDate != null and lectureDate != ''" >
+         AND LECTURE_DATE = #{lectureDate}
+      </if>
+      <if test="lectureTime != null and lectureTime != ''">
+         AND LECTURE_TIME = #{lectureTime}
+      </if>
+      <if test="location != null and location != ''">
+         AND LOCATION = #{location}
+      </if>
+      <if test="score != null and score != ''">
+         AND SCORE = #{score}
+      </if>
+      <if test="uploadFileName != null and uploadFileName != ''">
+         AND UPLOAD_FILE_NAME = #{uploadFileName}
+      </if>
+      <if test="uploadFileNameWithS != null and uploadFileNameWithS != ''">
+         AND UPLOAD_FILE_NAME_WITH_S = #{uploadFileNameWithS}
+      </if>
+      <if test="makedFileName != null and makedFileName != ''">
+         AND MAKED_FILE_NAME = #{makedFileName}
+      </if>
+      <if test="makedFileNameWithS != null and makedFileNameWithS != ''">
+         AND MAKED_FILE_NAME_WITH_S = #{makedFileNameWithS}
+      </if>
+      <if test="filesLocation != null and filesLocation != ''">
+         AND FILES_LOCATION = #{filesLocation}
+      </if>
+   </where>
+   </select>
+   
+    
+   <insert id="insertAttendance" parameterType="attendance"
+      useGeneratedKeys="true" keyProperty="attendanceNo" keyColumn="attendanceNo">
+      <selectKey keyColumn="ATTENDANCE_NO" keyProperty="attendanceNo"
+         resultType="int" order="BEFORE">
+            SELECT ATTENDANCE_NO_SEQ.NEXTVAL
+            FROM DUAL
+      </selectKey>
+      
+      INSERT INTO ATTENDANCE
+      (ATTENDANCE_NO,
+      TITLE, 
+      REGISTRATION_DATE, 
+      LECTURE_DATE, 
+      LECTURE_TIME, 
+      LOCATION, 
+      SCORE, 
+      UPLOAD_FILE_NAME, 
+      UPLOAD_FILE_NAME_WITH_S,
+      MAKED_FILE_NAME,
+      MAKED_FILE_NAME_WITH_S, 
+      FILES_LOCATION)
+      
+      VALUES
+      (#{attendanceNo},
+      #{title},
+      #{registrationDate},
+      #{lectureDate},
+      #{lectureTime},
+      #{location},
+      #{score},
+      #{uploadFileName},
+      #{uploadFileNameWithS},
+      #{makedFileName},
+      #{makedFileNameWithS},
+      #{filesLocation})
+   </insert>
+   
+   <select id="selectOne" parameterType="int"  resultMap="attendanceResultMap">
+      SELECT 
+         ATTENDANCE_NO,
+         TITLE,
+         REGISTRATION_DATE,
+         LECTURE_DATE,
+         LECTURE_TIME,
+         LOCATION,
+         SCORE,
+         UPLOAD_FILE_NAME,
+         UPLOAD_FILE_NAME_WITH_S,
+         MAKED_FILE_NAME,
+         MAKED_FILE_NAME_WITH_S,
+         FILES_LOCATION
+      FROM ATTENDANCE
+      WHERE ATTENDANCE_NO = #{attendanceNo}
+   </select>
+   
+   
+   <delete id="delete" parameterType="int">
+      DELETE FROM ATTENDANCE 
+      WHERE ATTENDANCE_NO = #{attendanceNo}
+   </delete>
+   
+   <!-- 
+   <insert id="insertAttendanceStudentInfo" parameterType="attendance"
+      useGeneratedKeys="true" keyProperty="attendanceNo" keyColumn="attendanceNo">
+      <selectKey keyColumn="ATTENDANCE_NO" keyProperty="attendanceNo"
+         resultType="int" order="BEFORE">
+            SELECT ATTENDANCE_NO_SEQ.CURRVAL
+            FROM DUAL
+      </selectKey>
+      
+      INSERT INTO ATTEND
+      (ATTEND_NO,
+      ATTENDANCE_NO, 
+      ID 
+      )
+      
+      VALUES
+      (#{attendanceNo},
+      #{title},
+      #{registrationDate})
+   </insert>
+    -->
 
 </mapper>

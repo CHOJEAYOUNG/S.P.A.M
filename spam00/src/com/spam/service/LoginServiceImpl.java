@@ -26,17 +26,22 @@ public class LoginServiceImpl implements LoginService {
 		if(spamuserTwo != null) {
 			if("A".equals(spamuserTwo.getPower())) {
 				session.setAttribute("isLogin", true);
-				session.setAttribute("id", "admin");
+				session.setAttribute("id", spamuser.getId());
 				session.setAttribute("power", "A");
+				session.setAttribute("name", spamuserTwo.getName());
 			}else if("P".equals(spamuserTwo.getPower())) {
 				session.setAttribute("isLogin", true);
 				session.setAttribute("id", spamuser.getId());
 				session.setAttribute("power", "P");
-			} else {
+				session.setAttribute("name", spamuserTwo.getName());
+			} else if("S".equals(spamuserTwo.getPower())) {
 				session.setAttribute("isLogin", true);
 				session.setAttribute("id", spamuser.getId());
 				session.setAttribute("power", "S");
-			}
+				session.setAttribute("name", spamuserTwo.getName());
+			} else {
+				return false;
+		}
 			return true;
 		}
 		return false;

@@ -18,6 +18,15 @@
 			   , YEAR
 			   , STATE 
 		FROM GRADUATION
+		<where>
+			STATE = 'Y'
+			<if test="name != null and name !=''">
+				AND GR_FORM = #{name}
+			</if>
+			<if test="year != 0 and year != null">
+				AND YEAR = #{year}
+			</if>
+		</where>
 		ORDER BY GR_FORM
 	</select>
 	
